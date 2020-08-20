@@ -1,0 +1,51 @@
+header {
+    background-color: #97aaa8;
+}
+
+.inner {
+    display: inline-block;
+}
+
+.navbar, .navbar-collapse, .form-inline {
+    color: white !important;
+}
+
+.navbar-brand.abs {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    color: white !important;
+}
+
+body {
+    background-color: #f1f7f6;
+    text-align: justify;
+}
+
+.container {
+    background-color: #eae9e6;
+    margin-top:20px;
+    margin-bottom: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px;
+    max-width: 70%;
+}
+
+.book {
+    background-color: #f5f3ee;
+    padding: 15px;
+    margin: 10px;
+    max-width: 31%;
+}
+
+.book_cover {
+    width: 100px;
+    height: 100px;
+}
+
+.options {
+    width: auto;
+    height: 20px;
+}
