@@ -1,3 +1,4 @@
+@charset "UTF-8";
 header {
   background-color: #97aaa8;
 }
@@ -101,6 +102,108 @@ body {
 
 #quote_sign {
   width: 50px;
+}
+
+.quote_text {
+  display: inline;
+}
+
+#logo_profile {
+  width: 200px;
+  height: 200px;
+}
+
+.item-a {
+  grid-area: author;
+}
+
+.item-b {
+  grid-area: title;
+}
+
+.item-c {
+  grid-area: book_cover;
+}
+
+.item-d {
+  grid-area: col_a;
+}
+
+.item-e {
+  grid-area: col_b;
+}
+
+.item-f {
+  grid-area: col_c;
+  overflow: auto;
+}
+
+.item-g {
+  grid-area: my_notes;
+}
+
+.item-h {
+  grid-area: notes_text;
+  overflow: auto;
+  background-color: #f5f3ee;
+}
+
+.item-i {
+  grid-area: quote;
+}
+
+.item-j {
+  grid-area: quote_text;
+  overflow: auto;
+  background-color: #f5f3ee;
+}
+
+.profile_container {
+  display: grid;
+  background-color: #eae9e6;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 20px;
+  max-width: 70%;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 2fr auto auto auto auto;
+  grid-template-areas: "book_cover author author author" "book_cover title title title" "book_cover col_a col_b col_c" "my_notes . . ." "notes_text notes_text notes_text notes_text" "quote . . ." "quote_text quote_text quote_text quote_text";
+}
+
+#my_rating {
+  display: inline-block;
+}
+
+#rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  text-align: center;
+  display: inline-block;
+}
+
+#rating > span {
+  display: inline-block;
+  position: relative;
+  width: 1.1em;
+}
+
+#rating > span:hover,
+#rating > span:hover ~ span {
+  color: transparent;
+}
+
+#rating > span:hover:before,
+#rating > span:hover ~ span:before {
+  content: "★";
+  position: absolute;
+  left: 0;
+  color: #7e372e;
+}
+
+#quote_sign_small {
+  width: 30px;
 }
 
 /*# sourceMappingURL=style.css.map */
