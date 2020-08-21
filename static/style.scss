@@ -6,21 +6,32 @@ header {
     display: inline-block;
 }
 
-.navbar, .navbar-collapse, .form-inline {
+.navbar, .navbar-collapse, .form-inline, .nav-link {
     color: white !important;
 }
 
 .navbar-brand.abs {
     position: absolute;
-    width: 100%;
-    left: 0;
-    text-align: center;
+    width: 20%;
+    left: 38.5%;
+    text-align: center !important;
     color: white !important;
 }
 
 main {
     background-color: #f1f7f6;
     text-align: justify;
+}
+
+#login, #register {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.btn-light {
+    color: white;
+    background-color: #97AAA8 !important;
+    display: inline;
 }
 
 .container {
