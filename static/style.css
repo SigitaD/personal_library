@@ -37,7 +37,16 @@ body {
   background-color: #f5f3ee;
   padding: 15px;
   margin: 10px;
-  max-width: 31%;
+  max-width: calc(100%/3);
+}
+
+#add_book {
+  border: none;
+  background-color: #eae9e6;
+}
+
+.img_btn {
+  width: 30px;
 }
 
 .book_cover {
@@ -48,6 +57,50 @@ body {
 .options {
   width: auto;
   height: 20px;
+  margin-right: 15px;
+}
+
+.form-check {
+  display: inline-block;
+  margin-left: 50px;
+}
+
+.form-check-label {
+  margin-left: -20px;
+}
+
+.form-group {
+  display: inline-block;
+}
+
+.quote_brown_bg {
+  background-color: #eae9e6;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 20px;
+  max-width: 70%;
+}
+
+.quote_sand_bg {
+  background-color: #f5f3ee;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 20px;
+  max-width: 70%;
+}
+
+.quote_author {
+  float: right;
+  font-style: italic;
+  margin-right: 15px;
+}
+
+#quote_sign {
+  width: 50px;
 }
 
 /*# sourceMappingURL=style.css.map */

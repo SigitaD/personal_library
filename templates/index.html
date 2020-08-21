@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
- test
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,7 +44,7 @@
         <div class="upper_row">
             <p class="sub_title inner">READING NOW</p>
             <button id="add_book"class="inner">
-                <img src="../static/add_book.gif" alt="add a new book" width="30" height="30">
+                <img class="img_btn" src="../static/add_book.gif" alt="add a new book">
             </button>
         </div>
         <div class="row">
@@ -54,7 +53,11 @@
                     <div class="col-sm-4">
                         <img class="book_cover" src="../static/logo.png" alt="book cover">
                     </div>
-                    <div class="col-sm">author</div>
+                    <div class="col-sm">
+                        <p class="author">Author</p>
+                        <p class="title">Title</p>
+                        <p class="started">Started</p>
+                    </div>
                     <div class="col-sm-1 options">
                         <img class="options" src="../static/options.svg" alt="options">
                     </div>
@@ -65,7 +68,11 @@
                     <div class="col-sm-4">
                         <img class="book_cover" src="../static/logo.png" alt="book cover">
                     </div>
-                    <div class="col-sm">author</div>
+                    <div class="col-sm">
+                        <p class="author">Author</p>
+                        <p class="title">Title</p>
+                        <p class="started">Started</p>
+                    </div>
                     <div class="col-sm-1 options">
                         <img class="options" src="../static/options.svg" alt="options">
                     </div>
@@ -76,7 +83,11 @@
                     <div class="col-sm-4">
                         <img class="book_cover" src="../static/logo.png" alt="book cover">
                     </div>
-                    <div class="col-sm">author</div>
+                    <div class="col-sm">
+                        <p class="author">Author</p>
+                        <p class="title">Title</p>
+                        <p class="started">Started</p>
+                    </div>
                     <div class="col-sm-1 options">
                         <img class="options" src="../static/options.svg" alt="options">
                     </div>
@@ -85,37 +96,70 @@
         </div>
     </div>
     <div class="container">
-        <form action="">
-            <select name="lists" id="lists">
-              <option value="A">A</option>
-              <option value="B">B</option>
-              <option value="C">C</option>
-              <option value="D">D</option>
-            </select>
-          </form>
+        <div class="upper_row">
+            <p class="form-group col-md-2">
+                <select id="inputState" class="form-control">
+                    <option selected>All Books</option>
+                    <option>Read books</option>
+                    <option>Lent out books</option>
+                    <option>My personal books</option>
+                    <option>Books that don’t belong to me</option>
+                </select>
+            </p>
+            <p class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                <label class="form-check-label" for="defaultCheck1">
+                    Only lent out books
+                </label>
+            </p>
+        </div>
         <div class="row">
-        <div class="col-sm-4 book">
-            <div class="row">
-                <div class="col-sm-4">img</div>
-                <div class="col-sm">author</div>
-                <div class="col-sm-1">•••</div>
+            <div class="col-sm-4 book">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <img class="book_cover" src="../static/logo.png" alt="book cover">
+                    </div>
+                    <div class="col-sm">
+                        <p class="author">Author</p>
+                        <p class="title">Title</p>
+                        <p class="started">Started</p>
+                    </div>
+                    <div class="col-sm-1 options">
+                        <img class="options" src="../static/options.svg" alt="options">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 book">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <img class="book_cover" src="../static/logo.png" alt="book cover">
+                    </div>
+                    <div class="col-sm">
+                        <p class="author">Author</p>
+                        <p class="title">Title</p>
+                        <p class="started">Started</p>
+                    </div>
+                    <div class="col-sm-1 options">
+                        <img class="options" src="../static/options.svg" alt="options">
+                    </div>
+                </div>
+            </div> 
+            <div class="col-sm-4 book">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <img class="book_cover" src="../static/logo.png" alt="book cover">
+                    </div>
+                    <div class="col-sm">
+                        <p class="author">Author</p>
+                        <p class="title">Title</p>
+                        <p class="started">Started</p>
+                    </div>
+                    <div class="col-sm-1 options">
+                        <img class="options" src="../static/options.svg" alt="options">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-sm-4 book">
-            <div class="row">
-                <div class="col-sm-4">img</div>
-                <div class="col-sm">author</div>
-                <div class="col-sm-1">•••</div>
-            </div>
-        </div> 
-        <div class="col-sm-4 book">
-            <div class="row">
-                <div class="col-sm-4">img</div>
-                <div class="col-sm">author</div>
-                <div class="col-sm-1">•••</div>
-            </div>
-        </div>
-    </div>
     </div>
 </body>
 
