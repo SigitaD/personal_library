@@ -1,6 +1,6 @@
 import os
-import sqlite3
 
+from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
 from tempfile import mkdtemp
@@ -26,8 +26,8 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Configure to use SQLite database
-conn = sqlite3.connect('example.db')
+db = SQL("sqlite:///books.db")
+
 
 @app.route("/")
 @login_required
