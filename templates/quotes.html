@@ -1,11 +1,43 @@
 {% extends "layout.html" %}
 
 {% block main %}    
-    <div class="quote_brown_bg">
-        <img id="quote_sign" src="../static/quote_mark.gif" alt="quotes">
-        <p class="quote_text">quote 1</p>
-    </div>
-    <div class="quote_sand_bg">
-        <p class="quote_text">quote 1</p>
-    </div>
+    
+    {% if not quotes %}
+        <p id="error_quotes">You do not have any quotes.</p>
+    {% else %}
+        {% for quote in quotes %}
+            <div class="quote_brown_bg">
+            <img id="quote_sign" src="../static/quote_mark.gif" alt="quotes">
+            <p class="quote_text">{{ quote.quote }}</p>
+            <span class="author">{{ quote.author }}</span>
+            <span class="book-title">{{ quote.title }}</span>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    
+    <h2 id="add_quote">Add a new quote</h2>
+    <form id="new_quote" action="/quotes" method="post">
+        <div class="form-group">
+            <select name="author" class="form-control">
+                <option disabled selected value = "invalid">Authors</option>
+               {% for book in books %}
+                       <option value="{{ book.author }}">{{ book.author }}</option>
+               {% endfor %}
+           </select>
+        </div>
+        <div class="form-group">
+        <select name="book_title" class="form-control">
+            <option disabled selected value = "invalid">Books</option>
+           {% for book in books %}
+                   <option value="{{ book.title }}">{{ book.title }}</option>
+           {% endfor %}
+        </select>
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="quote" placeholder="Type your quote" type="text" required>
+        </div>
+        <button class="btn btn-light" type="submit">+ Add</button>
+    </form>
+
 {% endblock %}

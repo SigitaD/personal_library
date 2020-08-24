@@ -134,9 +134,60 @@ def register():
 
     else:
         return render_template("register.html")
-
-
-@app.route("/quotes")
-@login_required
+    
+@app.route("/quotes", methods=["GET", "POST"])
 def quotes():
-    return render_template("quotes.html")
+    # presents quotes if there are any
+
+    if request.method == "GET":
+        # query database for data about quotes
+        quotes = db.execute("""SELECT * FROM quotes
+                            JOIN books ON books.book_id = quotes.book_id
+                            WHERE quotes.user_id = :user_id""",
+                            user_id = session["user_id"])
+
+        # query database for data about books
+        books = db.execute("SELECT * FROM books WHERE user_id = :id",
+            id = session["user_id"])
+
+        # if there arent any books in database
+        if books == 0:
+            return apology("You need to add a book first!")
+        
+        #for quote in quotes:
+            #author = quote["author"]
+            #book = quote["title"]
+            #text = quote["quote"]
+            
+
+        #for book in books:
+            #author_name = book["author"]
+            #title = book["title"]
+
+        return render_template("quotes.html", quotes = quotes, books = books)
+
+    else:
+        quote = request.form.get("quote")
+        author = request.form.get("author")
+        book = request.form.get("book_title")
+
+        if not quote:
+            return apology("type your quote!", 404)
+        
+        if not author:
+            return apology("select an author", 404)
+
+        if not book:
+            return apology("select the book ", 404)
+
+        book_id = db.execute("""SELECT FROM books WHERE title = :title AND user_id = :user_id""",
+            title = book,
+            user_id = session["user_id"])
+        
+        # inserting new data into database
+        db.execute("INSERT INTO quotes (user_id, book_id, quote) VALUES (:user_id, :book_id, :quote)",
+            user_id = session["user_id"],
+            book_id = book_id,
+            quote = quote)
+
+        return redirect("/")
