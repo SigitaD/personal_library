@@ -1,2 +1,7 @@
-/env/*
-/__pycache__/*
+.gitignore
+.vscode
+.vscode/*
+__pycache__
+__pycache__/*.pyc
+env
+env/*

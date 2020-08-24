@@ -19,6 +19,10 @@ header {
   color: white !important;
 }
 
+.modal {
+  color: black;
+}
+
 main {
   background-color: #f1f7f6;
   text-align: justify;
