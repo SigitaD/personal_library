@@ -169,7 +169,7 @@ def quotes():
     else:
         quote = request.form.get("quote")
         author = request.form.get("author")
-        book = request.form.get("book_title")
+        bookTitle = request.form.get("book_title")
 
         if not quote:
             return apology("type your quote!", 404)
@@ -177,17 +177,17 @@ def quotes():
         if not author:
             return apology("select an author", 404)
 
-        if not book:
+        if not bookTitle:
             return apology("select the book ", 404)
 
-        book_id = db.execute("""SELECT FROM books WHERE title = :title AND user_id = :user_id""",
-            title = book,
+        books = db.execute("""SELECT book_id FROM books WHERE title = :title AND user_id = :user_id""",
+            title = bookTitle,
             user_id = session["user_id"])
-        
+
         # inserting new data into database
         db.execute("INSERT INTO quotes (user_id, book_id, quote) VALUES (:user_id, :book_id, :quote)",
             user_id = session["user_id"],
-            book_id = book_id,
+            book_id = books[0]["book_id"],
             quote = quote)
 
         return redirect("/")
