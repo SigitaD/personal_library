@@ -29,10 +29,17 @@ Session(app)
 db = SQL("sqlite:///books.db")
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
-    return render_template("index.html")
+    # if request.method == "POST":
+    #     # TODO: čia surašoma į duombazę
+
+    
+    
+    
+    # else:
+        return render_template("index.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
