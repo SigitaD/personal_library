@@ -127,3 +127,9 @@ def register():
 
     else:
         return render_template("register.html")
+
+
+@app.route("/quotes")
+@login_required
+def quotes():
+    return render_template("quotes.html")
