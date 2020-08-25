@@ -33,7 +33,7 @@ db = SQL("sqlite:///books.db")
 @login_required
 def index():
     # if request.method == "POST":
-    #     # TODO: čia surašoma į duombazę
+    #    
 
     
     
@@ -134,8 +134,72 @@ def register():
 
     else:
         return render_template("register.html")
+
+@app.route("/new-book", methods=["GET", "POST"])
+@login_required
+def new_book():
+    if request.method == "POST":
+        author = request.form.get("author")
+        print('NEW BOOK | author: ' + str(author), flush=True)
+        title = request.form.get("title")
+        print('NEW BOOK | title: ' + str(title), flush=True)
+        isbn = request.form.get("ISBN")
+        print('NEW BOOK | isbn: ' + str(isbn), flush=True)
+        page_count = request.form.get("page_count")
+        print('NEW BOOK | page_count: ' + str(page_count), flush=True)
+        genre = request.form.get("genre")
+        print('NEW BOOK | genre: ' + str(genre), flush=True)
+        notes = request.form.get("notes")
+        print('NEW BOOK | notes: ' + str(notes), flush=True)
+        belongingCheck = request.form.get("belongingCheck")
+        print('NEW BOOK | belongingCheck: ' + str(belongingCheck), flush=True)
+        start_date = request.form.get("start_date")
+        print('NEW BOOK | start_date: ' + str(start_date), flush=True)
+        finish_date = request.form.get("finish_date")
+        print('NEW BOOK | finish_date: ' + str(finish_date), flush=True)
+        ratings = request.form.get("ratings")
+        print('NEW BOOK | ratings: ' + str(ratings), flush=True)
+        dateReadingNow = request.form.get("dateReadingNow")
+        print('NEW BOOK | dateReadingNow: ' + str(dateReadingNow), flush=True)
+
+
+        if not dateReadingNow: 
+            db.execute("INSERT INTO books (user_id, title, author, pages, isbn, genre, rating, started, finished, owner, notes) VALUES (:user_id, :title, :author, :pages, :isbn, :genre, :rating, :started, :finished, :owner, :notes)",
+                user_id = session["user_id"],
+                title = title,
+                author = author,
+                pages = page_count,
+                isbn = isbn,
+                genre = genre,
+                rating = ratings,
+                started = start_date,
+                finished = finish_date,
+                owner = belongingCheck,
+                notes = notes)
+
+            return redirect ("/")
+
+        else:
+            db.execute("INSERT INTO books (user_id, title, author, pages, isbn, genre, rating, started, owner, notes) VALUES (:user_id, :title, :author, :pages, :isbn, :genre, :rating, :started, :owner, :notes)",
+                user_id = session["user_id"],
+                title = title,
+                author = author,
+                pages = page_count,
+                isbn = isbn,
+                genre = genre,
+                rating = ratings,
+                started = dateReadingNow,
+                owner = belongingCheck,
+                notes = notes)
+
+            return redirect ("/")
+
+    else:
+        return render_template("new-book.html")
+
     
 @app.route("/quotes", methods=["GET", "POST"])
+@login_required
 def quotes():
     # presents quotes if there are any
 

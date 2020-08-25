@@ -6,7 +6,10 @@ header {
     display: inline-block;
 }
 
-.navbar, .navbar-collapse, .form-inline, .nav-link {
+.navbar,
+.navbar-collapse,
+.form-inline,
+.nav-link {
     color: white !important;
 }
 
@@ -27,20 +30,26 @@ main {
     text-align: justify;
 }
 
-#login, #register {
+::selection {
+    color: white;
+    background: #97aaa8;
+}
+
+#login,
+#register {
     text-align: center;
     margin-top: 50px;
 }
 
 .btn-light {
     color: white;
-    background-color: #97AAA8 !important;
+    background-color: #97aaa8 !important;
     display: inline;
 }
 
 .container {
     background-color: #eae9e6;
-    margin-top:20px;
+    margin-top: 20px;
     margin-bottom: 20px;
     margin-right: auto;
     margin-left: auto;
@@ -48,11 +57,26 @@ main {
     max-width: 70%;
 }
 
+.container_new_book {
+    background-color: #eae9e6;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px;
+    max-width: 30%;
+}
+
+#page-count,
+#isbn {
+    max-width: 42%;
+}
+
 .book {
     background-color: #f5f3ee;
     padding: 15px;
     margin: 10px;
-    max-width: calc(100%/3);
+    max-width: calc(100% / 3);
 }
 
 #add_book {
@@ -90,7 +114,7 @@ main {
 
 .quote_brown_bg {
     background-color: #eae9e6;
-    margin-top:20px;
+    margin-top: 20px;
     margin-bottom: 20px;
     margin-right: auto;
     margin-left: auto;
@@ -100,7 +124,7 @@ main {
 
 .quote_sand_bg {
     background-color: #f5f3ee;
-    margin-top:20px;
+    margin-top: 20px;
     margin-bottom: 20px;
     margin-right: auto;
     margin-left: auto;
@@ -162,11 +186,11 @@ main {
     overflow: auto;
     background-color: #f5f3ee;
 }
-      
+
 .profile_container {
     display: grid;
     background-color: #eae9e6;
-    margin-top:20px;
+    margin-top: 20px;
     margin-bottom: 20px;
     margin-right: auto;
     margin-left: auto;
@@ -176,43 +200,58 @@ main {
     // row-gap: 15px;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 2fr auto auto auto auto;
-    grid-template-areas: 
+    grid-template-areas:
         "book_cover author author author"
         "book_cover title title title"
         "book_cover col_a col_b col_c"
         "my_notes . . ."
         "notes_text notes_text notes_text notes_text"
         "quote . . ."
-        "quote_text quote_text quote_text quote_text"
+        "quote_text quote_text quote_text quote_text";
 }
 
 #my_rating {
     display: inline-block;
 }
 
-#rating {
-    unicode-bidi: bidi-override;
-    direction: rtl;
-    text-align: center;
-    display: inline-block;
-}
-#rating > span {
-    display: inline-block;
-    position: relative;
-    width: 1.1em;
-}
-#rating > span:hover,
-#rating > span:hover ~ span {
-    color: transparent;
-}
-#rating > span:hover:before,
-#rating > span:hover ~ span:before {
-    content: "\2605";
-    position: absolute;
-    left: 0; 
-    color: #7e372e;
-}
-
 #quote_sign_small {
     width: 30px;
+}
+
+.rating {
+    margin: 0 auto 1em;
+    font-size: 35px;
+    overflow: hidden;
+    display: inline-block;
+}
+.rating input {
+    float: right;
+    opacity: 0;
+    position: absolute;
+}
+.rating a,
+.rating label {
+    float: right;
+    color: #aaa;
+    text-decoration: none;
+    -webkit-transition: color 0.4s;
+    -moz-transition: color 0.4s;
+    -o-transition: color 0.4s;
+    transition: color 0.4s;
+}
+.rating label:hover ~ label,
+.rating input:focus ~ label,
+.rating label:hover,
+.rating a:hover,
+.rating a:hover ~ a,
+.rating a:focus,
+.rating a:focus ~ a {
+    color: #7e372e;
+    cursor: pointer;
+}
+.rating2 {
+    direction: rtl;
+}
+.rating2 a {
+    float: none;
 }

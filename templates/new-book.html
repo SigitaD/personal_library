@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="container_new_book">
+    <form id="form" autocomplete="off" action="/new-book" method="post">
+        <input class="form-control" type="text" name="author" id="author" placeholder="Author...">
+        <br>
+        <input class="form-control" type="text" name="title" id="title" placeholder="Book Title...">
+        <br>
+        <input class="form-control" type="number" name="ISBN" id="isbn" placeholder="ISBN...">
+        <br>
+        <input class="form-control" type="number" min="1" max="99999" name="page_count" id="page-count"
+            placeholder="Page Count...">
+        <br>
+        <p class="form-group">
+            <select id="inputGenre" class="form-control" name="genre">
+                <option selected disabled value="invalid">Genre...</option>
+                <option>Adventure</option>
+                <option>Children's</option>
+                <option>Cooking</option>
+                <option>Contemporary</option>
+                <option>Fantasy</option>
+                <option>History</option>
+                <option>Historical fiction</option>
+                <option>Horror</option>
+                <option>Humor</option>
+                <option>Memoir</option>
+                <option>Mystery</option>
+                <option>Motivational/Development/Self-help</option>
+                <option>Romance</option>
+                <option>Science fiction</option>
+                <option>Thriller</option>
+                <option>Travel</option>
+                <option>Other</option>
+            </select>
+        </p>
+        <br>
+        <textarea class="form-control" type="text" name="notes" id="notes" placeholder="Notes..."></textarea>
+        <br>
+        <input class="form-check-input-book" type="checkbox" value="" id="belongingCheck" name="belongingCheck">
+        <label class="form-check-label-book" for="belongingCheck">I own this book</label>
+        <br>
+        <div id="accordion">
+            <div class="card">
+              <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                  <button type="button" class="btn btn-light" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" onclick="ClearFieldsTwo();">
+                    Have you already read this book?
+                  </button>
+                </h5>
+              </div>
+              <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <input class="form-control" type="date" name="start_date" id="start_date" placeholder="Started">
+                    <br>
+                    <input class="form-control" type="date" name="finish_date" id="finish_date"
+                        placeholder="Finished">
+                        <br>
+                    <p id="my_rating">Rating
+                    <div class="rating rating2">
+                        <a href="#5" id="5stars" title="Give 5 stars">★</a>
+                        <a href="#4" id="4stars" title="Give 4 stars">★</a>
+                        <a href="#3" id="3stars" title="Give 3 stars">★</a>
+                        <a href="#2" id="2stars" title="Give 2 stars">★</a>
+                        <a href="#1" id="1stars" title="Give 1 star">★</a>
+                    </div>
+                    <input id="ratings" type="hidden" name="ratings" value=""/>
+                    </p>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                  <button type="button" class="btn collapsed btn-light" id="btnTwo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" onclick="ClearFieldsOne();">
+                    Are you reading this book right now?
+                  </button>
+                </h5>
+              </div>
+              <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                <div class="card-body">
+                    <input class="form-control" type="date" name="dateReadingNow" id="dateReadingNow" placeholder="Started" value="">
+                </div>
+              </div>
+            </div>
+          </div>
+        <br>
+        <button type="submit" class="btn btn-light" id="modalInput">Save</button>
+    </form>
+</div>
+{% endblock %}
