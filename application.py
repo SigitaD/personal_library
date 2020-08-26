@@ -149,6 +149,8 @@ def new_book():
         print('NEW BOOK | page_count: ' + str(page_count), flush=True)
         genre = request.form.get("genre")
         print('NEW BOOK | genre: ' + str(genre), flush=True)
+        if genre == "invalid":
+            return apology("must select genre", 403)
         notes = request.form.get("notes")
         print('NEW BOOK | notes: ' + str(notes), flush=True)
         belongingCheck = request.form.get("belongingCheck")

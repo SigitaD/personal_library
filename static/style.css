@@ -96,9 +96,39 @@ header {
   max-width: 30%;
 }
 
-#page-count,
-#isbn {
+#author, #title {
+  max-width: 81%;
+}
+
+#page-count, #isbn, #start_date, #finish_date, #dateReadingNow {
   max-width: 42%;
+}
+
+#notes, .form-check-label-book {
+  margin-bottom: 10px;
+}
+
+.labelNewBook {
+  display: inline-block;
+  width: 130px;
+  margin-bottom: 20px;
+}
+
+.labelNewBookDate {
+  display: inline-block;
+  width: 116px;
+  margin-bottom: 20px;
+}
+
+.form-control {
+  display: inline-block;
+}
+
+#error_message {
+  color: #7e372e;
+  font-size: small;
+  margin-left: 135px;
+  margin-bottom: 10px;
 }
 
 .item-a {
@@ -201,6 +231,8 @@ header {
 
 #my_rating {
   display: inline-block;
+  width: 116px;
+  margin-bottom: 0 !important;
 }
 
 #quote_sign_small {
@@ -208,10 +240,10 @@ header {
 }
 
 .rating {
-  margin: 0 auto 1em;
   font-size: 35px;
   overflow: hidden;
   display: inline-block;
+  direction: rtl;
 }
 
 .rating input {
