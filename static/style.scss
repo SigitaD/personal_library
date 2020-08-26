@@ -228,6 +228,50 @@ header {
 .quote_text {
     display: inline;
 }
+
+#add_quote {
+    text-align: center;
+    font-weight: 400;
+    font-size: 20px;
+    color: #524240;
+}
+
+#new_quote  {
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#quote_author, #quote_title, #quote_quote {
+    width: 100%;
+    align-items: center;
+}
+
+#quote_btn {
+    width: 30%;
+    align-items: center;
+}
+
+textarea {
+    width: 100%;
+    border: none;
+}
+
+.container_new_quote {
+    background-color: #eae9e6;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px;
+    max-width: 70%;
+}
+
+.author_in_quote, .book_title_in_quote {
+    margin-left: 70%;
+    margin-right: auto;
+    text-align: center;
+}
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -281,13 +325,22 @@ header {
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~INDEX~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-
-// ??? Ka sitas daro? Ar vis dar jo reikia?
+// ??? Ka sitas daro? Ar vis dar jo reikia? taip cia index knygos langelio style
 .book {
-    background-color: #f5f3ee;
+    background-color: #a39b85;
     padding: 15px;
     margin: 10px;
     max-width: calc(100% / 3);
+}
+
+.names {
+    font-weight: 600;
+}
+
+.alert {
+    background-color: #eae9e6;
+    font-weight: 500;
 }

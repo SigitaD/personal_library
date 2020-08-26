@@ -3,6 +3,11 @@ main {
   text-align: justify;
 }
 
+::-moz-selection {
+  color: white;
+  background: #97aaa8;
+}
+
 ::selection {
   color: white;
   background: #97aaa8;
@@ -102,51 +107,77 @@ header {
 }
 
 .item-a {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 3;
   grid-area: author;
 }
 
 .item-b {
+  -ms-grid-row: 2;
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 3;
   grid-area: title;
 }
 
 .item-c {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 3;
+  -ms-grid-column: 1;
   grid-area: book_cover;
 }
 
 .item-d {
+  -ms-grid-row: 3;
+  -ms-grid-column: 2;
   grid-area: col_a;
 }
 
 .item-e {
+  -ms-grid-row: 3;
+  -ms-grid-column: 3;
   grid-area: col_b;
 }
 
 .item-f {
+  -ms-grid-row: 3;
+  -ms-grid-column: 4;
   grid-area: col_c;
   overflow: auto;
 }
 
 .item-g {
+  -ms-grid-row: 4;
+  -ms-grid-column: 1;
   grid-area: my_notes;
 }
 
 .item-h {
+  -ms-grid-row: 5;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 4;
   grid-area: notes_text;
   overflow: auto;
   background-color: #f5f3ee;
 }
 
 .item-i {
+  -ms-grid-row: 6;
+  -ms-grid-column: 1;
   grid-area: quote;
 }
 
 .item-j {
+  -ms-grid-row: 7;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 4;
   grid-area: quote_text;
   overflow: auto;
   background-color: #f5f3ee;
 }
 
 .profile_container {
+  display: -ms-grid;
   display: grid;
   background-color: #eae9e6;
   margin-top: 20px;
@@ -155,9 +186,11 @@ header {
   margin-left: auto;
   padding: 20px;
   max-width: 70%;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 2fr auto auto auto auto;
-  grid-template-areas: "book_cover author author author" "book_cover title title title" "book_cover col_a col_b col_c" "my_notes . . ." "notes_text notes_text notes_text notes_text" "quote . . ." "quote_text quote_text quote_text quote_text";
+  -ms-grid-columns: 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+  -ms-grid-rows: 1fr 1fr 2fr auto auto auto auto;
+      grid-template-rows: 1fr 1fr 2fr auto auto auto auto;
+      grid-template-areas: "book_cover author author author" "book_cover title title title" "book_cover col_a col_b col_c" "my_notes . . ." "notes_text notes_text notes_text notes_text" "quote . . ." "quote_text quote_text quote_text quote_text";
 }
 
 #logo_profile {
@@ -199,6 +232,54 @@ header {
   display: inline;
 }
 
+#add_quote {
+  text-align: center;
+  font-weight: 400;
+  font-size: 20px;
+  color: #524240;
+}
+
+#new_quote {
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#quote_author, #quote_title, #quote_quote {
+  width: 100%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#quote_btn {
+  width: 30%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+textarea {
+  width: 100%;
+  border: none;
+}
+
+.container_new_quote {
+  background-color: #eae9e6;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 20px;
+  max-width: 70%;
+}
+
+.author_in_quote, .book_title_in_quote {
+  margin-left: 70%;
+  margin-right: auto;
+  text-align: center;
+}
+
 #my_rating {
   display: inline-block;
 }
@@ -226,8 +307,6 @@ header {
   color: #aaa;
   text-decoration: none;
   -webkit-transition: color 0.4s;
-  -moz-transition: color 0.4s;
-  -o-transition: color 0.4s;
   transition: color 0.4s;
 }
 
@@ -251,10 +330,18 @@ header {
 }
 
 .book {
-  background-color: #f5f3ee;
+  background-color: #a39b85;
   padding: 15px;
   margin: 10px;
   max-width: calc(100% / 3);
 }
 
+.names {
+  font-weight: 600;
+}
+
+.alert {
+  background-color: #eae9e6;
+  font-weight: 500;
+}
 /*# sourceMappingURL=style.css.map */

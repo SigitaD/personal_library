@@ -6,6 +6,8 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required
+from datetime import date
+
 
 app = Flask(__name__)
 
@@ -32,14 +34,22 @@ db = SQL("sqlite:///books.db")
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
-    # if request.method == "POST":
-    #    
+    #if request.method == "POST":
+    # rodyti pasirinkto list'o knygas 
 
     
     
     
-    # else:
-        return render_template("index.html")
+    #else:
+    if request.method == "GET":
+        # presents currently reading books
+
+        books = db.execute("""SELECT * FROM books WHERE user_id = :id
+                            AND started IS NOT NULL AND finished IS NULL """,
+                            id = session["user_id"])
+        
+        print(books)
+        return render_template("index.html", books = books)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -217,16 +227,6 @@ def quotes():
         # if there arent any books in database
         if books == 0:
             return apology("You need to add a book first!")
-        
-        #for quote in quotes:
-            #author = quote["author"]
-            #book = quote["title"]
-            #text = quote["quote"]
-            
-
-        #for book in books:
-            #author_name = book["author"]
-            #title = book["title"]
 
         return render_template("quotes.html", quotes = quotes, books = books)
 
@@ -254,4 +254,4 @@ def quotes():
             book_id = books[0]["book_id"],
             quote = quote)
 
-        return redirect("/")
+        return render_template("quotes.html")

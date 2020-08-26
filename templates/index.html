@@ -1,59 +1,48 @@
 {% extends "layout.html" %}
 
 {% block main %}    
-    <div class="container">
+    
+
+<div class="container">
         <div class="upper_row">
             <p class="sub_title inner">READING NOW</p>
-            <button id="add_book" title="Add a new book" class="inner">
+            <button id="add_book" title="Add a new book" class="inner" onclick="location.href = '/new-book';">
                 <img class="img_btn" src="../static/add_book.gif" alt="add a new book">
             </button>
         </div>
         <div class="row">
-            <div class="col-sm book">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <img class="book_cover" src="../static/logo.png" alt="book cover">
-                    </div>
-                    <div class="col-sm">
-                        <p class="author">Author</p>
-                        <p class="title">Title</p>
-                        <p class="started">Started</p>
-                    </div>
-                    <div class="col-sm-1 options">
-                        <img class="options" src="../static/options.svg" alt="options">
-                    </div>
+            {% if not books %}
+                <div class="alert" id="no_books">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    You do not have any books yet.
                 </div>
-            </div>
-            <div class="col-sm book">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <img class="book_cover" src="../static/logo.png" alt="book cover">
-                    </div>
-                    <div class="col-sm">
-                        <p class="author">Author</p>
-                        <p class="title">Title</p>
-                        <p class="started">Started</p>
-                    </div>
-                    <div class="col-sm-1 options">
-                        <img class="options" src="../static/options.svg" alt="options">
-                    </div>
-                </div>
-            </div> 
-            <div class="col-sm book">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <img class="book_cover" src="../static/logo.png" alt="book cover">
-                    </div>
-                    <div class="col-sm">
-                        <p class="author">Author</p>
-                        <p class="title">Title</p>
-                        <p class="started">Started</p>
-                    </div>
-                    <div class="col-sm-1 options">
-                        <img class="options" src="../static/options.svg" alt="options">
-                    </div>
-                </div>
-            </div>
+            {% else %}
+                {% for book in books %}
+                    <div class="col-sm book" onclick="location.href = '/book';">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <img class="book_cover" src="../static/logo.png" alt="book cover">
+                            </div>
+                            <div class="col-sm">
+                                {% if book.author|length <= 12 %}
+                                    <p class="author"><span class="names">Author: </span>{{ book.author }}</p>
+                                {% else %}
+                                    <p class="author"><span class="names">Author: </span>{{ book.author[:12] }}...</p>
+                                {% endif %}
+                                {% if book.title|length <= 15 %}
+                                    <p class="title"><span class="names">Title: </span>{{ book.title }}</p>
+                                {% else %}
+                                    <p class="title"><span class="names">Title: </span>{{ book.title[:15] }}...</p>
+                                {% endif %}
+                                <p class="started"><span class="names">Started: </span>{{ book.started }}</p>
+                            </div>
+                            <div class="col-sm-1 options">
+                                <img class="options" src="../static/options.svg" alt="options">
+                            </div>
+                        </div>
+                    </div> 
+                {% endfor %}
+            {% endif %}      
         </div>
     </div>
     <div class="container">
@@ -81,9 +70,9 @@
                         <img class="book_cover" src="../static/logo.png" alt="book cover">
                     </div>
                     <div class="col-sm">
-                        <p class="author">Author</p>
-                        <p class="title">Title</p>
-                        <p class="started">Rating</p>
+                        <p class="author"><span class="names">Author: </span></p>
+                        <p class="title"><span class="names">Title: </span></p>
+                        <p class="rating-index"><span class="names">Rating: </span></p>
                     </div>
                     <div class="col-sm-1 options">
                         <img class="options" src="../static/options.svg" alt="options">

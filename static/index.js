@@ -45,5 +45,5 @@ $('#1stars').click(function(){
 });
 
 
-
+$('textarea').autoResize();
 
