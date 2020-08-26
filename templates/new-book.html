@@ -3,17 +3,17 @@
 {% block main %}
 <div class="container_new_book">
     <form id="form" autocomplete="off" action="/new-book" method="post">
-        <input class="form-control" type="text" name="author" id="author" placeholder="Author...">
+        <input class="form-control" type="text" name="author" id="author" placeholder="Author..." required="required" maxlength="666">
         <br>
-        <input class="form-control" type="text" name="title" id="title" placeholder="Book Title...">
+        <input class="form-control" type="text" name="title" id="title" placeholder="Book Title..." required="required" maxlength="4805">
         <br>
-        <input class="form-control" type="number" name="ISBN" id="isbn" placeholder="ISBN...">
+        <input class="form-control" type="text" name="ISBN" id="isbn" placeholder="ISBN..." maxlength="17" pattern="[0-9]+([-][0-9]+)?">
         <br>
-        <input class="form-control" type="number" min="1" max="99999" name="page_count" id="page-count"
-            placeholder="Page Count...">
+        <input class="form-control" type="number" min="1" max="11000" name="page_count" id="page-count"
+            placeholder="Page Count..." required="required">
         <br>
         <p class="form-group">
-            <select id="inputGenre" class="form-control" name="genre">
+            <select id="inputGenre" class="form-control" name="genre" required="required">
                 <option selected disabled value="invalid">Genre...</option>
                 <option>Adventure</option>
                 <option>Children's</option>
@@ -35,7 +35,7 @@
             </select>
         </p>
         <br>
-        <textarea class="form-control" type="text" name="notes" id="notes" placeholder="Notes..."></textarea>
+        <textarea class="form-control" type="text" name="notes" id="notes" placeholder="Notes..." maxlength="32768"></textarea>
         <br>
         <input class="form-check-input-book" type="checkbox" value="" id="belongingCheck" name="belongingCheck">
         <label class="form-check-label-book" for="belongingCheck">I own this book</label>
@@ -85,7 +85,7 @@
             </div>
           </div>
         <br>
-        <button type="submit" class="btn btn-light" id="modalInput">Save</button>
+        <button type="submit" class="btn btn-light" id="input">Save</button>
     </form>
 </div>
 {% endblock %}
