@@ -44,6 +44,33 @@ $('#1stars').click(function(){
     $('#ratings').val('1');
 });
 
+// ISBN validation
+$(document).ready(function(){    
+    function validate(e) {
+    	
+      var Reg = /^$|^(?:\d[\ |-]?){13}$/;
+      var isbn = document.getElementById('isbn');
 
+      if (Reg.test(isbn.value) == false) {
+        var invalid_isbn = document.createTextNode("Invalid ISBN");
+        var error_message = document.getElementById("error_message");
+        if (!error_message.firstChild) {
+            error_message.appendChild(invalid_isbn);
+        }
+        isbn.focus();
+        e.preventDefault(); // prevent the form sending
+      } else {
+        var error_message = document.getElementById("error_message");
+        if (error_message.firstChild) {
+            error_message.removeChild(error_message.firstChild)
+        }
+      }
+    }
+    
+    //add event listener for form submission
+    document.getElementById('form').addEventListener('submit', validate);
+ });
+
+ 
 
 
