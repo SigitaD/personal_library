@@ -3,6 +3,7 @@ import os
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
+from werkzeug.debug import DebuggedApplication
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required
@@ -213,7 +214,9 @@ def new_book():
 def quotes():
     # presents quotes if there are any
 
+    print("In quotes")
     if request.method == "GET":
+        print("In GET quotes")
         # query database for data about quotes
         quotes = db.execute("""SELECT * FROM quotes
                             JOIN books ON books.book_id = quotes.book_id
@@ -224,13 +227,14 @@ def quotes():
         books = db.execute("SELECT * FROM books WHERE user_id = :id",
             id = session["user_id"])
 
-        # if there arent any books in database
+        # if there are any books in database
         if books == 0:
             return apology("You need to add a book first!")
 
         return render_template("quotes.html", quotes = quotes, books = books)
 
     else:
+        print("In POST quotes")
         quote = request.form.get("quote")
         author = request.form.get("author")
         bookTitle = request.form.get("book_title")
@@ -254,14 +258,14 @@ def quotes():
             book_id = books[0]["book_id"],
             quote = quote)
 
-        return render_template("quotes.html")
+        return redirect("/quotes")
 
 
 @app.route("/book", methods=["GET", "POST"])
 @login_required
 def book():
     # loading book profile with data in it
-    if request.method = "POST":
+    if request.method == "POST":
         # sujungti visas lenteles
         data = db.execute("""SELECT FROM books
                                 JOIN ratings ON books.book_id = ratings.book_id 
@@ -297,7 +301,7 @@ def book():
 @login_required
 def delete():
     # delete book from database
-    if request.method = "POST":
+    if request.method == "POST":
         #book = request.form.get("title")
         #print(book)
         db.execute("""DELETE FROM books WHERE title = :title AND author = :author AND started = :started AND user_id = :user_id """,
@@ -308,15 +312,17 @@ def delete():
         return render_template("index.html")
 
 
-@app.route("/remove", methods = ["GET", "POST"]
-@login_required)
+@app.route("/remove", methods = ["GET", "POST"])
+@login_required
 def remove():
     #remove book from the list 'reading now'
-    if request.method = "POST":
+    if request.method == "POST":
         db.execute("""DELETE started FROM book WHERE title = :title AND author = :author AND started = :started AND user_id = :user_id""",
                     title = request.form.get("title"),
                     author = request.form.get("author"),
                     started = request.form.get("started"),
-                    user_id = session["user_id"]))
+                    user_id = session["user_id"])
         
         return render_template("index.html")
+
+# app = DebuggedApplication(app, evalex=True)
