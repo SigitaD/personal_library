@@ -160,8 +160,6 @@ def new_book():
         print('NEW BOOK | page_count: ' + str(page_count), flush=True)
         genre = request.form.get("genre")
         print('NEW BOOK | genre: ' + str(genre), flush=True)
-        if genre == "invalid":
-            return apology("must select genre", 403)
         notes = request.form.get("notes")
         print('NEW BOOK | notes: ' + str(notes), flush=True)
         belongingCheck = request.form.get("belongingCheck")
@@ -216,9 +214,7 @@ def new_book():
 def quotes():
     # presents quotes if there are any
 
-    print("In quotes")
     if request.method == "GET":
-        print("In GET quotes")
         # query database for data about quotes
         quotes = db.execute("""SELECT * FROM quotes
                             JOIN books ON books.book_id = quotes.book_id
@@ -229,14 +225,13 @@ def quotes():
         books = db.execute("SELECT * FROM books WHERE user_id = :id",
             id = session["user_id"])
 
-        # if there are any books in database
+        # if there are no books in database
         if books == 0:
             return apology("You need to add a book first!")
 
         return render_template("quotes.html", quotes = quotes, books = books)
 
     else:
-        print("In POST quotes")
         quote = request.form.get("quote")
         author = request.form.get("author")
         bookTitle = request.form.get("book_title")
@@ -297,6 +292,9 @@ def book():
                             user_id = session["user_id"])
         
         return render_template("book.html", data=data, quotes=quotes, lendings=lendings)
+
+    else:
+        return render_template("book.html")
     
 
 @app.route("/delete", methods = ["GET", "POST"])
