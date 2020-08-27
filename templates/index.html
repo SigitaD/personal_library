@@ -18,12 +18,12 @@
                 </div>
             {% else %}
                 {% for book in books %}
-                    <div class="col-sm book" onclick="location.href = '/book-profile';">
+                    <div class="col-sm book">
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-4" onclick="location.href = '/book-profile';">
                                 <img class="book_cover" src="../static/logo.png" alt="book cover">
                             </div>
-                            <div class="col-sm">
+                            <div class="col-sm" onclick="location.href = '/book-profile';">
                                 {% if book.author|length <= 12 %}
                                     <p class="author"><span class="names">Author: </span>{{ book.author }}</p>
                                 {% else %}
@@ -37,10 +37,48 @@
                                 <p class="started"><span class="names">Started: </span>{{ book.started }}</p>
                             </div>
                             <div class="col-sm-1 options">
-                                <img class="options" src="../static/options.svg" alt="options">
+                                <button id="option_btn" class="inner options">
+                                    <img class="options"  src="../static/options.svg" alt="options">
+                                </button>
+                            </div>    
+                            
+                        </div>
+                        <div class="dropdown" id="show_menu">
+                            <!--option menu, which appears on click NIEKAS CIA NEVEIKIA-->
+                            <div>
+                                <!--<a href="/finish">Add a finish day</a>-->
+                                
+                                <button class="option_content" type="submit">Add a finish date</button>
+                                <br>
+                                <form action="/book" method="post">
+                                    <input type="hidden" name="title" type="text" value="{{book.title}}" >
+                                    <input type="hidden" name="author" type="text" value="{{book.author}}">
+                                    <input type="hidden" name="started" type="text" value="{{book.started}}">
+                                </form>
+                                <!--<a href="/book" type="submit">Book profile</a>-->
+                                
+                                <button class="option_content" type="submit">Book profile</button>
+                                <br>
+                                <form action="/remove" method="post">
+                                    <input type="hidden" name="title" type="text" value="{{book.title}}" >
+                                    <input type="hidden" name="author" type="text" value="{{book.author}}">
+                                    <input type="hidden" name="started" type="text" value="{{book.started}}">
+                                </form>
+                                <!--<a href="/remove" type="submit">Remove from the list</a>-->
+                                
+                                <button class="option_content" type="submit">Remove from the list</button>
+                                <br>
+                                <form action="/delete" method="post">
+                                    <input type="hidden" name="title" type="text" value="{{book.title}}" >
+                                    <input type="hidden" name="author" type="text" value="{{book.author}}">
+                                    <input type="hidden" name="started" type="text" value="{{book.started}}">
+                                </form>
+                                <!--<a href="/delete" type="submit">Delete</a>-->
+                                
+                                <button class="option_content" type="submit">Delete</button>
                             </div>
                         </div>
-                    </div> 
+                    </div>        
                 {% endfor %}
             {% endif %}      
         </div>
@@ -74,7 +112,8 @@
                         <p class="title"><span class="names">Title: </span></p>
                         <p class="rating-index"><span class="names">Rating: </span></p>
                     </div>
-                    <div class="col-sm-1 options">
+                    <div class="col-sm-1">
+                        
                         <img class="options" src="../static/options.svg" alt="options">
                     </div>
                 </div>

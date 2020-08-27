@@ -257,9 +257,66 @@ def quotes():
         return render_template("quotes.html")
 
 
-@app.route("/book-profile", methods=["GET", "POST"])
+@app.route("/book", methods=["GET", "POST"])
 @login_required
 def book():
-    # book profile
-    if request.method == "GET":
-        return render_template("book.html")
+    # loading book profile with data in it
+    if request.method = "POST":
+        # sujungti visas lenteles
+        data = db.execute("""SELECT FROM books
+                                JOIN ratings ON books.book_id = ratings.book_id 
+                                WHERE title = :title AND author = :author
+                                AND started = :started AND user_id = :user_id """,
+                                title = request.form.get("title"),
+                                author = request.form.get("author"),
+                                started = request.form.get("started"),
+                                user_id = session["user_id"]) # ar nereikia [0]???????
+
+        quotes = db.execute("""SELECT * FROM quotes
+                            JOIN books ON books.book_id = quotes.book_id
+                            WHERE title = :title AND author = :author
+                            AND started = :started AND user_id = :user_id """,
+                            title = request.form.get("title"),
+                            author = request.form.get("author"),
+                            started = request.form.get("started"),
+                            user_id = session["user_id"])
+
+        lendings = db.execute("""SELECT * FROM lending
+                            JOIN books ON books.book_id = lending.book_id
+                            WHERE title = :title AND author = :author
+                            AND started = :started AND user_id = :user_id """,
+                            title = request.form.get("title"),
+                            author = request.form.get("author"),
+                            started = request.form.get("started"),
+                            user_id = session["user_id"])
+        
+        return render_template("book.html", data=data, quotes=quotes, lendings=lendings)
+    
+
+@app.route("/delete", methods = ["GET", "POST"])
+@login_required
+def delete():
+    # delete book from database
+    if request.method = "POST":
+        #book = request.form.get("title")
+        #print(book)
+        db.execute("""DELETE FROM books WHERE title = :title AND author = :author AND started = :started AND user_id = :user_id """,
+                    title = request.form.get("title"),
+                    author = request.form.get("author"),
+                    started = request.form.get("started"),
+                    user_id = session["user_id"])
+        return render_template("index.html")
+
+
+@app.route("/remove", methods = ["GET", "POST"]
+@login_required)
+def remove():
+    #remove book from the list 'reading now'
+    if request.method = "POST":
+        db.execute("""DELETE started FROM book WHERE title = :title AND author = :author AND started = :started AND user_id = :user_id""",
+                    title = request.form.get("title"),
+                    author = request.form.get("author"),
+                    started = request.form.get("started"),
+                    user_id = session["user_id"]))
+        
+        return render_template("index.html")
