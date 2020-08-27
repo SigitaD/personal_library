@@ -255,3 +255,11 @@ def quotes():
             quote = quote)
 
         return render_template("quotes.html")
+
+
+@app.route("/book-profile", methods=["GET", "POST"])
+@login_required
+def book():
+    # book profile
+    if request.method == "GET":
+        return render_template("book.html")
