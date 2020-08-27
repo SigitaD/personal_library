@@ -3,30 +3,78 @@
 {% block main %}  
     <div class="profile_container">
        <div class="item-c"><img id="logo_profile" src="../static/logo.png" alt="book cover"></div>
-       <div class="item-a">JINJA Author</div>
-       <div class="item-b">JINJA Title</div>
+       <div class="item-a"><h5 class="book_profile_titles">Author: </h5>{{ book.author }}</div>
+       <div class="item-b"><h5 class="book_profile_titles">Title: </h5>{{ book.title }}</div>
        <div class="item-d">
-            <p>Date added: 2020 20 20</p>
-            <p>Page count: 1000</p>
-            <p>ISBN: 9789955234043</p>
-            <p>Genre: Romance</p>
+            <p><h5 class="book_profile_titles">Date added: </h5></p>
+            <p><h5 class="book_profile_titles">Page count:</h5>{{ book.pages }}</p>
+            <p><h5 class="book_profile_titles">ISBN: </h5>{{ book.isbn }}</p>
+            <p><h5 class="book_profile_titles">Genre: </h5>{{ book.genre }}</p>
        </div>
        <div class="item-e">
-            <p id="my_rating">My rating: </p>
+            <p id="my_rating"><h5 class="book_profile_titles">My rating: </h5></p>
             <div id="stars">
                 <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
             </div>
-            <p>Started reading: 2020 20 20</p>
-            <p>Finished reading: 2020 20 20</p>
-            <p>Belongs to: Personal library</p>
+            <p><h5 class="book_profile_titles">Started reading: </h5> {{ book.started }}</p>
+            {% if not book.finished %}
+                <p id="no_finished">Did not finish reading this book.</p>
+            {% else %}
+                <p><h5 class="book_profile_titles">Finished: </h5>{{ book.finished }}</p>
+            {% endif %}
+            <p><h5 class="book_profile_titles">Belongs to: </h5>Personal library</p>
         </div>
-        <div class="item-f">Lending history</div>
-        <div class="item-g">My Notes</div>
-        <div class="item-h">Notes text</div>
-        <div class="item-i">Quotes</div>
+        <div class="item-f">
+            <h5 class="book_profile_titles">Lending history</h5>
+            {% if not lendings %}
+                <p> There is no lending history for this book.</p>
+            {% else %}
+                <table class="table table-striped">
+                    <tr>
+                        <!--table headers-->
+                        <th>Lent</th>
+                        <th>Returned</th>
+                        <th>Lent to</th>
+                    </tr>
+                    {% for lending in lendings %}
+                        <tr>
+                            <td>{{ lending.lent }}</td>
+                            {% if not lending.returned %}
+                                <td>not returned yet</td>
+                            {% else %}
+                                <td>{{ lending.returned }}</td>
+                            {% endif %}
+                            <td>{{ lending.owner }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}     
+        </div>
+        
+        <div class="item-g"><h5 class="book_profile_titles">My Notes</h5></div>
+        <div class="item-h">{{ book.notes }}</div>
+        <div class="item-i"><h5 class="book_profile_titles">Quotes</h5></div>
         <div class="item-j">
-            <img id="quote_sign_small" src="../static/quote_mark.gif" alt="quotes">
-            <div class="quote_text">JINJA+DB QUOTES</div>
+            <div class="quote_text">
+                {% if not quotes %}
+                    <div class="alert" id="no_quotes">
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                        You do not have any quotes.
+                    </div>
+                {% else %}
+                    {% for quote in quotes %}
+                        <div class="quote_brown_bg">
+                            <img id="quote_sign_small" src="../static/quote_mark.gif" alt="quotes">
+                            <p class="quote_text">{{ quote.quote }}</p>
+                            <br>
+                            <span class="author_in_quote"></span><span class="names">Author: </span>{{ quote.author }}</span>
+                            <br>
+                            <span class="book_title_in_quote"><span class="names">Book: </span>{{ quote.title }}</span>
+                            <br>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}
