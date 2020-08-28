@@ -1,27 +1,25 @@
 {% extends "layout.html" %}
 
-{% block main %}  
+{% block main %}
+    {% for book in data %}
     <div class="profile_container">
        <div class="item-c"><img id="logo_profile" src="../static/logo.png" alt="book cover"></div>
-       <div class="item-a"><h5 class="book_profile_titles">Author: </h5>
-
+       <div class="item-a"><h5 class="book_profile_titles">{{ book.author }}</h5>
     </div>
-       <div class="item-b"><h5 class="book_profile_titles">Title: </h5>
+       <div class="item-b"><h5 class="book_profile_titles">{{ book.title }}</h5>
     </div>
        <div class="item-d">
-            <p><h5 class="book_profile_titles">Date added: </h5></p>
-            <p><h5 class="book_profile_titles">Page count:</h5>
-            </p>
-            <p><h5 class="book_profile_titles">ISBN: </h5>
-            </p>
-            <p><h5 class="book_profile_titles">Genre: </h5>
+            <p class="book_profile_titles">Page count: 
+            <div class="book_profile_text">{{ book.pages }}</div></p>
+            <p class="book_profile_titles">ISBN:
+            <div class="book_profile_text">{{ book.isbn }}</div></p>
+            <p  class="book_profile_titles">Genre:
+            <div class="book_profile_text">{{ book.genre }}</div></p>
+            <p class="book_profile_titles">Rating: 
             </p>
        </div>
+       {% endfor %}
        <div class="item-e">
-            <p id="my_rating"><h5 class="book_profile_titles">My rating: </h5></p>
-            <div id="stars">
-                <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-            </div>
             <p><h5 class="book_profile_titles">Started reading: </h5> 
             </p>
                 <p id="no_finished">Did not finish reading this book.</p>

@@ -13,7 +13,7 @@ $("#btnTwo").one("click", function () {
     $("#dateReadingNow").attr("value", today);
 });
 
-// Selecting bootstrap accordion card resets values of another card - for the sake of writting values of just one card (if both of the cards have some input in, it was users fault)
+// Selecting bootstrap accordion card is reseting values of another accordion card - for the sake of writting values of just one card (if both of the cards have some input in)
 function ClearFieldsOne() {
     document.getElementById("start_date").value = "";
     document.getElementById("finish_date").value = "";

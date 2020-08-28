@@ -37,9 +37,6 @@ db = SQL("sqlite:///books.db")
 def index():
     #if request.method == "POST":
     # rodyti pasirinkto list'o knygas 
-
-    
-    
     
     #else:
     if request.method == "GET":
@@ -258,43 +255,38 @@ def quotes():
         return redirect("/quotes")
 
 
-@app.route("/book", methods=["GET", "POST"])
+@app.route("/book/<book_id>", methods=["GET", "POST", "DELETE"])
 @login_required
-def book():
+def book(book_id):
     # loading book profile with data in it
-    if request.method == "POST":
-        # sujungti visas lenteles
-        data = db.execute("""SELECT FROM books
-                                JOIN ratings ON books.book_id = ratings.book_id 
-                                WHERE title = :title AND author = :author
-                                AND started = :started AND user_id = :user_id """,
-                                title = request.form.get("title"),
-                                author = request.form.get("author"),
-                                started = request.form.get("started"),
-                                user_id = session["user_id"]) # ar nereikia [0]???????
+    if request.method == "GET":
+        data = db.execute("""SELECT * FROM books
+                            WHERE book_id = :book_id
+                            AND user_id = :user_id """,
+                            book_id = book_id,
+                            user_id = session["user_id"])
+        print('BOOK PROFILE | data: ' + str(data), flush=True)
 
         quotes = db.execute("""SELECT * FROM quotes
                             JOIN books ON books.book_id = quotes.book_id
-                            WHERE title = :title AND author = :author
-                            AND started = :started AND user_id = :user_id """,
-                            title = request.form.get("title"),
-                            author = request.form.get("author"),
-                            started = request.form.get("started"),
+                            WHERE books.book_id = :book_id 
+                            AND books.user_id = :user_id """,
+                            book_id = book_id,
                             user_id = session["user_id"])
 
         lendings = db.execute("""SELECT * FROM lending
                             JOIN books ON books.book_id = lending.book_id
-                            WHERE title = :title AND author = :author
-                            AND started = :started AND user_id = :user_id """,
-                            title = request.form.get("title"),
-                            author = request.form.get("author"),
-                            started = request.form.get("started"),
+                            WHERE books.book_id = :book_id 
+                            AND books.user_id = :user_id """,
+                            book_id = book_id,
                             user_id = session["user_id"])
-        
+
+        # if book in data:
+        #     book_id = data[book_id]
         return render_template("book.html", data=data, quotes=quotes, lendings=lendings)
 
     else:
-        return render_template("book.html")
+        return redirect("/book")
     
 
 @app.route("/delete", methods = ["GET", "POST"])

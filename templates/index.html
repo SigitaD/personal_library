@@ -18,12 +18,12 @@
                 </div>
             {% else %}
                 {% for book in books %}
-                    <div class="col-sm book">
-                        <div class="row">
-                            <div class="col-sm-4" onclick="location.href = '/book-profile';">
+                    <div class="col-sm book" onclick="location.href='/book/{{ book.book_id }}'" >
+                        <div class = "row">
+                            <div class="col-sm-4">
                                 <img class="book_cover" src="../static/logo.png" alt="book cover">
                             </div>
-                            <div class="col-sm" onclick="location.href = '/book-profile';">
+                            <div class="col-sm">
                                 {% if book.author|length <= 12 %}
                                     <p class="author"><span class="names">Author: </span>{{ book.author }}</p>
                                 {% else %}
