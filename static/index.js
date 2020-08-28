@@ -68,8 +68,8 @@ $(document).ready(function(){
     }
     
     //add event listener for form submission
-    document.getElementById('form').addEventListener('submit', validate);
- });
+    // neveikia document.getElementById('form').addEventListener('submit', validate);
+});
 
  
 
@@ -92,3 +92,13 @@ if (!event.target.matches('.dropdown')) {
     }
 }
 }
+
+
+// submit when clicked on the list dropdown menu
+var form = document.getElementById("listform");
+
+var elements = document.getElementsByClassName("list_option");
+
+for (var i = 0; i < elements.length; i++) {
+    elements[i].addEventListener('click', function() {form.submit();}, false);
+};
