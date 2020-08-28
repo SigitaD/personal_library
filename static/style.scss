@@ -198,8 +198,8 @@ header {
     margin-left: auto;
     padding: 20px;
     max-width: 70%;
-    // column-gap: 10px;
-    // row-gap: 15px;
+    column-gap: 10px;
+    row-gap: 15px;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 2fr auto auto auto auto;
     grid-template-areas:
@@ -215,6 +215,14 @@ header {
 #logo_profile {
     width: 200px;
     height: 200px;
+}
+
+.book_profile_titles{
+    display: inline-block;
+}
+
+.book_profile_text {
+    display: inline-block;
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

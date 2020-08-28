@@ -37,9 +37,6 @@ db = SQL("sqlite:///books.db")
 def index():
     #if request.method == "POST":
     # rodyti pasirinkto list'o knygas 
-
-    
-    
     
     #else:
     if request.method == "GET":
@@ -160,8 +157,6 @@ def new_book():
         print('NEW BOOK | page_count: ' + str(page_count), flush=True)
         genre = request.form.get("genre")
         print('NEW BOOK | genre: ' + str(genre), flush=True)
-        if genre == "invalid":
-            return apology("must select genre", 403)
         notes = request.form.get("notes")
         print('NEW BOOK | notes: ' + str(notes), flush=True)
         belongingCheck = request.form.get("belongingCheck")
@@ -216,9 +211,7 @@ def new_book():
 def quotes():
     # presents quotes if there are any
 
-    print("In quotes")
     if request.method == "GET":
-        print("In GET quotes")
         # query database for data about quotes
         quotes = db.execute("""SELECT * FROM quotes
                             JOIN books ON books.book_id = quotes.book_id
@@ -229,14 +222,13 @@ def quotes():
         books = db.execute("SELECT * FROM books WHERE user_id = :id",
             id = session["user_id"])
 
-        # if there are any books in database
+        # if there are no books in database
         if books == 0:
             return apology("You need to add a book first!")
 
         return render_template("quotes.html", quotes = quotes, books = books)
 
     else:
-        print("In POST quotes")
         quote = request.form.get("quote")
         author = request.form.get("author")
         bookTitle = request.form.get("book_title")
@@ -263,40 +255,38 @@ def quotes():
         return redirect("/quotes")
 
 
-@app.route("/book", methods=["GET", "POST"])
+@app.route("/book/<book_id>", methods=["GET", "POST", "DELETE"])
 @login_required
-def book():
+def book(book_id):
     # loading book profile with data in it
-    if request.method == "POST":
-        # sujungti visas lenteles
-        data = db.execute("""SELECT FROM books
-                                JOIN ratings ON books.book_id = ratings.book_id 
-                                WHERE title = :title AND author = :author
-                                AND started = :started AND user_id = :user_id """,
-                                title = request.form.get("title"),
-                                author = request.form.get("author"),
-                                started = request.form.get("started"),
-                                user_id = session["user_id"]) # ar nereikia [0]???????
+    if request.method == "GET":
+        data = db.execute("""SELECT * FROM books
+                            WHERE book_id = :book_id
+                            AND user_id = :user_id """,
+                            book_id = book_id,
+                            user_id = session["user_id"])
+        print('BOOK PROFILE | data: ' + str(data), flush=True)
 
         quotes = db.execute("""SELECT * FROM quotes
                             JOIN books ON books.book_id = quotes.book_id
-                            WHERE title = :title AND author = :author
-                            AND started = :started AND user_id = :user_id """,
-                            title = request.form.get("title"),
-                            author = request.form.get("author"),
-                            started = request.form.get("started"),
+                            WHERE books.book_id = :book_id 
+                            AND books.user_id = :user_id """,
+                            book_id = book_id,
                             user_id = session["user_id"])
 
         lendings = db.execute("""SELECT * FROM lending
                             JOIN books ON books.book_id = lending.book_id
-                            WHERE title = :title AND author = :author
-                            AND started = :started AND user_id = :user_id """,
-                            title = request.form.get("title"),
-                            author = request.form.get("author"),
-                            started = request.form.get("started"),
+                            WHERE books.book_id = :book_id 
+                            AND books.user_id = :user_id """,
+                            book_id = book_id,
                             user_id = session["user_id"])
-        
+
+        # if book in data:
+        #     book_id = data[book_id]
         return render_template("book.html", data=data, quotes=quotes, lendings=lendings)
+
+    else:
+        return redirect("/book")
     
 
 @app.route("/delete", methods = ["GET", "POST"])
