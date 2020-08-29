@@ -41,6 +41,10 @@ def index():
         print('INDEX | list: ' + str(list), flush=True)
         print(list)
 
+        books = db.execute("""SELECT * FROM books WHERE user_id = :id
+                            AND started IS NOT NULL AND finished IS NULL """,
+                            id = session["user_id"])
+
         # by default show all books
         lists = db.execute("""SELECT * FROM books WHERE user_id = :id""",
                             id = session["user_id"])
@@ -75,25 +79,23 @@ def index():
 
 
 
-    return render_template("index.html", books=books, lists=lists)
+        #return render_template("index.html", books=books, lists=lists)
     
     
     
     #else:
-    elif request.method == "GET":
+    if request.method == "GET":
         # presents currently reading books
 
         books = db.execute("""SELECT * FROM books WHERE user_id = :id
                             AND started IS NOT NULL AND finished IS NULL """,
                             id = session["user_id"])
-        
-        # by defaul show all books
+
         lists = db.execute("""SELECT * FROM books WHERE user_id = :id""",
                             id = session["user_id"])
-        
-        #print(books)
         print(lists)
-        return render_template("index.html", books = books, lists=lists)
+
+        return render_template("index.html", books = books, lists = lists)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -194,25 +196,9 @@ def register():
 @login_required
 def new_book():
     if request.method == "POST":
-        author = request.form.get("author")
-
-        text = str(author).capitalize()
-        len = len(text)
-        
-        
-        for (i = 0, i < len-1, i+=1):
-            
-            if text[i].isspace() and text[i+1].isalnum():
-                text[i+1].upper()
-
-        author = text
-
+        author = request.form.get("author").title() # capitalize first leter of every word
         print('NEW BOOK | author: ' + str(author), flush=True)
-        title = request.form.get("title")
-
-        text=title.capitalize()
-        title = text
-
+        title = request.form.get("title").capitalize() # capitalize first letter
         print('NEW BOOK | title: ' + str(title), flush=True)
         isbn = request.form.get("ISBN")
         print('NEW BOOK | isbn: ' + str(isbn), flush=True)

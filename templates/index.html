@@ -23,16 +23,16 @@
                             <div class="col-sm-4" onclick="location.href = '/book-profile';">
                                 <img class="book_cover" src="../static/logo.png" alt="book cover">
                             </div>
-                            <div class="col-sm" onclick="location.href = '/book-profile';">
-                                {% if book.author|length <= 12 %}
+                            <div class="col-sm-7" onclick="location.href = '/book-profile';">
+                                {% if book.author|length <= 10 %}
                                     <p class="author"><span class="names">Author: </span>{{ book.author }}</p>
                                 {% else %}
-                                    <p class="author"><span class="names">Author: </span>{{ book.author[:12] }}...</p>
+                                    <p class="author"><span class="names">Author: </span>{{ book.author[:10] }}...</p>
                                 {% endif %}
-                                {% if book.title|length <= 15 %}
+                                {% if book.title|length <= 12 %}
                                     <p class="title"><span class="names">Title: </span>{{ book.title }}</p>
                                 {% else %}
-                                    <p class="title"><span class="names">Title: </span>{{ book.title[:15] }}...</p>
+                                    <p class="title"><span class="names">Title: </span>{{ book.title[:12] }}...</p>
                                 {% endif %}
                                 <p class="started"><span class="names">Started: </span>{{ book.started }}</p>
                             </div>
@@ -131,9 +131,18 @@
                                     <p class="title"><span class="names">Title: </span>{{ list.title[:15] }}...</p>
                                 {% endif %}
                                 {% if not list.rating %}
-                                    <p class="started"><span class="names">Rating: - </span></p>
+                                    <p class="rating_index"><span class="names">Rating: - </span></p>
                                 {% else %}
-                                    <p class="started"><span class="names">Rating:  </span></p>
+                                     <p class="rating_index">
+                                        <span class="names">Rating: </span>
+                                            {% for i in range(list.rating)%}
+                                                <span class="stars_red">★</span>
+                                            {% endfor %}
+                                            {% for i in range(5 - (list.rating)) %}
+                                                <span class="stars_white">★</span>
+                                            {% endfor %}
+                                        </p>
+                                    
                                 {% endif %}
                             </div>
                             <div class="col-sm-1 options">
