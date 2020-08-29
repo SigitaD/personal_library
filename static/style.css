@@ -8,6 +8,13 @@ main {
   background: #97aaa8;
 }
 
+.btn-secondary {
+  border: none;
+  color: #97aaa8;
+  background-color: #f1f1f1;
+  display: inline;
+}
+
 .btn-light {
   color: white;
   background-color: #97aaa8 !important;
@@ -16,10 +23,7 @@ main {
 
 .container {
   background-color: #eae9e6;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 20px auto;
   padding: 20px;
   max-width: 70%;
 }
@@ -82,10 +86,7 @@ header {
 
 .container_new_book {
   background-color: #eae9e6;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 20px auto;
   padding: 20px;
   max-width: 30%;
 }
@@ -173,10 +174,7 @@ header {
 .profile_container {
   display: grid;
   background-color: #eae9e6;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 20px auto;
   padding: 20px;
   max-width: 70%;
   column-gap: 10px;
@@ -201,20 +199,14 @@ header {
 
 .quote_brown_bg {
   background-color: #eae9e6;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 20px auto;
   padding: 20px;
   max-width: 70%;
 }
 
 .quote_sand_bg {
   background-color: #f5f3ee;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 20px auto;
   padding: 20px;
   max-width: 70%;
 }
@@ -263,10 +255,7 @@ textarea {
 
 .container_new_quote {
   background-color: #eae9e6;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 20px auto;
   padding: 20px;
   max-width: 70%;
 }
@@ -331,10 +320,14 @@ textarea {
 }
 
 .book {
-  background-color: #a39b85;
+  background-color: #f5f3ee;
   padding: 15px;
   margin: 10px;
   max-width: calc(100% / 3);
+}
+
+.book:hover {
+  cursor: pointer;
 }
 
 .names {
@@ -346,41 +339,9 @@ textarea {
   font-weight: 500;
 }
 
-#show_menu {
-  position: absolute;
-  display: none;
-  top: 10px;
-  right: 10px;
-  width: 170px;
-  height: 105px;
-  border: 1px solid #a39b85;
-  background-color: #eae9e6;
-  z-index: 2;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-}
-#show_menu a {
-  color: black;
-  margin: 0;
-  display: block;
-  height: 1px;
-  padding-left: 5px;
-  padding-right: 10px;
-}
-
-/* Change color of dropdown links on hover */
-.option_content:hover {
-  color: #bd4b4b;
-}
-
-.option_content {
-  border: 0px;
-  text-align: left;
-  width: 170px;
+.options_image {
   background-color: transparent;
-}
-
-.options {
-  background-color: transparent;
+  padding: 0 5px;
   width: auto;
   border: transparent;
   height: 20px;
@@ -390,8 +351,52 @@ textarea {
   z-index: 1;
 }
 
+.options_image:hover {
+  cursor: default;
+}
+
+.options_content {
+  display: none;
+  position: absolute;
+  right: 32px;
+  top: 10px;
+  border: 0;
+  text-align: right;
+  min-width: 150px;
+  background-color: #f1f1f1;
+  z-index: 1;
+}
+
+.options_content a {
+  color: black;
+  font-size: small;
+  padding: 7px 10px;
+  text-decoration: none;
+  display: block;
+  background-color: #f1f1f1;
+}
+
+/* Change color of dropdown links on hover */
+.options_content a:hover {
+  color: #f1f1f1;
+  background-color: #97aaa8;
+}
+
+#update_start_date, #update_finish_date {
+  max-width: 74%;
+}
+
+#finishedReadingModal .form-group, #readingNowModal .form-group {
+  display: block;
+  margin-bottom: 0;
+}
+
 .show {
   display: block;
+}
+
+.hidden {
+  display: none;
 }
 
 /*# sourceMappingURL=style.css.map */
