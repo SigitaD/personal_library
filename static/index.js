@@ -113,18 +113,27 @@ function showOptionsFor(optionsId) {
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function (event) {
     if (!event.target.matches('.options_image')) {
-        var options_content = document.getElementsByClassName("options_content");
-        var i;
+        let options_content = document.getElementsByClassName("options_content");
+        let i;
         for (i = 0; i < options_content.length; i++) {
-            var openDropdown = options_content[i];
+            let openDropdown = options_content[i];
             if (openDropdown.classList.contains('show')) {
                 openDropdown.classList.remove('show');
             }
         }
         openedOptions = null;
     }
+    if (!event.target.matches('.book_options_image')) {
+        let options_content = document.getElementsByClassName("book_options_content");
+        let i;
+        for (i = 0; i < options_content.length; i++) {
+            let openDropdown = options_content[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
 }
-
 
 // Update #readingNowModal contents before it is shown.
 // 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
@@ -152,18 +161,33 @@ function updateModalWithBookId(event) {
 
 // Sends DELETE request to delete book with bookId from the database.
 // When response is retrieved - refreshes index page.
-$('#confirmBookDelete').click(function () {
+$('#confirmBookDeleteFromList').click(function () {
     let modal = $(this)  //Delete confirmation button
     let bookId = modal.find('+ #update_book_id').val(); //Find #update_book_id input which is next to delete confirmation button
 
     let book = {"bookId": bookId};
     let xhr = new XMLHttpRequest();
-    xhr.open("DELETE", "/book/" + bookId, true);
+    xhr.open("POST", "/delete-book", true);
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.onreadystatechange = function () {
         location.reload();
     };
     xhr.send(JSON.stringify(book));
+})
+
+// Sends DELETE request to delete book with bookId from the database.
+// When response is retrieved - refreshes index page.
+$('#confirmBookDelete').click(function () {
+    let modal = $(this)  //Delete confirmation button
+    let bookId = modal.find('+ #update_book_id').val(); //Find #update_book_id input which is next to delete confirmation button
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("DELETE", "/book/" + bookId, true);
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.onreadystatechange = function () {
+        location.href = "/";
+    };
+    xhr.send();
 })
 
 
