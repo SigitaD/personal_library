@@ -42,8 +42,6 @@
                         <div class="book_profile_text">no rating</div>
                     {% endif %}
         </div>
-        {% endfor %}
-
         <div class="item-f">
             <p class="book_profile_titles">Lending history</p>
             {% if not lendings %}
@@ -57,9 +55,9 @@
                     </tr>
                     {% for record in lendings %}
                         <tr>
-                            <td>{{ record.lent }}</td>
+                            <td>{{ record.lent_date }}</td>
                             {% if not record.returned %}
-                                <td>Not returned yet</td>
+                                <td><i>Not returned yet</i></td>
                                 <td>{{ record.borrower }}</td>
                             {% else %}
                                 <td>{{ record.returned }}</td>
@@ -71,6 +69,7 @@
             {% endif %}
         </div>
     </div>
+    {% endfor %}
 
     <div class="profile_container_notes">
         <div class="item-g"><h5 class="book_profile_titles">My Notes</h5></div>

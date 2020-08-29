@@ -18,21 +18,21 @@
                 </div>
             {% else %}
                 {% for book in books %}
-                    <div class="book" onclick="redirectToBook({{ book.book_id }})">
+                    <div class="col-12 book" onclick="redirectToBook('{{ book.book_id }}')">
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <img class="book_cover" src="../static/logo.png" alt="book cover">
                             </div>
-                            <div class="col-sm-7">
-                                {% if book.author|length <= 10 %}
+                            <div class="col-sm-8">
+                                {% if book.author|length <= 20 %}
                                     <p class="author" data-toggle="tooptip" title="{{ book.author }}"><span class="names">Author: </span>{{ book.author }}</p>
                                 {% else %}
-                                    <p class="author" data-toggle="tooptip" title="{{ book.author }}"><span class="names">Author: </span>{{ book.author[:10] }}...</p>
+                                    <p class="author" data-toggle="tooptip" title="{{ book.author }}"><span class="names">Author: </span>{{ book.author[:30] }}...</p>
                                 {% endif %}
-                                {% if book.title|length <= 12 %}
+                                {% if book.title|length <= 30 %}
                                     <p class="title" data-toggle="tooptip" title="{{ book.title }}"><span class="names">Title: </span>{{ book.title }}</p>
                                 {% else %}
-                                    <p class="title" data-toggle="tooptip" title="{{ book.title }}"><span class="names">Title: </span>{{ book.title[:12] }}...</p>
+                                    <p class="title" data-toggle="tooptip" title="{{ book.title }}"><span class="names">Title: </span>{{ book.title[:30] }}...</p>
                                 {% endif %}
                                 <p class="started"><span class="names">Started: </span>{{ book.started }}</p>
                             </div>
@@ -57,7 +57,7 @@
                                            data-bookid="{{ book.book_id }}">
                                             Add to reading now
                                         </a>
-                                        <a onclick="notReading({{ book.book_id }})">
+                                        <a onclick="notReading('{{ book.book_id }}')">
                                             Not reading now
                                         </a>
                                         <a data-toggle="modal"
@@ -106,21 +106,21 @@
             </div>
             {% else %}
                 {% for list in lists %}
-                    <div class="book">
+                    <div class="col-12 book">
                         <div class="row">
-                            <div class="col-sm-4" onclick="location.href = '/book-profile';">
+                            <div class="col-sm-3" onclick="location.href = '/book-profile';">
                                 <img class="book_cover" src="../static/logo.png" alt="book cover">
                             </div>
                             <div class="col-sm" onclick="location.href = '/book-profile';">
-                                {% if list.author|length <= 12 %}
+                                {% if list.author|length <= 30 %}
                                     <p class="author" data-toggle="tooptip" title="{{ list.author }}"><span class="names">Author: </span>{{ list.author }}</p>
                                 {% else %}
-                                    <p class="author" data-toggle="tooptip" title="{{ list.author }}"><span class="names">Author: </span>{{ list.author[:12] }}...</p>
+                                    <p class="author" data-toggle="tooptip" title="{{ list.author }}"><span class="names">Author: </span>{{ list.author[:30] }}...</p>
                                 {% endif %}
-                                {% if list.title|length <= 15 %}
+                                {% if list.title|length <= 30 %}
                                     <p class="title" data-toggle="tooptip" title="{{ list.title }}"><span class="names">Title: </span>{{ list.title }}</p>
                                 {% else %}
-                                    <p class="title" data-toggle="tooptip" title="{{ list.title }}"><span class="names">Title: </span>{{ list.title[:15] }}...</p>
+                                    <p class="title" data-toggle="tooptip" title="{{ list.title }}"><span class="names">Title: </span>{{ list.title[:30] }}...</p>
                                 {% endif %}
                                 {% if not list.rating %}
                                     <p class="rating_index"><span class="names">Rating: - </span></p>

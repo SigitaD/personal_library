@@ -57,7 +57,7 @@ def index():
         elif str(list) == "lent":
             # show lent books
             lists = db.execute("""SELECT * FROM books JOIN lending ON books.book_id = lending.book_id
-                                    WHERE books.user_id = :id AND lending.lent IS NOT NULL ORDER BY author""",
+                                    WHERE books.user_id = :id AND lending.lent_date IS NOT NULL ORDER BY author""",
                                     id = session["user_id"])
 
         elif str(list) == "notmine":

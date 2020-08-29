@@ -31,6 +31,9 @@ main {
 
 .inner {
     display: inline-block;
+    font-weight: 400;
+    font-size: 20px;
+    color: #524240
 }
 
 .form-group {
@@ -90,7 +93,7 @@ header {
 }
 
 .book_cover {
-    width: 100px;
+    max-width: 100px;
     height: 100px;
 }
 
@@ -203,7 +206,7 @@ header {
     max-width: 70%;
     column-gap: 10px;
     row-gap: 15px;
-    grid-template-columns: 1fr 1fr 1fr 1.5fr;
+    grid-template-columns: auto auto auto 1fr;
     grid-template-rows: auto;
     grid-template-areas:
         "my_notes my_notes my_notes my_notes"
@@ -226,7 +229,7 @@ header {
     text-align: center;
     font-size: 25px;
     font-weight: 700;
-    margin: 10px 10px 50px 10px;
+    margin: 0px 10px 30px 10px;
 }
 
 .book_profile_titles {
@@ -252,6 +255,19 @@ header {
     margin: 20px auto;
     padding: 20px;
     max-width: 70%;
+}
+
+.table td {
+    padding: 0.25rem 1rem 0.5rem 1rem;
+    width: auto;
+    background-color: #f5f3ee;
+    border-width: 0.5rem;
+    border-color: #eae9e6;
+}
+
+.table th {
+    padding: 0.25rem 1rem 0.5rem 1rem;
+    font-weight: 500;
 }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -391,11 +407,9 @@ textarea {
 
 .book {
     background-color: #f5f3ee;
-    padding: 15px;
-    margin: 10px;
-    width: 330px;
+    margin: 5px;
     position: relative;
-    max-width: calc(100% / 3);
+    max-width: calc((100% - 30px) / 3);
     border-radius: 10px;
 
     .options {
@@ -407,6 +421,48 @@ textarea {
         top: 5px;
         right: 5px;
         z-index: 2;
+    }
+}
+
+@media (max-width:1130px){
+    .book {
+        background-color: #f5f3ee;
+        margin: 5px;
+        position: relative;
+        max-width: 100%;
+        border-radius: 10px;
+    
+        .options {
+            background-color: transparent;
+            width: auto;
+            border: transparent;
+            height: 20px;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            z-index: 2;
+        }
+    }
+}
+
+@media (min-width:1131px) and (max-width:1750px) {
+    .book {
+        background-color: #f5f3ee;
+        margin: 5px;
+        position: relative;
+        max-width: calc((100% - 20px) / 2);
+        border-radius: 10px;
+    
+        .options {
+            background-color: transparent;
+            width: auto;
+            border: transparent;
+            height: 20px;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            z-index: 2;
+        }
     }
 }
 
@@ -422,6 +478,15 @@ textarea {
 .alert {
     background-color: #eae9e6;
     font-weight: 500;
+}
+
+#listform {
+    margin-left: -25px;
+}
+
+.author, .title, .started {
+    margin-bottom: 8px;
+    margin-top: 5px;
 }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
