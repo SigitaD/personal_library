@@ -18,11 +18,11 @@ $("#btnTwo").one("click", function () {
 function ClearFieldsOne() {
     document.getElementById("start_date").value = "";
     document.getElementById("finish_date").value = "";
-};
+}
 
 function ClearFieldsTwo() {
     document.getElementById("dateReadingNow").value = "";
-};
+}
 
 //Get the value of a star rating to be able to insert it into database
 $('#5stars').click(function () {
@@ -50,10 +50,10 @@ $('#1stars').click(function () {
 $(document).ready(function () {
     function validate(e) {
 
-        let Reg = /^$|^(?:\d[\ |-]?){13}$/;
+        let Reg = /^$|^(?:\d[ |-]?){13}$/;
         let isbn = document.getElementById('isbn');
 
-        if (Reg.test(isbn.value) == false) {
+        if (Reg.test(isbn.value) === false) {
             var invalid_isbn = document.createTextNode("Invalid ISBN");
             var error_message = document.getElementById("error_message");
             if (!error_message.firstChild) {
@@ -87,16 +87,52 @@ function redirectToBook(bookId) {
         document.location.href = '/book/' + bookId;
 }
 
+// ---------------------- GLOBAL OPTIONS START --------------------------------
 
-// ---------------------- OPTIONS START --------------------------------
+let openedOptions = null;
 
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function (event) {
+    if (!event.target.matches('.options_image')) {
+        let options_content = document.getElementsByClassName("options_content");
+        let i;
+        for (i = 0; i < options_content.length; i++) {
+            let openDropdown = options_content[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+        if (!event.target.matches('.book_options_image')) {
+            let options_content = document.getElementsByClassName("book_options_content");
+            let i;
+            for (i = 0; i < options_content.length; i++) {
+                let openDropdown = options_content[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+            if (!event.target.matches('.note_options_image')) {
+                let options_content = document.getElementsByClassName("note_options_content");
+                let i;
+                for (i = 0; i < options_content.length; i++) {
+                    let openDropdown = options_content[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+                openedOptions = null;
+            }
+        }
+    }
+}
+
+// ---------------------- GLOBAL OPTIONS END --------------------------------
+// ---------------------- BOOK OPTIONS START --------------------------------
 
 // Function to show options when triple dot is clicked.
 // Hides when same dots are pressed.
 // Hides first dropdown menu if second is pressed while first one is still showed.
-let openedOptions = null;
-
-function showOptionsFor(optionsId) {
+function showBookOptionsFor(optionsId) {
     const clickedOptions = document.getElementById(optionsId);
     if (openedOptions) {
         openedOptions.classList.remove('show');
@@ -110,31 +146,6 @@ function showOptionsFor(optionsId) {
     }
 }
 
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function (event) {
-    if (!event.target.matches('.options_image')) {
-        let options_content = document.getElementsByClassName("options_content");
-        let i;
-        for (i = 0; i < options_content.length; i++) {
-            let openDropdown = options_content[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-            }
-        }
-        openedOptions = null;
-    }
-    if (!event.target.matches('.book_options_image')) {
-        let options_content = document.getElementsByClassName("book_options_content");
-        let i;
-        for (i = 0; i < options_content.length; i++) {
-            let openDropdown = options_content[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-            }
-        }
-    }
-}
-
 // Update #readingNowModal contents before it is shown.
 // 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
 $('#readingNowModal').on('show.bs.modal', updateModalWithBookId)
@@ -142,7 +153,6 @@ $('#readingNowModal').on('show.bs.modal', updateModalWithBookId)
 // Update #finishedReadingModal contents before it is shown.
 // 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
 $('#finishedReadingModal').on('show.bs.modal', updateModalWithBookId)
-
 
 // Update #deleteBookConfirmationModal contents before it is shown.
 // 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
@@ -203,4 +213,44 @@ function notReading(bookId) {
     xhr.send(JSON.stringify(book));
 }
 
-// ---------------------- OPTIONS END --------------------------------
+// ---------------------- BOOK OPTIONS END --------------------------------
+// ---------------------- NOTE OPTIONS START --------------------------------
+
+function showNoteOptionsFor(optionsId) {
+    const clickedOptions = document.getElementById(optionsId);
+    if (openedOptions) {
+        openedOptions.classList.remove('show');
+    }
+
+    if (openedOptions !== clickedOptions) {
+        openedOptions = clickedOptions;
+        openedOptions.classList.toggle("show");
+    } else {
+        openedOptions = null;
+    }
+}
+
+// Update #editNoteModal contents before it is shown.
+// 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
+$('#editNoteModal').on('show.bs.modal', function (event) {
+    openedOptions = null;
+
+    let actionOrigin = $(event.relatedTarget)
+    let bookId = actionOrigin.data('bookid')
+    let noteText = actionOrigin.data('notetext')
+
+    let modal = $(this)
+    modal.find('.modal-content #note_text').val(noteText)
+    document.getElementById('edit-note-form').action = "/book/" + bookId + "/update-notes";
+})
+
+// Update #deleteNoteConfirmationModal contents before it is shown.
+// 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
+$('#deleteNoteConfirmationModal').on('show.bs.modal', function (event) {
+    openedOptions = null;
+
+    let actionOrigin = $(event.relatedTarget)
+    let bookId = actionOrigin.data('bookid')
+
+    document.getElementById('delete-note-form').action = "/book/" + bookId + "/update-notes";
+})
