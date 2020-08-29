@@ -172,24 +172,37 @@ header {
     grid-area: col_c;
     overflow: auto;
 }
+
 .item-g {
     grid-area: my_notes;
+    width: 100%;
 }
 .item-h {
     grid-area: notes_text;
     overflow: auto;
     background-color: #f5f3ee;
 }
-.item-i {
-    grid-area: quote;
-}
-.item-j {
-    grid-area: quote_text;
-    overflow: auto;
-    background-color: #f5f3ee;
+
+.profile_container_top {
+    display: grid;
+    background-color: #eae9e6;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px;
+    max-width: 70%;
+    column-gap: 10px;
+    row-gap: 5px;
+    grid-template-columns: 1fr 1fr 1fr 2fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+        "book_cover author author author"
+        "book_cover title title title"
+        "book_cover col_a col_b col_c";
 }
 
-.profile_container {
+.profile_container_notes {
     display: grid;
     background-color: #eae9e6;
     margin-top: 20px;
@@ -200,16 +213,11 @@ header {
     max-width: 70%;
     column-gap: 10px;
     row-gap: 15px;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 2fr auto auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr 1.5fr;
+    grid-template-rows: auto;
     grid-template-areas:
-        "book_cover author author author"
-        "book_cover title title title"
-        "book_cover col_a col_b col_c"
-        "my_notes . . ."
-        "notes_text notes_text notes_text notes_text"
-        "quote . . ."
-        "quote_text quote_text quote_text quote_text";
+        "my_notes my_notes my_notes my_notes"
+        "notes_text notes_text notes_text notes_text";
 }
 
 #logo_profile {
@@ -217,12 +225,46 @@ header {
     height: 200px;
 }
 
+.book_profile_author {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 10px;
+}
+
+.book_profile_book_title {
+    text-align: center;
+    font-size: 25px;
+    font-weight: 700;
+    margin: 10px 10px 50px 10px;
+}
+
 .book_profile_titles{
     display: inline-block;
+    font-weight: 500;
+    margin-bottom: 5px;
 }
 
 .book_profile_text {
     display: inline-block;
+    margin-left: 10px;
+}
+
+.quote_sand_bg_profile {
+    background-color: #f5f3ee;
+    padding: 5px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.quote_brown_bg_profile {
+    background-color: #eae9e6;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px;
+    max-width: 70%;
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -232,6 +274,7 @@ header {
 
 .quote_brown_bg {
     background-color: #eae9e6;
+    border-radius: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
     margin-right: auto;
@@ -253,15 +296,19 @@ header {
 .quote_author {
     float: right;
     font-style: italic;
-    margin-right: 15px;
 }
 
 #quote_sign {
+    float: left;
     width: 50px;
+    margin: 5px;
 }
 
-.quote_text {
-    display: inline;
+.quote_text, .note_text {
+    float: none;
+    margin: 5px;
+    margin-right: 20px;
+    text-align: justify;
 }
 
 #add_quote {
@@ -302,10 +349,9 @@ textarea {
     max-width: 70%;
 }
 
-.author_in_quote, .book_title_in_quote {
-    margin-left: 70%;
-    margin-right: auto;
-    text-align: center;
+.quote_titles {
+    float: right;
+    margin-right: 20px;
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -364,13 +410,12 @@ textarea {
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~INDEX~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-// ??? Ka sitas daro? Ar vis dar jo reikia? taip cia index knygos langelio style
 .book {
-    background-color: #a39b85;
+    background-color: #f5f3ee;
     padding: 15px;
     margin: 10px;
     max-width: calc(100% / 3);
+    border-radius: 10px;
 }
 
 .names {
