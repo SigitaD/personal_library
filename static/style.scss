@@ -102,7 +102,7 @@ header {
     background-color: #eae9e6;
     margin: 20px auto;
     padding: 20px;
-    max-width: 30%;
+    max-width: 50%;
 }
 
 #author, #title {
@@ -356,7 +356,19 @@ textarea {
     background-color: #f5f3ee;
     padding: 15px;
     margin: 10px;
-    max-width: calc(100% / 3);
+    width: 330px;
+    position: relative;
+
+    .options {
+        background-color: transparent;
+        width: auto;
+        border: transparent;
+        height: 20px;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        z-index: 2;
+    }
 }
 
 .book:hover {
@@ -433,4 +445,14 @@ textarea {
 
 .hidden {
     display: none;
+}
+
+.stars_red {
+    color: #7e372e;
+    font-size: 20px;
+}
+
+.stars_white {
+    color: grey;
+    font-size: 20px;
 }

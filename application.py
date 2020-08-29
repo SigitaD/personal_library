@@ -35,19 +35,68 @@ db = SQL("sqlite:///books.db")
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
-    # if request.method == "POST":
-    # rodyti pasirinkto list'o knygas 
+    if request.method == "POST":
+        # rodyti pasirinkto list'o knygas
+        list = request.form.get("listname")
+        print('INDEX | list: ' + str(list), flush=True)
+        print(list)
 
-    # else:
+        books = db.execute("""SELECT * FROM books WHERE user_id = :id
+                            AND started IS NOT NULL AND finished IS NULL ORDER BY author""",
+                            id = session["user_id"])
+
+        # by default show all books
+        lists = db.execute("""SELECT * FROM books WHERE user_id = :id ORDER BY author""",
+                            id = session["user_id"])
+
+        if str(list) == "all":
+            # show all the books
+            lists = db.execute("""SELECT * FROM books WHERE user_id = :id ORDER BY author""",
+                    id = session["user_id"])
+
+        elif str(list) == "lent":
+            # show lent books
+            lists = db.execute("""SELECT * FROM books JOIN lending ON books.book_id = lending.book_id
+                                    WHERE books.user_id = :id AND lending.lent IS NOT NULL ORDER BY author""",
+                                    id = session["user_id"])
+
+        elif str(list) == "notmine":
+            #show borrowed books
+            lists = db.execute("""SELECT * FROM books WHERE owner != :owner OR owner IS NULL AND user_id = :id ORDER BY author""",
+                                    id = session["user_id"],
+                                    owner = "personal") #ar teisingai?
+
+        elif str(list) == "read":
+            #show read books
+            lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND finished IS NOT NULL ORDER BY author""",
+                                    id = session["user_id"])
+
+        elif str(list) == "personal":
+            #show personal books
+            lists = db.execute("""SELECT * FROM books WHERE owner = :owner AND user_id = :id ORDER BY author""",
+                                    id = session["user_id"],
+                                    owner = "personal")
+
+
+
+        return render_template("index.html", books=books, lists=lists)
+
+    
+    
+    #else:
     if request.method == "GET":
         # presents currently reading books
 
         books = db.execute("""SELECT * FROM books WHERE user_id = :id
-                            AND started IS NOT NULL AND finished IS NULL """,
-                           id=session["user_id"])
+                            AND started IS NOT NULL AND finished IS NULL ORDER BY author""",
+                            id = session["user_id"])
 
-        print(books)
-        return render_template("index.html", books=books)
+        lists = db.execute("""SELECT * FROM books WHERE user_id = :id ORDER BY author""",
+                            id = session["user_id"])
+
+        #print(lists)
+
+        return render_template("index.html", books = books, lists = lists)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -150,9 +199,9 @@ def register():
 @login_required
 def new_book():
     if request.method == "POST":
-        author = request.form.get("author")
+        author = request.form.get("author").title() # capitalize first leter of every word
         print('NEW BOOK | author: ' + str(author), flush=True)
-        title = request.form.get("title")
+        title = request.form.get("title").capitalize() # capitalize first letter
         print('NEW BOOK | title: ' + str(title), flush=True)
         isbn = request.form.get("ISBN")
         print('NEW BOOK | isbn: ' + str(isbn), flush=True)
@@ -357,3 +406,9 @@ def not_reading_book():
             book_id=book_id)
 
         return 0
+
+@app.route("/all", methods = ["GET", "POST"])
+@login_required
+def all_books():
+    if request.method == "POST":
+        return redirect("/quotes")

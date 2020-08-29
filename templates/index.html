@@ -4,7 +4,7 @@
 
 
     <div class="container">
-        <div class="upper_row">
+        <div class="upper_row" id="indexrow">
             <p class="sub_title inner">READING NOW</p>
             <button id="add_book" title="Add a new book" class="inner" onclick="location.href = '/new-book';">
                 <img class="img_btn" src="../static/add_book.gif" alt="add a new book">
@@ -14,25 +14,25 @@
             {% if not books %}
                 <div class="alert" id="no_books">
                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                    You do not have any books yet.
+                    You are not reading anything at the moment.
                 </div>
             {% else %}
                 {% for book in books %}
-                    <div class="col-sm book" onclick="redirectToBook({{ book.book_id }})">
+                    <div class="book" onclick="redirectToBook({{ book.book_id }})">
                         <div class="row">
                             <div class="col-sm-4">
                                 <img class="book_cover" src="../static/logo.png" alt="book cover">
                             </div>
-                            <div class="col-sm">
-                                {% if book.author|length <= 12 %}
-                                    <p class="author"><span class="names">Author: </span>{{ book.author }}</p>
+                            <div class="col-sm-7">
+                                {% if book.author|length <= 10 %}
+                                    <p class="author" data-toggle="tooptip" title="{{ book.author }}"><span class="names">Author: </span>{{ book.author }}</p>
                                 {% else %}
-                                    <p class="author"><span class="names">Author: </span>{{ book.author[:12] }}...</p>
+                                    <p class="author" data-toggle="tooptip" title="{{ book.author }}"><span class="names">Author: </span>{{ book.author[:10] }}...</p>
                                 {% endif %}
-                                {% if book.title|length <= 15 %}
-                                    <p class="title"><span class="names">Title: </span>{{ book.title }}</p>
+                                {% if book.title|length <= 12 %}
+                                    <p class="title" data-toggle="tooptip" title="{{ book.title }}"><span class="names">Title: </span>{{ book.title }}</p>
                                 {% else %}
-                                    <p class="title"><span class="names">Title: </span>{{ book.title[:15] }}...</p>
+                                    <p class="title" data-toggle="tooptip" title="{{ book.title }}"><span class="names">Title: </span>{{ book.title[:12] }}...</p>
                                 {% endif %}
                                 <p class="started"><span class="names">Started: </span>{{ book.started }}</p>
                             </div>
@@ -77,69 +77,75 @@
     </div>
     <div class="container">
         <div class="upper_row">
-            <p class="form-group col-md-2">
-                <select id="inputList" class="form-control">
-                    <option selected>All Books</option>
-                    <option>Read books</option>
-                    <option>Lent out books</option>
-                    <option>My personal books</option>
-                    <option>Books that don’t belong to me</option>
-                </select>
-            </p>
-            <p class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                <label class="form-check-label" for="defaultCheck1">
-                    Only lent out books
-                </label>
-            </p>
+            <div class="form-group col-md-2">
+                <form action="/" id="listform" method="post">
+                    <select name="listname" id="inputList" class="form-control" onchange="$('#listform').submit()">
+                        <option class="list_option" value="invalid">Select</option>
+                        <option class="list_option" value="all">All Books</option>
+                        <option class="list_option" value="read">Read books</option>
+                        <option class="list_option" value="lent">Lent out books</option>
+                        <option class="list_option" id="option_personal" value="personal">My personal books</option>
+                        <option class="list_option" id="option_notmine" value="notmine">Books that don’t belong to me</option>
+                    </select>
+                </form>
+            </div>
+            <div class="form-check">
+                <form action="/" id="checkform" method="post">
+                    <input name="listname" class="form-check-input" type="checkbox" value="lent" id="defaultCheck1" onchange="$('#checkform').submit()">
+                    <label class="form-check-label" for="defaultCheck1">
+                        Only lent out books
+                    </label>
+                </form>
+            </div>
         </div>
         <div class="row">
-            <div class="col-sm book">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <img class="book_cover" src="../static/logo.png" alt="book cover">
-                    </div>
-                    <div class="col-sm">
-                        <p class="author"><span class="names">Author: </span></p>
-                        <p class="title"><span class="names">Title: </span></p>
-                        <p class="rating-index"><span class="names">Rating: </span></p>
-                    </div>
-                    <div class="col-sm-1">
+            {% if not lists %}
+            <div class="alert" id="no_books">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                You do not have any books in this list yet.
+            </div>
+            {% else %}
+                {% for list in lists %}
+                    <div class="book">
+                        <div class="row">
+                            <div class="col-sm-4" onclick="location.href = '/book-profile';">
+                                <img class="book_cover" src="../static/logo.png" alt="book cover">
+                            </div>
+                            <div class="col-sm" onclick="location.href = '/book-profile';">
+                                {% if list.author|length <= 12 %}
+                                    <p class="author" data-toggle="tooptip" title="{{ list.author }}"><span class="names">Author: </span>{{ list.author }}</p>
+                                {% else %}
+                                    <p class="author" data-toggle="tooptip" title="{{ list.author }}"><span class="names">Author: </span>{{ list.author[:12] }}...</p>
+                                {% endif %}
+                                {% if list.title|length <= 15 %}
+                                    <p class="title" data-toggle="tooptip" title="{{ list.title }}"><span class="names">Title: </span>{{ list.title }}</p>
+                                {% else %}
+                                    <p class="title" data-toggle="tooptip" title="{{ list.title }}"><span class="names">Title: </span>{{ list.title[:15] }}...</p>
+                                {% endif %}
+                                {% if not list.rating %}
+                                    <p class="rating_index"><span class="names">Rating: - </span></p>
+                                {% else %}
+                                     <p class="rating_index">
+                                        <span class="names">Rating: </span>
+                                            {% for i in range(list.rating)%}
+                                                <span class="stars_red">★</span>
+                                            {% endfor %}
+                                            {% for i in range(5 - (list.rating)) %}
+                                                <span class="stars_white">★</span>
+                                            {% endfor %}
+                                        </p>
 
-                        <img class="options_image" src="../static/options.svg" alt="options">
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-1 options">
+                                <button id="option_btn" class="inner options">
+                                    <img class="options_image"  src="../static/options.svg" alt="options">
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-sm book">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <img class="book_cover" src="../static/logo.png" alt="book cover">
-                    </div>
-                    <div class="col-sm">
-                        <p class="author">Author</p>
-                        <p class="title">Title</p>
-                        <p class="started">Rating</p>
-                    </div>
-                    <div class="col-sm-1 options">
-                        <img class="options_image" src="../static/options.svg" alt="options">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm book">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <img class="book_cover" src="../static/logo.png" alt="book cover">
-                    </div>
-                    <div class="col-sm">
-                        <p class="author">Author</p>
-                        <p class="title">Title</p>
-                        <p class="started">Rating</p>
-                    </div>
-                    <div class="col-sm-1 options">
-                        <img class="options_image" src="../static/options.svg" alt="options">
-                    </div>
-                </div>
-            </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 
