@@ -191,6 +191,13 @@ header {
 }
 
 .item-j {
+  grid-area: note_options_column;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.item-k {
   grid-area: notes_text;
   overflow: auto;
   background-color: #f5f3ee;
@@ -204,9 +211,9 @@ header {
   max-width: 70%;
   column-gap: 10px;
   row-gap: 15px;
-  grid-template-columns: auto auto auto 1fr;
+  grid-template-columns: auto auto auto 1fr 20px;
   grid-template-rows: auto;
-  grid-template-areas: "my_notes my_notes my_notes my_notes" "notes_text notes_text notes_text notes_text";
+  grid-template-areas: "my_notes my_notes my_notes my_notes note_options_column" "notes_text notes_text notes_text notes_text notes_text";
 }
 
 #logo_profile {
@@ -362,6 +369,27 @@ header {
     grid-template-areas: "options_column" "author" "title" "col_a" "col_b" "col_c";
   }
 }
+
+.book_quotes_container {
+  display: grid;
+  column-gap: 5px;
+  row-gap: 15px;
+  grid-template-columns: 1fr 20px;
+  grid-template-rows: auto;
+  grid-template-areas: "quote_text quote_options_column";
+}
+
+.quote-text-item {
+  grid-area: quote_text;
+}
+
+.quote-options-item {
+  grid-area: quote_options_column;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
 .quote_brown_bg {
   background-color: #eae9e6;
   border-radius: 10px;
@@ -594,6 +622,7 @@ textarea {
   text-align: right;
   background-color: #f1f1f1;
   align-self: flex-end;
+  z-index: 1;
 }
 
 .options_image {
@@ -619,7 +648,68 @@ textarea {
   z-index: 1;
 }
 
-.options_content a, .book_options_content a {
+#update_start_date, #update_finish_date {
+  max-width: 74%;
+}
+
+#finishedReadingModal .form-group, #readingNowModal .form-group {
+  display: block;
+  margin-bottom: 0;
+}
+
+.note_options {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: flex-end;
+  max-height: 10px;
+  max-width: 10px;
+}
+
+.note_options_image {
+  background-color: transparent;
+  padding: 0 5px;
+  border: transparent;
+  height: 20px;
+  align-self: flex-end;
+}
+
+.note_options_content {
+  display: none;
+  border: 0;
+  text-align: right;
+  background-color: #f1f1f1;
+  align-self: flex-end;
+  z-index: 1;
+}
+
+.book_quote_options {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: flex-end;
+  max-height: 10px;
+  max-width: 10px;
+}
+
+.book_quote_options_image {
+  background-color: transparent;
+  padding: 0 5px;
+  border: transparent;
+  height: 20px;
+  align-self: flex-end;
+}
+
+.book_quote_options_content {
+  display: none;
+  border: 0;
+  text-align: right;
+  background-color: #f1f1f1;
+  align-self: flex-end;
+  z-index: 1;
+}
+
+.options_content a, .book_options_content a, .note_options_content a, .book_quote_options_content a {
   color: black;
   font-size: small;
   padding: 7px 10px;
@@ -630,18 +720,9 @@ textarea {
 }
 
 /* Change color of dropdown links on hover */
-.options_content a:hover, .book_options_content a:hover {
+.options_content a:hover, .book_options_content a:hover, .note_options_content a:hover, .book_quote_options_content a:hover {
   color: #f1f1f1;
   background-color: #97aaa8;
-}
-
-#update_start_date, #update_finish_date {
-  max-width: 74%;
-}
-
-#finishedReadingModal .form-group, #readingNowModal .form-group {
-  display: block;
-  margin-bottom: 0;
 }
 
 .show {
