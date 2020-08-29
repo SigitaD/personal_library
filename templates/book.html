@@ -73,7 +73,7 @@
             <div class="item-g">
                 <div class="book_options">
                     <img class="book_options_image"
-                         onclick="showBookOptionsFor('opt{{ book.book_id }}')"
+                         onclick="showOptionsFor('opt{{ book.book_id }}')"
                          src="../static/options.svg"
                          alt="options"/>
 
@@ -95,7 +95,7 @@
             <div class="item-j">
                 <div class="note_options">
                     <img class="note_options_image"
-                         onclick="showNoteOptionsFor('noteOpt{{ book.book_id }}')"
+                         onclick="showOptionsFor('noteOpt{{ book.book_id }}')"
                          src="../static/options.svg"
                          alt="options"/>
                     <div id="noteOpt{{ book.book_id }}" class="note_options_content">
@@ -128,6 +128,7 @@
     </div>
 
     <div class="profile_container_quotes">
+
         <div class="quote_brown_bg_profile">
             <div class="quotes_profile"><h5 class="book_profile_titles">Quotes</h5></div>
             {% if not quotes %}
@@ -135,9 +136,36 @@
             {% else %}
                 {% for quote in quotes %}
                     <div class="quote_sand_bg_profile">
-                        <img id="quote_sign" src="../static/quote_mark.gif" alt="quotes">
-                        <p class="quote_text">{{ quote.quote }}</p>
-                        <br>
+                        <div class="book_quotes_container">
+                            <div class="quote-text-item">
+                                <img id="quote_sign" src="../static/quote_mark.gif" alt="quotes">
+                                <p class="quote_text">{{ quote.quote }}</p>
+                                <br>
+                            </div>
+                            <div class="quote-options-item">
+                                <div class="book_quote_options">
+                                    <img class="book_quote_options_image"
+                                         onclick="showOptionsFor('quoteOpt{{ quote.quote_id }}')"
+                                         src="../static/options.svg"
+                                         alt="options"/>
+                                    <div id="quoteOpt{{ quote.quote_id }}" class="book_quote_options_content">
+                                        <a data-toggle="modal"
+                                           data-target="#editBookQuoteModal"
+                                           data-quotetext="{{ quote.quote }}"
+                                           data-quoteid="{{ quote.quote_id }}"
+                                           data-bookid="{{ quote.book_id }}">
+                                            Edit quote
+                                        </a>
+                                        <a data-toggle="modal"
+                                           data-target="#deleteBookQuoteConfirmationModal"
+                                           data-quoteid="{{ quote.quote_id }}"
+                                           data-bookid="{{ quote.book_id }}">
+                                            Delete quote
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 {% endfor %}
             {% endif %}
@@ -183,6 +211,7 @@
         </div>
     </div>
 
+    {# ------ Note modals ------ #}
     <div class="modal fade" id="editNoteModal" tabindex="-1" role="dialog"
          aria-labelledby="editNoteModalLabel"
          aria-hidden="true">
@@ -230,4 +259,54 @@
             </div>
         </div>
     </div>
+    {# ------------ #}
+    {# ------ Quote modals ------ #}
+    <div class="modal fade" id="editBookQuoteModal" tabindex="-1" role="dialog"
+         aria-labelledby="editBookQuoteModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editBookQuoteModalLabel">Edit quote</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="edit-quote-form" action="" method="POST">
+                    <div class="modal-body">
+                        <textarea class="form-control" name="quote_text" id="quote_text"
+                                  placeholder="Quote..." required="required"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-light">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteBookQuoteConfirmationModal" tabindex="-1" role="dialog"
+         aria-labelledby="deleteBookQuoteConfirmationModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteBookQuoteConfirmationModalLabel">
+                        Are you sure you want to delete this note?
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="delete-quote-form" action="" method="POST">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-light">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {# ------------ #}
 {% endblock %}

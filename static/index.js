@@ -91,6 +91,23 @@ function redirectToBook(bookId) {
 
 let openedOptions = null;
 
+// Function to show options when triple dot is clicked.
+// Hides when same dots are pressed.
+// Hides first dropdown menu if second is pressed while first one is still showed.
+function showOptionsFor(optionsId) {
+    const clickedOptions = document.getElementById(optionsId);
+    if (openedOptions) {
+        openedOptions.classList.remove('show');
+    }
+
+    if (openedOptions !== clickedOptions) {
+        openedOptions = clickedOptions;
+        openedOptions.classList.toggle("show");
+    } else {
+        openedOptions = null;
+    }
+}
+
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function (event) {
     if (!event.target.matches('.options_image')) {
@@ -120,7 +137,17 @@ window.onclick = function (event) {
                         openDropdown.classList.remove('show');
                     }
                 }
-                openedOptions = null;
+                if (!event.target.matches('.book_quote_options_image')) {
+                    let options_content = document.getElementsByClassName("book_quote_options_content");
+                    let i;
+                    for (i = 0; i < options_content.length; i++) {
+                        let openDropdown = options_content[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                    openedOptions = null;
+                }
             }
         }
     }
@@ -128,23 +155,6 @@ window.onclick = function (event) {
 
 // ---------------------- GLOBAL OPTIONS END --------------------------------
 // ---------------------- BOOK OPTIONS START --------------------------------
-
-// Function to show options when triple dot is clicked.
-// Hides when same dots are pressed.
-// Hides first dropdown menu if second is pressed while first one is still showed.
-function showBookOptionsFor(optionsId) {
-    const clickedOptions = document.getElementById(optionsId);
-    if (openedOptions) {
-        openedOptions.classList.remove('show');
-    }
-
-    if (openedOptions !== clickedOptions) {
-        openedOptions = clickedOptions;
-        openedOptions.classList.toggle("show");
-    } else {
-        openedOptions = null;
-    }
-}
 
 // Update #readingNowModal contents before it is shown.
 // 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
@@ -216,20 +226,6 @@ function notReading(bookId) {
 // ---------------------- BOOK OPTIONS END --------------------------------
 // ---------------------- NOTE OPTIONS START --------------------------------
 
-function showNoteOptionsFor(optionsId) {
-    const clickedOptions = document.getElementById(optionsId);
-    if (openedOptions) {
-        openedOptions.classList.remove('show');
-    }
-
-    if (openedOptions !== clickedOptions) {
-        openedOptions = clickedOptions;
-        openedOptions.classList.toggle("show");
-    } else {
-        openedOptions = null;
-    }
-}
-
 // Update #editNoteModal contents before it is shown.
 // 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
 $('#editNoteModal').on('show.bs.modal', function (event) {
@@ -254,3 +250,35 @@ $('#deleteNoteConfirmationModal').on('show.bs.modal', function (event) {
 
     document.getElementById('delete-note-form').action = "/book/" + bookId + "/update-notes";
 })
+
+// ---------------------- NOTE OPTIONS END --------------------------------
+// ---------------------- QUOTE OPTIONS START --------------------------------
+
+// Update #editBookQuoteModal contents before it is shown.
+// 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
+$('#editBookQuoteModal').on('show.bs.modal', function (event) {
+    openedOptions = null;
+
+    let actionOrigin = $(event.relatedTarget)
+    let bookId = actionOrigin.data('bookid')
+    let quoteId = actionOrigin.data('quoteid')
+    let quoteText = actionOrigin.data('quotetext')
+
+    let modal = $(this)
+    modal.find('.modal-content #quote_text').val(quoteText)
+    document.getElementById('edit-quote-form').action = "/book/" + bookId + "/update-quote/" + quoteId;
+})
+
+// Update #deleteBookQuoteConfirmationModal contents before it is shown.
+// 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
+$('#deleteBookQuoteConfirmationModal').on('show.bs.modal', function (event) {
+    openedOptions = null;
+
+    let actionOrigin = $(event.relatedTarget)
+    let bookId = actionOrigin.data('bookid')
+    let quoteId = actionOrigin.data('quoteid')
+
+    document.getElementById('delete-quote-form').action = "/book/" + bookId + "/delete-quote/" + quoteId;
+})
+
+// ---------------------- QUOTE OPTIONS END --------------------------------

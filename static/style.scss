@@ -287,6 +287,27 @@ header {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ QUOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.book_quotes_container {
+    display: grid;
+    column-gap: 5px;
+    row-gap: 15px;
+    grid-template-columns: 1fr 20px;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "quote_text quote_options_column";
+}
+
+.quote-text-item {
+    grid-area: quote_text;
+}
+
+.quote-options-item {
+    grid-area: quote_options_column;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
 .quote_brown_bg {
     background-color: #eae9e6;
     border-radius: 10px;
@@ -438,14 +459,14 @@ textarea {
     }
 }
 
-@media (max-width:1130px){
+@media (max-width: 1130px) {
     .book {
         background-color: #f5f3ee;
         margin: 5px;
         position: relative;
         max-width: 100%;
         border-radius: 10px;
-    
+
         .options {
             background-color: transparent;
             width: auto;
@@ -459,14 +480,14 @@ textarea {
     }
 }
 
-@media (min-width:1131px) and (max-width:1750px) {
+@media (min-width: 1131px) and (max-width: 1750px) {
     .book {
         background-color: #f5f3ee;
         margin: 5px;
         position: relative;
         max-width: calc((100% - 20px) / 2);
         border-radius: 10px;
-    
+
         .options {
             background-color: transparent;
             width: auto;
@@ -598,9 +619,38 @@ textarea {
 }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BOOK QUOTE OPTIONS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.book_quote_options {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: flex-end;
+    max-height: 10px;
+    max-width: 10px;
+}
+
+.book_quote_options_image {
+    background-color: transparent;
+    padding: 0 5px;
+    border: transparent;
+    height: 20px;
+    align-self: flex-end;
+}
+
+.book_quote_options_content {
+    display: none;
+    border: 0;
+    text-align: right;
+    background-color: #f1f1f1;
+    align-self: flex-end;
+    z-index: 1;
+}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~GLOBAL OPTIONS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.options_content a, .book_options_content a, .note_options_content a {
+.options_content a, .book_options_content a, .note_options_content a, .book_quote_options_content a {
     color: black;
     font-size: small;
     padding: 7px 10px;
@@ -611,7 +661,7 @@ textarea {
 }
 
 /* Change color of dropdown links on hover */
-.options_content a:hover, .book_options_content a:hover, .note_options_content a:hover {
+.options_content a:hover, .book_options_content a:hover, .note_options_content a:hover, .book_quote_options_content a:hover {
     color: #f1f1f1;
     background-color: #97aaa8
 }

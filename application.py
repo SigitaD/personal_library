@@ -455,6 +455,29 @@ def update_notes(book_id):
     return redirect("/book/" + book_id)
 
 
+@app.route("/book/<book_id>/update-quote/<quote_id>", methods=["POST"])
+@login_required
+def update_quote(book_id, quote_id):
+    quote_text = request.form.get("quote_text")
+
+    db.execute("""UPDATE quotes 
+               SET quote = :quote_text 
+               WHERE quote_id = :quote_id""",
+               quote_text=quote_text,
+               quote_id=quote_id)
+
+    return redirect("/book/" + book_id)
+
+
+@app.route("/book/<book_id>/delete-quote/<quote_id>", methods=["POST"])
+@login_required
+def delete_quote(book_id, quote_id):
+    db.execute("""DELETE FROM quotes WHERE quote_id = :quote_id""",
+               quote_id=quote_id)
+
+    return redirect("/book/" + book_id)
+
+
 @app.route("/all", methods=["GET", "POST"])
 @login_required
 def all_books():
