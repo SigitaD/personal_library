@@ -1,6 +1,4 @@
-/**
- * Inserts current date in the appropiate format for the "reading now" date input but just once
- */
+// Inserts current date in the appropiate format for the "reading now" date input but just once
 $("#btnTwo").one("click", function () {
     let date = new Date();
 
@@ -15,9 +13,8 @@ $("#btnTwo").one("click", function () {
     $("#dateReadingNow").attr("value", today);
 });
 
-/**
- * Selecting bootstrap accordion card is reseting values of another accordion card - for the sake of writting values of just one card (if both of the cards have some input in)
- */
+
+// Selecting bootstrap accordion card is reseting values of another accordion card - for the sake of writting values of just one card (if both of the cards have some input in)
 function ClearFieldsOne() {
     document.getElementById("start_date").value = "";
     document.getElementById("finish_date").value = "";
@@ -48,9 +45,8 @@ $('#1stars').click(function () {
     $('#ratings').val('1');
 });
 
-/**
- * ISBN validation
- */
+
+// ISBN validation
 $(document).ready(function () {
     function validate(e) {
 
@@ -78,10 +74,8 @@ $(document).ready(function () {
 });
 
 
-/**
- * Redirects to book page when this function is called.
- * Should not proceed with redirection if action originates from options menu.
- */
+// Redirects to book page when this function is called.
+// Should not proceed with redirection if action originates from options menu.
 function redirectToBook(bookId) {
     let shouldRedirect = true;
     event.composedPath().forEach(domElement => {
@@ -96,11 +90,10 @@ function redirectToBook(bookId) {
 
 // ---------------------- OPTIONS START --------------------------------
 
-/**
- * Function to show options when triple dot is clicked.
- * Hides when same dots are pressed.
- * Hides first dropdown menu if second is pressed while first one is still showed.
- */
+
+// Function to show options when triple dot is clicked.
+// Hides when same dots are pressed.
+// Hides first dropdown menu if second is pressed while first one is still showed.
 let openedOptions = null;
 
 function showOptionsFor(optionsId) {
@@ -117,9 +110,7 @@ function showOptionsFor(optionsId) {
     }
 }
 
-/**
- * Close the dropdown menu if the user clicks outside of it
- */
+// Close the dropdown menu if the user clicks outside of it
 window.onclick = function (event) {
     if (!event.target.matches('.options_image')) {
         var options_content = document.getElementsByClassName("options_content");
@@ -134,25 +125,18 @@ window.onclick = function (event) {
     }
 }
 
-/**
- * Update #readingNowModal contents before it is shown.
- *
- * 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
- */
+
+// Update #readingNowModal contents before it is shown.
+// 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
 $('#readingNowModal').on('show.bs.modal', updateModalWithBookId)
 
-/**
- * Update #finishedReadingModal contents before it is shown.
- *
- * 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
- */
+// Update #finishedReadingModal contents before it is shown.
+// 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
 $('#finishedReadingModal').on('show.bs.modal', updateModalWithBookId)
 
-/**
- * Update #deleteBookConfirmationModal contents before it is shown.
- *
- * 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
- */
+
+// Update #deleteBookConfirmationModal contents before it is shown.
+// 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
 $('#deleteBookConfirmationModal').on('show.bs.modal', updateModalWithBookId)
 
 function updateModalWithBookId(event) {
@@ -165,10 +149,9 @@ function updateModalWithBookId(event) {
     modal.find('.modal-content #update_book_id').val(bookId)
 }
 
-/**
- * Sends DELETE request to delete book with bookId from the database.
- * When successful response is retrieved with code 200 - refreshes index page.
- */
+
+// Sends DELETE request to delete book with bookId from the database.
+// When response is retrieved - refreshes index page.
 $('#confirmBookDelete').click(function () {
     let modal = $(this)  //Delete confirmation button
     let bookId = modal.find('+ #update_book_id').val(); //Find #update_book_id input which is next to delete confirmation button
@@ -183,9 +166,9 @@ $('#confirmBookDelete').click(function () {
     xhr.send(JSON.stringify(book));
 })
 
-/**
- * Sends POST request to mark book with bookId as currently not being read by the user.
- */
+
+// Sends POST request to mark book with bookId as currently not being read by the user.
+// When response is retrieved - refreshes index page.
 function notReading(bookId) {
     let book = {"bookId": bookId};
     let xhr = new XMLHttpRequest();
