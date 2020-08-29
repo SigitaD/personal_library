@@ -13,9 +13,9 @@
             <img id="quote_sign" src="../static/quote_mark.gif" alt="quotes">
             <p class="quote_text">{{ quote.quote }}</p>
             <br>
-            <span class="author_in_quote"></span><span class="names">Author: </span>{{ quote.author }}</span>
+            <span class="quote_titles"><b>Author: </b> <i>{{ quote.author }}</i></span>
             <br>
-            <span class="book_title_in_quote"><span class="names">Book: </span>{{ quote.title }}</span>
+            <span class="quote_titles"><b>Book: </b><i>{{ quote.title }}</i></span>
             <br>
             </div>
         {% endfor %}
@@ -23,7 +23,7 @@
 
     
     
-    <div class=" container_new_quote"> 
+    <div class="container_new_quote"> 
         <h2 id="add_quote">ADD A NEW QUOTE</h2>   
         <form id="new_quote" action="/quotes" method="post" autocomplete="off">
             <div class="form-group" id="quote_author" >
@@ -45,7 +45,7 @@
             </div>
             <br>
             <div class="form-group" id="quote_quote">
-                <textarea autocomplete="off" autofocus class="form-control" name="quote" contenteditable="true" placeholder="Type your quote" cols="30" rows="5" required></textarea>
+                <textarea autocomplete="off" class="form-control" name="quote" contenteditable="true" placeholder="Type your quote" cols="30" rows="5" required></textarea>
             </div>
             <br>
             <button class="btn btn-light" type="submit" id="quote_btn">+ Add</button>

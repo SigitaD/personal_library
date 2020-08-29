@@ -81,7 +81,7 @@ def index():
 
         return render_template("index.html", books=books, lists=lists)
 
-    
+
     
     #else:
     if request.method == "GET":
@@ -332,15 +332,16 @@ def book(book_id):
                             AND books.user_id = :user_id """,
                             book_id=book_id,
                             user_id=session["user_id"])
+        print('BOOK PROFILE | quotes: ' + str(quotes), flush=True)
 
         lendings = db.execute("""SELECT * FROM lending
                             JOIN books ON books.book_id = lending.book_id
                             WHERE books.book_id = :book_id 
                             AND books.user_id = :user_id """,
-                              book_id=book_id,
-                              user_id=session["user_id"])
-        # if book in data:
-        #     book_id = data[book_id]
+                            book_id = book_id,
+                            user_id = session["user_id"])
+        print('BOOK PROFILE | lendings: ' + str(lendings), flush=True)
+
         return render_template("book.html", data=data, quotes=quotes, lendings=lendings)
     elif request.method == "POST":
         return redirect("/book")
@@ -354,6 +355,31 @@ def book(book_id):
                    book_id=book_id)
 
         return 0
+
+# @app.route("/book/<book_id>/edit-quote", methods = ["POST"])
+# @login_required
+# def book_new_quote(book_id):
+#     # quote = request.form.get("quote")
+
+#     # db.execute("INSERT INTO quotes (user_id, book_id, quote) VALUES (:user_id, :book_id, :quote)",
+#     #     user_id = session["user_id"],
+#     #     book_id = book_id,
+#     #     quote = quote)
+
+#     return redirect("/book/" + book_id)
+
+
+@app.route("/book/<book_id>/new-quote", methods=["POST"])
+@login_required
+def book_new_quote(book_id):
+    quote = request.form.get("quote")
+
+    db.execute("INSERT INTO quotes (user_id, book_id, quote) VALUES (:user_id, :book_id, :quote)",
+               user_id=session["user_id"],
+               book_id=book_id,
+               quote=quote)
+
+    return redirect("/book/" + book_id)
 
 
 @app.route("/started-reading-book", methods=["POST"])

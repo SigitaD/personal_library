@@ -2,76 +2,117 @@
 
 {% block main %}
     {% for book in data %}
-    <div class="profile_container">
+    <div class="profile_container_top">
        <div class="item-c"><img id="logo_profile" src="../static/logo.png" alt="book cover"></div>
-       <div class="item-a"><h5 class="book_profile_titles">{{ book.author }}</h5>
-    </div>
-       <div class="item-b"><h5 class="book_profile_titles">{{ book.title }}</h5>
-    </div>
+       <div class="item-a book_profile_author">{{ book.author }}</div>
+       <div class="item-b book_profile_book_title">{{ book.title }}</div>
        <div class="item-d">
-            <p class="book_profile_titles">Page count: 
-            <div class="book_profile_text">{{ book.pages }}</div></p>
-            <p class="book_profile_titles">ISBN:
-            <div class="book_profile_text">{{ book.isbn }}</div></p>
-            <p  class="book_profile_titles">Genre:
-            <div class="book_profile_text">{{ book.genre }}</div></p>
-            <p class="book_profile_titles">Rating: 
-            </p>
+            <p class="book_profile_titles">Page count:</p>
+            <div class="book_profile_text">{{ book.pages }}</div>
+            <br>
+            <p class="book_profile_titles">ISBN:</p>
+            <div class="book_profile_text">{{ book.isbn }}</div>
+            <br>
+            <p class="book_profile_titles">Genre:</p>
+            <div class="book_profile_text">{{ book.genre }}</div>
+            <br>
+            {% if book.owner %}
+                <p class="book_profile_titles">Belongs to:</p>
+                <div class="book_profile_text">{{ book.owner }}</div> 
+            {% endif %}
        </div>
-       {% endfor %}
        <div class="item-e">
-            <p><h5 class="book_profile_titles">Started reading: </h5> 
-            </p>
-                <p id="no_finished">Did not finish reading this book.</p>
-                <p><h5 class="book_profile_titles">Finished: </h5>
-                </p>
-            <p><h5 class="book_profile_titles">Belongs to: </h5>Personal library</p>
+            <p class="book_profile_titles">Started reading:</p>
+                {% if book.started %}
+                    <div class="book_profile_text">{{ book.started }}</div>
+                    <br>
+                    <p class="book_profile_titles">Finished reading:</p>
+                    {% if book.finished %}
+                        <div class="book_profile_text">{{ book.finished }}</div>
+                    {% else %}
+                        <div class="book_profile_text">haven't finished reading</div>
+                    {% endif %}
+                {% else %}
+                    <div class="book_profile_text">haven't started reading</div>
+                {% endif %}
+                <p class="book_profile_titles">Rating:</p>
+                    {% if book.rating %}
+                        <div class="book_profile_text">{{ book.rating }}</div>
+                    {% else %}
+                        <div class="book_profile_text">no rating</div>
+                    {% endif %}
         </div>
+        {% endfor %}
+
         <div class="item-f">
-            <h5 class="book_profile_titles">Lending history</h5>
-                <p> There is no lending history for this book.</p>
+            <p class="book_profile_titles">Lending history</p>
+            {% if not lendings %}
+                <p><i>There is no lending history for this book.</i></p>
+            {% else %}
                 <table class="table table-striped">
                     <tr>
-                        <!--table headers-->
                         <th>Lent</th>
                         <th>Returned</th>
                         <th>Lent to</th>
                     </tr>
+                    {% for record in lendings %}
                         <tr>
-                            <td>
-                            </td>
-                                <td>not returned yet</td>
-                                <td>
-                                </td>
-                            <td>
-                            </td>
+                            <td>{{ record.lent }}</td>
+                            {% if not record.returned %}
+                                <td>Not returned yet</td>
+                                <td>{{ record.borrower }}</td>
+                            {% else %}
+                                <td>{{ record.returned }}</td>
+                                <td>{{ record.borrower }}</td>
+                            {% endif %}
                         </tr>
+                    {% endfor %}
                 </table>
-        </div>
-        
-        <div class="item-g"><h5 class="book_profile_titles">My Notes</h5></div>
-        <div class="item-h">
-        </div>
-        <div class="item-i"><h5 class="book_profile_titles">Quotes</h5></div>
-        <div class="item-j">
-            <div class="quote_text">
-                    <div class="alert" id="no_quotes">
-                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                        You do not have any quotes.
-                    </div>
-                        <div class="quote_brown_bg">
-                            <img id="quote_sign_small" src="../static/quote_mark.gif" alt="quotes">
-                            <p class="quote_text">
-                            </p>
-                            <br>
-                            <span class="author_in_quote"></span><span class="names">Author: </span>
-                        </span>
-                            <br>
-                            <span class="book_title_in_quote"><span class="names">Book: </span>
-                            </span>
-                            <br>
-                        </div>
-            </div>
+            {% endif %}
         </div>
     </div>
+
+    <div class="profile_container_notes">
+        <div class="item-g"><h5 class="book_profile_titles">My Notes</h5></div>
+        {% for book in data %}
+            {% if book.notes %}
+                <div class="item-h quote_sand_bg_profile">
+                    <p class="note_text">{{ book.notes }}</p>
+                </div>
+            {% else %}
+                <div class="item-h">No notes found</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="profile_container_quotes">
+        <div class="quote_brown_bg_profile">
+            <div class="quotes_profile"><h5 class="book_profile_titles">Quotes</h5></div>
+        {% if not quotes %}
+            <div class="item-j">No quotes found</div></p>
+        {% else %}
+            {% for quote in quotes %}
+                <div class="quote_sand_bg_profile">
+                    <img id="quote_sign" src="../static/quote_mark.gif" alt="quotes">
+                    <p class="quote_text">{{ quote.quote }}</p>
+                    <br>
+                </div>
+            {% endfor %}
+        {% endif %}
+        </div>
+    </div>
+
+    <!-- add a new quote -->
+    {% for book in data %}
+    <div class=" container_new_quote"> 
+        <h2 id="add_quote">ADD A NEW QUOTE</h2>   
+        <form id="new_quote" action="/book/{{ book.book_id }}/new-quote" method="post" autocomplete="off">
+            <div class="form-group" id="quote_quote">
+                <textarea autocomplete="off" class="form-control" name="quote" contenteditable="true" placeholder="Type your quote" cols="30" rows="5" required="required"></textarea>
+            </div>
+            <br>
+            <button class="btn btn-light" type="submit" id="quote_btn">+ Add</button>
+        </form>
+    </div>
+    {% endfor %}
 {% endblock %}
