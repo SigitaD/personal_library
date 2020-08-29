@@ -152,14 +152,10 @@ header {
 }
 
 .item-g {
-  grid-area: my_notes;
-  width: 100%;
-}
-
-.item-h {
-  grid-area: notes_text;
-  overflow: auto;
-  background-color: #f5f3ee;
+  grid-area: options_column;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .profile_container_top {
@@ -170,9 +166,20 @@ header {
   max-width: 70%;
   column-gap: 10px;
   row-gap: 5px;
-  grid-template-columns: 1fr 1fr 1fr 2fr;
+  grid-template-columns: 1fr 1fr 1fr 1.5fr 0.5fr;
   grid-template-rows: auto auto auto;
-  grid-template-areas: "book_cover author author author" "book_cover title title title" "book_cover col_a col_b col_c";
+  grid-template-areas: "book_cover author author author options_column" "book_cover title title title ." "book_cover col_a col_b col_c col_c";
+}
+
+.item-h {
+  grid-area: my_notes;
+  width: 100%;
+}
+
+.item-j {
+  grid-area: notes_text;
+  overflow: auto;
+  background-color: #f5f3ee;
 }
 
 .profile_container_notes {
@@ -392,6 +399,35 @@ textarea {
   font-weight: 500;
 }
 
+.book_options {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: flex-end;
+  max-height: 10px;
+  max-width: 10px;
+}
+
+.book_options_image:hover, .options_image:hover {
+  cursor: default;
+}
+
+.book_options_image {
+  background-color: transparent;
+  padding: 0 5px;
+  border: transparent;
+  height: 20px;
+  align-self: flex-end;
+}
+
+.book_options_content {
+  display: none;
+  border: 0;
+  text-align: right;
+  background-color: #f1f1f1;
+  align-self: flex-end;
+}
+
 .options_image {
   background-color: transparent;
   padding: 0 5px;
@@ -404,10 +440,6 @@ textarea {
   z-index: 1;
 }
 
-.options_image:hover {
-  cursor: default;
-}
-
 .options_content {
   display: none;
   position: absolute;
@@ -415,22 +447,22 @@ textarea {
   top: 10px;
   border: 0;
   text-align: right;
-  min-width: 150px;
   background-color: #f1f1f1;
   z-index: 1;
 }
 
-.options_content a {
+.options_content a, .book_options_content a {
   color: black;
   font-size: small;
   padding: 7px 10px;
   text-decoration: none;
+  width: 190px;
   display: block;
   background-color: #f1f1f1;
 }
 
 /* Change color of dropdown links on hover */
-.options_content a:hover {
+.options_content a:hover, .book_options_content a:hover {
   color: #f1f1f1;
   background-color: #97aaa8;
 }
