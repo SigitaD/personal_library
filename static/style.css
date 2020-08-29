@@ -165,10 +165,7 @@ header {
 .profile_container_top {
   display: grid;
   background-color: #eae9e6;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 20px auto;
   padding: 20px;
   max-width: 70%;
   column-gap: 10px;
@@ -230,10 +227,7 @@ header {
 
 .quote_brown_bg_profile {
   background-color: #eae9e6;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 20px auto;
   padding: 20px;
   max-width: 70%;
 }
@@ -373,7 +367,6 @@ textarea {
   max-width: calc(100% / 3);
   border-radius: 10px;
 }
-
 .book .options {
   background-color: transparent;
   width: auto;
@@ -459,7 +452,6 @@ textarea {
   display: none;
 }
 
-
 .stars_red {
   color: #7e372e;
   font-size: 20px;
@@ -469,4 +461,5 @@ textarea {
   color: grey;
   font-size: 20px;
 }
+
 /*# sourceMappingURL=style.css.map */
