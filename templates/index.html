@@ -4,7 +4,7 @@
     
 
 <div class="container">
-        <div class="upper_row">
+        <div class="upper_row" id="indexrow">
             <p class="sub_title inner">READING NOW</p>
             <button id="add_book" title="Add a new book" class="inner" onclick="location.href = '/new-book';">
                 <img class="img_btn" src="../static/add_book.gif" alt="add a new book">
@@ -25,14 +25,14 @@
                             </div>
                             <div class="col-sm-7" onclick="location.href = '/book-profile';">
                                 {% if book.author|length <= 10 %}
-                                    <p class="author"><span class="names">Author: </span>{{ book.author }}</p>
+                                    <p class="author" data-toggle="tooptip" title="{{ book.author }}"><span class="names">Author: </span>{{ book.author }}</p>
                                 {% else %}
-                                    <p class="author"><span class="names">Author: </span>{{ book.author[:10] }}...</p>
+                                    <p class="author" data-toggle="tooptip" title="{{ book.author }}"><span class="names">Author: </span>{{ book.author[:10] }}...</p>
                                 {% endif %}
                                 {% if book.title|length <= 12 %}
-                                    <p class="title"><span class="names">Title: </span>{{ book.title }}</p>
+                                    <p class="title" data-toggle="tooptip" title="{{ book.title }}"><span class="names">Title: </span>{{ book.title }}</p>
                                 {% else %}
-                                    <p class="title"><span class="names">Title: </span>{{ book.title[:12] }}...</p>
+                                    <p class="title" data-toggle="tooptip" title="{{ book.title }}"><span class="names">Title: </span>{{ book.title[:12] }}...</p>
                                 {% endif %}
                                 <p class="started"><span class="names">Started: </span>{{ book.started }}</p>
                             </div>
@@ -87,19 +87,19 @@
         <div class="upper_row">
             <div class="form-group col-md-2">
                 <form action="/" id="listform" method="post">
-                    <select name="listname" id="inputList" class="form-control">
-                        <option class="list_option" value="all" selected>All Books</option>
+                    <select name="listname" id="inputList" class="form-control" onchange="$('#listform').submit()">
+                        <option class="list_option" value="invalid">Select</option>
+                        <option class="list_option" value="all">All Books</option>
                         <option class="list_option" value="read">Read books</option>
                         <option class="list_option" value="lent">Lent out books</option>
-                        <option class="list_option" value="personal">My personal books</option>
-                        <option class="list_option" value="notmine">Books that don’t belong to me</option>
+                        <option class="list_option" id="option_personal" value="personal">My personal books</option>
+                        <option class="list_option" id="option_notmine" value="notmine">Books that don’t belong to me</option>
                     </select>
-                    <button type="submit">submit</button>
                 </form>
             </div>
             <div class="form-check">
                 <form action="/" id="checkform" method="post">
-                    <input class="form-check-input" type="checkbox" value="lent" id="defaultCheck1">
+                    <input name="listname" class="form-check-input" type="checkbox" value="lent" id="defaultCheck1" onchange="$('#checkform').submit()">
                     <label class="form-check-label" for="defaultCheck1">
                         Only lent out books
                     </label>
@@ -110,7 +110,7 @@
             {% if not lists %}
             <div class="alert" id="no_books">
                 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                You do not have any books yet.
+                You do not have any books in this list yet.
             </div>
             {% else %}
                 {% for list in lists %}
@@ -121,14 +121,14 @@
                             </div>
                             <div class="col-sm" onclick="location.href = '/book-profile';">
                                 {% if list.author|length <= 12 %}
-                                    <p class="author"><span class="names">Author: </span>{{ list.author }}</p>
+                                    <p class="author" data-toggle="tooptip" title="{{ list.author }}"><span class="names">Author: </span>{{ list.author }}</p>
                                 {% else %}
-                                    <p class="author"><span class="names">Author: </span>{{ list.author[:12] }}...</p>
+                                    <p class="author" data-toggle="tooptip" title="{{ list.author }}"><span class="names">Author: </span>{{ list.author[:12] }}...</p>
                                 {% endif %}
                                 {% if list.title|length <= 15 %}
-                                    <p class="title"><span class="names">Title: </span>{{ list.title }}</p>
+                                    <p class="title" data-toggle="tooptip" title="{{ list.title }}"><span class="names">Title: </span>{{ list.title }}</p>
                                 {% else %}
-                                    <p class="title"><span class="names">Title: </span>{{ list.title[:15] }}...</p>
+                                    <p class="title" data-toggle="tooptip" title="{{ list.title }}"><span class="names">Title: </span>{{ list.title[:15] }}...</p>
                                 {% endif %}
                                 {% if not list.rating %}
                                     <p class="rating_index"><span class="names">Rating: - </span></p>

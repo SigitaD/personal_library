@@ -68,7 +68,7 @@ $(document).ready(function(){
     }
     
     //add event listener for form submission
-    // neveikia document.getElementById('form').addEventListener('submit', validate);
+    document.getElementById('form').addEventListener('submit', validate);
 });
 
  
@@ -94,11 +94,12 @@ if (!event.target.matches('.dropdown')) {
 }
 
 
-// submit when clicked on the list dropdown menu
-var form = document.getElementById("listform");
+// change atrribute selected on the form
+//document.getElementById("option_lent").onclick = () => {
+    //document.getElementById("option_all").selected = false;
+    //document.getElementById("option_lent").selected = true;}
 
-var elements = document.getElementsByClassName("list_option");
-
-for (var i = 0; i < elements.length; i++) {
-    elements[i].addEventListener('click', function() {form.submit();}, false);
-};
+// show text when hover on the field
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+    });

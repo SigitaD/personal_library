@@ -42,44 +42,44 @@ def index():
         print(list)
 
         books = db.execute("""SELECT * FROM books WHERE user_id = :id
-                            AND started IS NOT NULL AND finished IS NULL """,
+                            AND started IS NOT NULL AND finished IS NULL ORDER BY author""",
                             id = session["user_id"])
 
         # by default show all books
-        lists = db.execute("""SELECT * FROM books WHERE user_id = :id""",
+        lists = db.execute("""SELECT * FROM books WHERE user_id = :id ORDER BY author""",
                             id = session["user_id"])
         
         if str(list) == "all":
             # show all the books
-            lists = db.execute("""SELECT * FROM books WHERE user_id = :id""",
+            lists = db.execute("""SELECT * FROM books WHERE user_id = :id ORDER BY author""",
                     id = session["user_id"])
 
         elif str(list) == "lent":
             # show lent books
             lists = db.execute("""SELECT * FROM books JOIN lending ON books.book_id = lending.book_id
-                                    WHERE user_id = :id AND lent IS NOT NULL """,
+                                    WHERE books.user_id = :id AND lending.lent IS NOT NULL ORDER BY author""",
                                     id = session["user_id"])
 
         elif str(list) == "notmine":
             #show borrowed books
-            lists = db.execute("""SELECT * FROM books WHERE owner != :personal OR owner IS NULL AND user_id = :id""",
+            lists = db.execute("""SELECT * FROM books WHERE owner != :owner OR owner IS NULL AND user_id = :id ORDER BY author""",
                                     id = session["user_id"],
-                                    personal = "personal") #ar teisingai?
+                                    owner = "personal") #ar teisingai?
 
         elif str(list) == "read":
             #show read books
-            lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND finished IS NOT NULL""",
+            lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND finished IS NOT NULL ORDER BY author""",
                                     id = session["user_id"])
         
         elif str(list) == "personal":
             #show personal books
-            lists = db.execute("""SELECT * FROM books WHERE owner = :owner AND user_id = :id""",
+            lists = db.execute("""SELECT * FROM books WHERE owner = :owner AND user_id = :id ORDER BY author""",
                                     id = session["user_id"],
                                     owner = "personal")
 
 
 
-        #return render_template("index.html", books=books, lists=lists)
+        return render_template("index.html", books=books, lists=lists)
     
     
     
@@ -88,12 +88,13 @@ def index():
         # presents currently reading books
 
         books = db.execute("""SELECT * FROM books WHERE user_id = :id
-                            AND started IS NOT NULL AND finished IS NULL """,
+                            AND started IS NOT NULL AND finished IS NULL ORDER BY author""",
                             id = session["user_id"])
 
-        lists = db.execute("""SELECT * FROM books WHERE user_id = :id""",
+        lists = db.execute("""SELECT * FROM books WHERE user_id = :id ORDER BY author""",
                             id = session["user_id"])
-        print(lists)
+        
+        #print(lists)
 
         return render_template("index.html", books = books, lists = lists)
 
