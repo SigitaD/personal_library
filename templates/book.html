@@ -56,9 +56,9 @@
                         </tr>
                         {% for record in lendings %}
                             <tr>
-                                <td>{{ record.lent }}</td>
+                                <td>{{ record.lent_date }}</td>
                                 {% if not record.returned %}
-                                    <td>Not returned yet</td>
+                                    <td><i>Not returned yet</i></td>
                                     <td>{{ record.borrower }}</td>
                                 {% else %}
                                     <td>{{ record.returned }}</td>

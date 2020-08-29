@@ -192,7 +192,6 @@ $('#confirmBookDelete').click(function () {
 
 
 // Sends POST request to mark book with bookId as currently not being read by the user.
-// When response is retrieved - refreshes index page.
 function notReading(bookId) {
     let book = {"bookId": bookId};
     let xhr = new XMLHttpRequest();
