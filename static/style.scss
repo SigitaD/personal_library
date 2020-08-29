@@ -49,6 +49,10 @@ main {
     margin-left: -20px;
 }
 
+textarea {
+    min-height: 50px;
+}
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ NAVBAR ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -70,7 +74,6 @@ header {
     text-align: center !important;
     color: white !important;
 }
-
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // ~~~~~~~~~~~~~~~~~~~~~~~~ LOGIN, REGISTER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -105,7 +108,7 @@ header {
     background-color: #eae9e6;
     margin: 20px auto;
     padding: 20px;
-    max-width: 50%;
+    max-width: 40%;
 }
 
 #author, #title {
@@ -134,6 +137,7 @@ header {
 
 .form-control {
     display: inline-block;
+    max-width: 100%;
 }
 
 #error_message {
@@ -143,6 +147,11 @@ header {
     margin-bottom: 10px;
 }
 
+@media (max-width:685px){
+    #accordion {
+        display: none;
+    }
+}
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~ BOOK PROFILE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -168,7 +177,8 @@ header {
 
 .item-f {
     grid-area: col_c;
-    overflow: auto;
+    overflow-y: scroll;
+    max-height: 200px;
 }
 
 .item-g {
@@ -221,8 +231,8 @@ header {
 }
 
 #logo_profile {
-    width: 200px;
-    height: 200px;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .book_profile_author {
@@ -277,6 +287,115 @@ header {
     font-weight: 500;
 }
 
+@media (min-width:1470px) and (max-width:1800px) {
+    #logo_profile {
+        display: none;
+    }
+
+    .book_profile_author {
+        text-align: center;
+        font-size: 20px;
+        font-weight: 600;
+        margin: 10px;
+    }
+    .book_profile_book_title {
+        text-align: center;
+        font-size: 25px;
+        font-weight: 700;
+        margin: 0px 10px 30px 10px;
+    }
+    .profile_container_top {
+        display: grid;
+        background-color: #eae9e6;
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 70%;
+        column-gap: 10px;
+        row-gap: 10px;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "options_column options_column"
+            "author author"
+            "title title"
+            "col_a col_b"
+            "col_c col_c";
+    }    
+}
+
+@media (min-width:831px) and (max-width:1469px) {
+    #logo_profile {
+        display: none;
+    }
+
+    .book_profile_author {
+        text-align: center;
+        font-size: 20px;
+        font-weight: 600;
+        margin: 10px;
+    }
+    .book_profile_book_title {
+        text-align: center;
+        font-size: 25px;
+        font-weight: 700;
+        margin: 0px 10px 30px 10px;
+    }
+    .profile_container_top {
+        display: grid;
+        background-color: #eae9e6;
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 70%;
+        column-gap: 10px;
+        row-gap: 10px;
+        grid-template-columns: 100%;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "options_column"
+            "author"
+            "title"
+            "col_a"
+            "col_b"
+            "col_c";
+    }    
+}
+
+@media (max-width:830px){
+    .item-f, #logo_profile {
+        display: none;
+    }
+
+    .book_profile_author {
+        text-align: center;
+        font-size: 15px;
+        font-weight: 500;
+        margin: 10px;
+    }
+    .book_profile_book_title {
+        text-align: center;
+        font-size: 20px;
+        font-weight: 500;
+        margin: 0px 10px 30px 10px;
+    }
+    .profile_container_top {
+        display: grid;
+        background-color: #eae9e6;
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 70%;
+        column-gap: 10px;
+        row-gap: 10px;
+        grid-template-columns: 100%;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "options_column"
+            "author"
+            "title"
+            "col_a"
+            "col_b"
+            "col_c";
+    }
+}
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ QUOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -408,7 +527,6 @@ textarea {
 .rating2 a {
     float: none;
 }
-
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~INDEX~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
