@@ -1,8 +1,7 @@
 {% extends "layout.html" %}
 
 {% block main %}
-
-
+<!-- READING NOW -->
     <div class="container">
         <div class="upper_row" id="indexrow">
             <p class="sub_title inner">READING NOW</p>
@@ -24,15 +23,15 @@
                                 <img class="book_cover" src="../static/logo.png" alt="book cover">
                             </div>
                             <div class="col-sm-8">
-                                {% if book.author|length <= 30 %}
+                                {% if book.author|length <= 20 %}
                                     <p class="author" data-toggle="tooptip"><span class="names">Author: </span>{{ book.author }}</p>
                                 {% else %}
-                                    <p class="author" data-toggle="tooptip" title="{{ book.author }}"><span class="names">Author: </span>{{ book.author[:30] }}...</p>
+                                    <p class="author" data-toggle="tooptip" title="{{ book.author }}"><span class="names">Author: </span>{{ book.author[:20] }}...</p>
                                 {% endif %}
-                                {% if book.title|length <= 30 %}
+                                {% if book.title|length <= 20 %}
                                     <p class="title" data-toggle="tooptip"><span class="names">Title: </span>{{ book.title }}</p>
                                 {% else %}
-                                    <p class="title" data-toggle="tooptip" title="{{ book.title }}"><span class="names">Title: </span>{{ book.title[:30] }}...</p>
+                                    <p class="title" data-toggle="tooptip" title="{{ book.title }}"><span class="names">Title: </span>{{ book.title[:20] }}...</p>
                                 {% endif %}
                                 <p class="started"><span class="names">Started: </span>{{ book.started }}</p>
                             </div>
@@ -69,13 +68,15 @@
             {% endif %}
         </div>
     </div>
+
+<!-- LISTS -->
     <div class="container">
         <div class="upper_row">
+            <!-- SELECT LIST -->
             <div class="form-group col-md-2">
                 <form action="/" id="listform" method="post">
                     <select name="listname" id="inputList" class="form-control index_form" onchange="$('#listform').submit()">
-                        <option class="list_option" value="invalid">Select</option>
-                        <option class="list_option" value="all">All Books</option>
+                        <option class="list_option" selected value="all">All books</option>
                         <option class="list_option" value="read">Read books</option>
                         <option class="list_option" value="lent">Lent out books</option>
                         <option class="list_option" id="option_personal" value="personal">My personal books</option>
@@ -84,6 +85,7 @@
                     </select>
                 </form>
             </div>
+            <!-- CHECKBOX -->
             <div class="form-check index_form">
                 <form action="/" id="checkform" method="post">
                     <input name="check_value" class="form-check-input" type="checkbox" value="" id="defaultCheck1"
@@ -108,15 +110,15 @@
                                 <img class="book_cover" src="../static/logo.png" alt="book cover">
                             </div>
                             <div class="col-sm">
-                                {% if list.author|length <= 30 %}
+                                {% if list.author|length <= 20 %}
                                     <p class="author" data-toggle="tooptip" title="{{ list.author }}"><span class="names">Author: </span>{{ list.author }}</p>
                                 {% else %}
-                                    <p class="author" data-toggle="tooptip" title="{{ list.author }}"><span class="names">Author: </span>{{ list.author[:30] }}...</p>
+                                    <p class="author" data-toggle="tooptip" title="{{ list.author }}"><span class="names">Author: </span>{{ list.author[:20] }}...</p>
                                 {% endif %}
-                                {% if list.title|length <= 30 %}
+                                {% if list.title|length <= 20 %}
                                     <p class="title" data-toggle="tooptip" title="{{ list.title }}"><span class="names">Title: </span>{{ list.title }}</p>
                                 {% else %}
-                                    <p class="title" data-toggle="tooptip" title="{{ list.title }}"><span class="names">Title: </span>{{ list.title[:30] }}...</p>
+                                    <p class="title" data-toggle="tooptip" title="{{ list.title }}"><span class="names">Title: </span>{{ list.title[:20] }}...</p>
                                 {% endif %}
                                 {% if not list.rating %}
                                     <p class="rating_index"><span class="names">Rating: - </span></p>
@@ -130,7 +132,6 @@
                                             <span class="stars_white">★</span>
                                         {% endfor %}
                                     </p>
-
                                 {% endif %}
                             </div>
                             <div class="col-sm-1">
@@ -178,7 +179,7 @@
         </div>
     </div>
 
-    {# ------ Modals ------ #}
+<!-- MODALS -->
     <div class="modal fade" id="readingNowModal" tabindex="-1" role="dialog"
          aria-labelledby="readingNowModalLabel"
          aria-hidden="true">
