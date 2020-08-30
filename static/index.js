@@ -291,14 +291,10 @@ $('#deleteBookQuoteConfirmationModal').on('show.bs.modal', function (event) {
 function checkValue()
 {
   var checkbox = document.getElementById('defaultCheck1');
-  if (checkbox.checked == true)
+  if (checkbox.checked = true)
   {
     document.getElementById("defaultCheck1").setAttribute("value", "True")
     document.getElementById("checkform").submit()
-    // prevent refreshing
-    $("#checkform").submit(function(e) {
-        e.preventDefault();
-    });
   }
   else if(checkbox.checked != true)
   {
