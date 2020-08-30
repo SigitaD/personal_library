@@ -55,28 +55,28 @@ def index():
         if str(check_type) == "True":
             if str(list_type) == "all":
                 # show all the books
-                lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND lent = "True" ORDER BY author""",
+                lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND lent = true ORDER BY author""",
                                         id=session["user_id"])
 
             elif str(list_type) == "lent":
                 # show lent books
-                lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND lent = "True" ORDER BY author""",
+                lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND lent = true ORDER BY author""",
                                         id=session["user_id"])
 
             elif str(list_type) == "notmine":
                 # show borrowed books
-                lists = db.execute("""SELECT * FROM books WHERE owner != :owner OR owner IS NULL AND user_id = :id AND lent = "True" ORDER BY author""",
+                lists = db.execute("""SELECT * FROM books WHERE owner != :owner OR owner IS NULL AND user_id = :id AND lent = true ORDER BY author""",
                                         id=session["user_id"],
                                         owner="personal")
 
             elif str(list_type) == "read":
                 # show read books
-                lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND finished IS NOT NULL AND lent = "True" ORDER BY author""",
+                lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND finished IS NOT NULL AND lent = true ORDER BY author""",
                                         id=session["user_id"])
 
             elif str(list_type) == "personal":
                 # show personal books
-                lists = db.execute("""SELECT * FROM books WHERE owner = :owner AND user_id = :id AND lent = "True" ORDER BY author""",
+                lists = db.execute("""SELECT * FROM books WHERE owner = :owner AND user_id = :id AND lent = true ORDER BY author""",
                                         id=session["user_id"],
                                         owner="personal")
             
@@ -87,7 +87,7 @@ def index():
                                         id=session["user_id"])
 
             elif str(list_type) == "lent":
-                lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND lent = "True" ORDER BY author""",
+                lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND lent = true ORDER BY author""",
                                         id=session["user_id"])
 
             elif str(list_type) == "notmine":
