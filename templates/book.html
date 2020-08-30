@@ -49,13 +49,16 @@
                 {% if not lendings %}
                     <p><i>There is no lending history for this book.</i></p>
                 {% else %}
-                    <table class="table table-striped">
-                        <tr>
+                    <table class="table table-striped fixed_header">
+                        <thead>
+                            <tr>
                             <th>Lent</th>
                             <th>Returned</th>
                             <th>Lent to</th>
-                        </tr>
-                        {% for record in lendings %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                           {% for record in lendings %}
                             <tr>
                                 <td>{{ record.lent_date }}</td>
                                 {% if not record.returned %}
@@ -66,7 +69,9 @@
                                     <td>{{ record.borrower }}</td>
                                 {% endif %}
                             </tr>
-                        {% endfor %}
+                            {% endfor %} 
+                        </tbody>
+                        
                     </table>
                 {% endif %}
             </div>
