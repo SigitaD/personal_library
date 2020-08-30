@@ -399,17 +399,17 @@ $('#deleteBookLendingConfirmationModal').on('show.bs.modal', function (event) {
 
 // change checkform value when it is clicked
 
-function checkValue() {
-    var checkbox = document.getElementById('defaultCheck1');
-    if (checkbox.checked == true) {
-        document.getElementById("defaultCheck1").setAttribute("value", "True")
-        document.getElementById("checkform").submit()
-        // prevent refreshing
-        $("#checkform").submit(function (e) {
-            e.preventDefault();
-        });
-    } else if (checkbox.checked != true) {
-        document.getElementById("defaultCheck1").setAttribute("value", "False")
-        document.getElementById("checkform").submit()
-    }
+function checkValue()
+{
+  var checkbox = document.getElementById('defaultCheck1');
+  if (checkbox.checked === true)
+  {
+    document.getElementById("defaultCheck1").setAttribute("value", "True")
+    document.getElementById("checkform").submit()
+  }
+  else if(checkbox.checked !== true)
+  {
+    document.getElementById("defaultCheck1").setAttribute("value", "False")
+    document.getElementById("checkform").submit()
+  }
 }
