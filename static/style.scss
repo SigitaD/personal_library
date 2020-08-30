@@ -179,6 +179,7 @@ header {
 
 .item-f {
     grid-area: col_c;
+    overflow-y: scroll;
     max-height: 200px;
 }
 
@@ -879,36 +880,4 @@ textarea {
     margin-left: auto;
     margin-right: auto;
     width: 50%;
-}
-
-
-//--------------------------lending table-----------------------------------
-.fixed_header{
-    width: 1000px;
-    table-layout: fixed;
-    border-collapse: collapse;
-    text-align: center;
-}
-
-.fixed_header tbody{
-  display:block;
-  width: 100%;
-  overflow: auto;
-  height: 100px;
-  text-align: center;
-}
-
-.fixed_header thead tr {
-   display: block;
-}
-
-.fixed_header thead {
-  background: #9b7e7b;
-  color:#fff;
-}
-
-.fixed_header th, .fixed_header td {
-  padding: 5px;
-  text-align: left;
-  width: 330px;
 }
