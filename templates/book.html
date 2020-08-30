@@ -80,6 +80,12 @@
 
                     <div id="opt{{ book.book_id }}" class="book_options_content">
                         <a data-toggle="modal"
+                           data-target="#editBookModal"
+                           data-bookdata="{{ book }}"
+                           data-bookid="{{ book.book_id }}">
+                            Edit book
+                        </a>
+                        <a data-toggle="modal"
                            data-target="#deleteBookConfirmationModal"
                            data-bookid="{{ book.book_id }}">
                             Delete book
@@ -301,6 +307,105 @@
                     </button>
                 </div>
                 <form id="delete-quote-form" action="" method="POST">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-light">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {# ------------ #}
+    {# ------ Edit book modal ------ #}
+    <div class="modal fade" id="editBookModal" tabindex="-1" role="dialog"
+         aria-labelledby="editBookModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editBookModalLabel">Edit book</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="edit-book-form" action="" method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="labelEditBook" for="edit_author">Author: *</label>
+                            <input id="edit_author" name="edit_author" class="form-control" type="text"
+                                   placeholder="..." required="required">
+                        </div>
+                        <div class="form-group">
+                            <label class="labelEditBook" for="edit_title">Title: *</label>
+                            <input id="edit_title" name="edit_title" class="form-control" type="text"
+                                   placeholder="..." required="required">
+                        </div>
+                        <p class="error_form" id="error_message"></p>
+                        <div class="form-group">
+                            <label class="labelEditBook" for="isbn">ISBN: </label>
+                            <input id="isbn" name="isbn" class="form-control" type="text"
+                                   placeholder="...">
+                        </div>
+                        <div class="form-group">
+                            <label class="labelEditBook" for="edit_page_count">Page count: *</label>
+                            <input id="edit_page_count" name="edit_page_count" class="form-control" type="number"
+                                   min="1" max="11000" placeholder="..." required="required">
+                        </div>
+                        <div class="form-group" required="required">
+                            <label class="labelEditBook" for="edit_genre">Genre: </label>
+                            <select id="edit_genre" name="edit_genre" class="form-control">
+                                <option selected disabled value="invalid">Select</option>
+                                <option>Adventure</option>
+                                <option>Children's</option>
+                                <option>Cooking</option>
+                                <option>Contemporary</option>
+                                <option>Fantasy</option>
+                                <option>History</option>
+                                <option>Historical fiction</option>
+                                <option>Horror</option>
+                                <option>Humor</option>
+                                <option>Memoir</option>
+                                <option>Mystery</option>
+                                <option>Motivational/Development/Self-help</option>
+                                <option>Romance</option>
+                                <option>Science fiction</option>
+                                <option>Thriller</option>
+                                <option>Travel</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label-book" for="edit_belonging_check">I own this book</label>
+                            <input id="edit_belonging_check" name="edit_belonging_check" class="form-check-input-book"
+                                   type="checkbox" value="personal">
+                        </div>
+                        <div class="form-group">
+                            <label class="labelEditBook" for="edit_rating">Rating: </label>
+                            <input id="edit_rating" name="edit_rating" class="form-control" type="number"
+                                   min="1" max="5" placeholder="...">
+                        </div>
+{#                        <div class="form-group">#}
+{#                            <label class="labelEditBook">Rating: </label>#}
+{#                            <div class="rating rating2">#}
+{#                                <a href="#5" id="5stars" title="Give 5 stars">★</a>#}
+{#                                <a href="#4" id="4stars" title="Give 4 stars">★</a>#}
+{#                                <a href="#3" id="3stars" title="Give 3 stars">★</a>#}
+{#                                <a href="#2" id="2stars" title="Give 2 stars">★</a>#}
+{#                                <a href="#1" id="1stars" title="Give 1 star">★</a>#}
+{#                            </div>#}
+{#                            <input id="ratings" type="hidden" name="ratings" value=""/>#}
+{#                        </div>#}
+                        <div class="form-group">
+                            <label class="labelEditBook" for="edit_start_date">Started: </label>
+                            <input id="edit_start_date" name="edit_start_date" class="form-control" type="date"
+                                   placeholder="Started">
+                        </div>
+                        <div class="form-group">
+                            <label class="labelEditBook" for="edit_finish_date">Finished: </label>
+                            <input id="edit_finish_date" name="edit_finish_date" class="form-control" type="date"
+                                   placeholder="Finished">
+                        </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-light">Submit</button>
