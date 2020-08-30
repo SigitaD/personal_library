@@ -194,7 +194,7 @@
                 <form action="/started-reading-book" method="POST">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label class="labelNewBookDate" for="update_start_date">Started</label>
+                            <label class="labelEditBookDate" for="update_start_date">Started</label>
                             <input class="form-control" type="date" name="update_start_date" id="update_start_date"
                                    placeholder="Started" required="required">
                         </div>
@@ -223,7 +223,7 @@
                 <form action="/finished-reading-book" method="POST">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label class="labelNewBookDate" for="update_finish_date">Finished</label>
+                            <label class="labelEditBookDate" for="update_finish_date">Finished</label>
                             <input class="form-control" type="date" name="update_finish_date" id="update_finish_date"
                                    placeholder="Finished" required="required">
                         </div>
@@ -261,4 +261,5 @@
             </div>
         </div>
     </div>
+    {# ------------ #}
 {% endblock %}
