@@ -369,7 +369,7 @@ header {
     grid-template-areas: "options_column" "author" "title" "col_a" "col_b" "col_c";
   }
 }
-#editBookModal .form-group {
+#editBookModal .form-group, #bookLendingModal .form-group {
   display: flex;
 }
 
@@ -740,7 +740,34 @@ textarea {
   z-index: 1;
 }
 
-.options_content a, .book_options_content a, .note_options_content a, .book_quote_options_content a {
+.book_lend_options {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: flex-end;
+  max-height: 10px;
+  max-width: 10px;
+}
+
+.book_lend_options_image {
+  background-color: transparent;
+  padding: 0 5px;
+  border: transparent;
+  height: 20px;
+  align-self: flex-end;
+}
+
+.book_lend_options_content {
+  display: none;
+  border: 0;
+  text-align: right;
+  background-color: #f1f1f1;
+  align-self: flex-end;
+  z-index: 1;
+}
+
+.options_content a, .book_options_content a, .note_options_content a,
+.book_quote_options_content a, .book_lend_options_content a {
   color: black;
   font-size: small;
   padding: 7px 10px;
@@ -751,7 +778,8 @@ textarea {
 }
 
 /* Change color of dropdown links on hover */
-.options_content a:hover, .book_options_content a:hover, .note_options_content a:hover, .book_quote_options_content a:hover {
+.options_content a:hover, .book_options_content a:hover, .note_options_content a:hover,
+.book_quote_options_content a:hover, .book_lend_options_content a:hover {
   color: #f1f1f1;
   background-color: #97aaa8;
 }

@@ -319,12 +319,13 @@ def quotes():
                                    user_id=session["user_id"])
 
         # query database for data about books
-        books_result_author = db.execute("SELECT author FROM books WHERE user_id = :id ORDER BY author COLLATE NOCASE ASC",
-                                  id=session["user_id"])
+        books_result_author = db.execute(
+            "SELECT author FROM books WHERE user_id = :id ORDER BY author COLLATE NOCASE ASC",
+            id=session["user_id"])
         print('QUOTES | books_result_author: ' + str(books_result_author), flush=True)
 
         books_result_title = db.execute("SELECT title FROM books WHERE user_id = :id ORDER BY title COLLATE NOCASE ASC",
-                                  id=session["user_id"])
+                                        id=session["user_id"])
         print('QUOTES | books_result_title: ' + str(books_result_title), flush=True)
 
         # if there are no books in database
@@ -334,7 +335,8 @@ def quotes():
         if books_result_title == 0:
             return apology("You need to add a book first!")
 
-        return render_template("quotes.html", quotes=quotes_result, books_author=books_result_author, books_title=books_result_title)
+        return render_template("quotes.html", quotes=quotes_result, books_author=books_result_author,
+                               books_title=books_result_title)
 
     else:
         quote = request.form.get("quote")
@@ -444,32 +446,6 @@ def book(book_id):
         return 0
 
 
-# @app.route("/book/<book_id>/edit-quote", methods = ["POST"])
-# @login_required
-# def book_new_quote(book_id):
-#     # quote = request.form.get("quote")
-
-#     # db.execute("INSERT INTO quotes (user_id, book_id, quote) VALUES (:user_id, :book_id, :quote)",
-#     #     user_id = session["user_id"],
-#     #     book_id = book_id,
-#     #     quote = quote)
-
-#     return redirect("/book/" + book_id)
-
-
-@app.route("/book/<book_id>/new-quote", methods=["POST"])
-@login_required
-def book_new_quote(book_id):
-    quote = request.form.get("quote")
-
-    db.execute("INSERT INTO quotes (user_id, book_id, quote) VALUES (:user_id, :book_id, :quote)",
-               user_id=session["user_id"],
-               book_id=book_id,
-               quote=quote)
-
-    return redirect("/book/" + book_id)
-
-
 @app.route("/started-reading-book", methods=["POST"])
 @login_required
 def started_reading_book():
@@ -551,6 +527,19 @@ def update_notes(book_id):
     return redirect("/book/" + book_id)
 
 
+@app.route("/book/<book_id>/new-quote", methods=["POST"])
+@login_required
+def book_new_quote(book_id):
+    quote = request.form.get("quote")
+
+    db.execute("INSERT INTO quotes (user_id, book_id, quote) VALUES (:user_id, :book_id, :quote)",
+               user_id=session["user_id"],
+               book_id=book_id,
+               quote=quote)
+
+    return redirect("/book/" + book_id)
+
+
 @app.route("/book/<book_id>/update-quote/<quote_id>", methods=["POST"])
 @login_required
 def update_quote(book_id, quote_id):
@@ -570,6 +559,76 @@ def update_quote(book_id, quote_id):
 def delete_quote(book_id, quote_id):
     db.execute("""DELETE FROM quotes WHERE quote_id = :quote_id""",
                quote_id=quote_id)
+
+    return redirect("/book/" + book_id)
+
+
+@app.route("/book/<book_id>/lending", methods=["POST"])
+@login_required
+def add_book_lending(book_id):
+    lent_to = request.form.get("lent_to")
+    lent_date = request.form.get("lent_date")
+    lent_date = None if not lent_date else lent_date
+    returned_date = request.form.get("returned_date")
+    returned_date = None if not returned_date else returned_date
+
+    db.execute("""INSERT INTO lending 
+                  (user_id, book_id, borrower, lent_date, returned) 
+                  VALUES 
+                  (:user_id, :book_id, :borrower, :lent_date, :returned)""",
+               user_id=session["user_id"],
+               book_id=book_id,
+               borrower=lent_to,
+               lent_date=lent_date,
+               returned=returned_date)
+
+    update_book_if_lent(book_id)
+
+    return redirect("/book/" + book_id)
+
+
+@app.route("/book/<book_id>/lending/<lend_id>", methods=["POST"])
+@login_required
+def edit_book_lending(book_id, lend_id):
+    lent_to = request.form.get("lent_to")
+    lent_date = request.form.get("lent_date")
+    lent_date = None if not lent_date else lent_date
+    returned_date = request.form.get("returned_date")
+    returned_date = None if not returned_date else returned_date
+
+    db.execute("""UPDATE lending 
+                  SET borrower = :borrower,
+                      lent_date = :lent_date,
+                      returned = :returned
+                  WHERE lend_id = :lend_id""",
+               borrower=lent_to,
+               lent_date=lent_date,
+               returned=returned_date,
+               lend_id=lend_id)
+
+    update_book_if_lent(book_id)
+
+    return redirect("/book/" + book_id)
+
+
+def update_book_if_lent(book_id):
+    lent_data = db.execute("""SELECT * FROM lending
+                                WHERE book_id = :book_id 
+                                AND returned IS NULL""",
+                           book_id=book_id)
+
+    db.execute("""UPDATE books
+                   SET lent = :lent
+                   WHERE book_id = :book_id""",
+               lent=len(lent_data) != 0,
+               book_id=book_id)
+
+
+@app.route("/book/<book_id>/delete-lending/<lend_id>", methods=["POST"])
+@login_required
+def delete_book_lending(book_id, lend_id):
+    db.execute("""DELETE FROM lending WHERE lend_id = :lend_id""",
+               lend_id=lend_id)
 
     return redirect("/book/" + book_id)
 
