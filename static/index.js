@@ -174,7 +174,17 @@ window.onclick = function (event) {
                             openDropdown.classList.remove('show');
                         }
                     }
-                    openedOptions = null;
+                    if (!event.target.matches('.book_lend_options_image')) {
+                        let options_content = document.getElementsByClassName("book_lend_options_content");
+                        let i;
+                        for (i = 0; i < options_content.length; i++) {
+                            let openDropdown = options_content[i];
+                            if (openDropdown.classList.contains('show')) {
+                                openDropdown.classList.remove('show');
+                            }
+                        }
+                        openedOptions = null;
+                    }
                 }
             }
         }
@@ -335,8 +345,55 @@ $('#deleteBookQuoteConfirmationModal').on('show.bs.modal', function (event) {
 })
 
 // ---------------------- QUOTE OPTIONS END --------------------------------
+// ---------------------- LENDING OPTIONS START --------------------------------
+// Update #addBookLendingModal contents before it is shown.
+// 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
+$('#bookLendingModal').on('show.bs.modal', function (event) {
+    openedOptions = null;
 
+    let actionOrigin = $(event.relatedTarget)
+    let bookId = actionOrigin.data('bookid')
+    let lendId = actionOrigin.data('lendid')
 
+    if (lendId) {
+        let modal = $(this)
+        modal.find('.modal-title').text("Edit lending")
+
+        let lendId = actionOrigin.data('lendid')
+        let lendData = actionOrigin.data('lenddata');
+        let correctedLendData = lendData.replace(/'/g, '"').replace(/None/g, 'null');
+        let lend = JSON.parse(correctedLendData);
+
+        modal.find('.modal-content #lent_to').val(lend.borrower);
+        modal.find('.modal-content #lent_date').val(lend.lent_date);
+        modal.find('.modal-content #returned_date').val(lend.returned);
+
+        document.getElementById('lending-form').action = "/book/" + bookId + "/lending/" + lendId;
+    } else {
+        let modal = $(this)
+        modal.find('.modal-title').text("Lend a book")
+
+        modal.find('.modal-content #lent_to').val(null);
+        modal.find('.modal-content #lent_date').val(null);
+        modal.find('.modal-content #returned_date').val(null);
+
+        document.getElementById('lending-form').action = "/book/" + bookId + "/lending";
+    }
+})
+
+// Update #deleteBookQuoteConfirmationModal contents before it is shown.
+// 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
+$('#deleteBookLendingConfirmationModal').on('show.bs.modal', function (event) {
+    openedOptions = null;
+
+    let actionOrigin = $(event.relatedTarget)
+    let bookId = actionOrigin.data('bookid')
+    let lendId = actionOrigin.data('lendid')
+
+    document.getElementById('delete-lending-form').action = "/book/" + bookId + "/delete-lending/" + lendId;
+})
+
+// ---------------------- LENDING OPTIONS END --------------------------------
 
 // ------------------------CHECKBOX-----------------------------------------
 
@@ -345,12 +402,12 @@ $('#deleteBookQuoteConfirmationModal').on('show.bs.modal', function (event) {
 function checkValue()
 {
   var checkbox = document.getElementById('defaultCheck1');
-  if (checkbox.checked = true)
+  if (checkbox.checked === true)
   {
     document.getElementById("defaultCheck1").setAttribute("value", "True")
     document.getElementById("checkform").submit()
   }
-  else if(checkbox.checked != true)
+  else if(checkbox.checked !== true)
   {
     document.getElementById("defaultCheck1").setAttribute("value", "False")
     document.getElementById("checkform").submit()
