@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 
 {% block main %}
-<!-- READING NOW -->
+    <!-- READING NOW -->
     <div class="container">
         <div class="upper_row" id="indexrow">
             <p class="sub_title inner">READING NOW</p>
-            <button id="add_book" title="Add a new book" class="inner" onclick="location.href = '/new-book';">
+            <button id="add_book" title="Add a new book" class="inner" onclick="localStorage.clear(); location.href = '/new-book';">
                 <img class="img_btn" src="../static/add_book.gif" alt="add a new book">
             </button>
         </div>
@@ -24,14 +24,18 @@
                             </div>
                             <div class="col-sm-8">
                                 {% if book.author|length <= 20 %}
-                                    <p class="author" data-toggle="tooptip"><span class="names">Author: </span>{{ book.author }}</p>
+                                    <p class="author" data-toggle="tooptip"><span
+                                            class="names">Author: </span>{{ book.author }}</p>
                                 {% else %}
-                                    <p class="author" data-toggle="tooptip" title="{{ book.author }}"><span class="names">Author: </span>{{ book.author[:20] }}...</p>
+                                    <p class="author" data-toggle="tooptip" title="{{ book.author }}"><span
+                                            class="names">Author: </span>{{ book.author[:20] }}...</p>
                                 {% endif %}
                                 {% if book.title|length <= 20 %}
-                                    <p class="title" data-toggle="tooptip"><span class="names">Title: </span>{{ book.title }}</p>
+                                    <p class="title" data-toggle="tooptip"><span
+                                            class="names">Title: </span>{{ book.title }}</p>
                                 {% else %}
-                                    <p class="title" data-toggle="tooptip" title="{{ book.title }}"><span class="names">Title: </span>{{ book.title[:20] }}...</p>
+                                    <p class="title" data-toggle="tooptip" title="{{ book.title }}"><span class="names">Title: </span>{{ book.title[:20] }}...
+                                    </p>
                                 {% endif %}
                                 <p class="started"><span class="names">Started: </span>{{ book.started }}</p>
                             </div>
@@ -51,7 +55,7 @@
                                         <a onclick="notReading('{{ book.book_id }}')">
                                             Remove from "Reading now"
                                         </a>
-                                        <a onclick="location.href = '/book/{{ book.book_id }}';">
+                                        <a onclick="localStorage.clear(); location.href = '/book/{{ book.book_id }}';">
                                             Book profile
                                         </a>
                                         <a data-toggle="modal"
@@ -69,13 +73,13 @@
         </div>
     </div>
 
-<!-- LISTS -->
+    <!-- LISTS -->
     <div class="container">
         <div class="upper_row">
             <!-- SELECT LIST -->
-            <div class="form-group col-md-2">
-                <form action="/" id="listform" method="post">
-                    <select name="listname" id="inputList" class="form-control index_form" onchange="$('#listform').submit()">
+            <form action="/" id="listform" method="post">
+                <div class="form-group col-md-2">
+                    <select name="listname" id="inputList" class="form-control index_form">
                         <option class="list_option" selected value="all">All books</option>
                         <option class="list_option" value="read">Read books</option>
                         <option class="list_option" value="lent">Lent out books</option>
@@ -83,18 +87,16 @@
                         <option class="list_option" id="option_notmine" value="notmine">Books that don’t belong to me
                         </option>
                     </select>
-                </form>
-            </div>
-            <!-- CHECKBOX -->
-            <div class="form-check index_form">
-                <form action="/" id="checkform" method="post">
+                </div>
+                <!-- CHECKBOX -->
+                <div class="form-check index_form">
                     <input name="check_value" class="form-check-input" type="checkbox" value="" id="defaultCheck1"
-                           onchange="$('.checkform').submit()" onclick="checkValue()">
+                           onclick="checkValue()">
                     <label class="form-check-label" for="defaultCheck1">
                         Only lent out books
                     </label>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
         <div class="row">
             {% if not lists %}
@@ -111,14 +113,18 @@
                             </div>
                             <div class="col-sm">
                                 {% if list.author|length <= 20 %}
-                                    <p class="author" data-toggle="tooptip" title="{{ list.author }}"><span class="names">Author: </span>{{ list.author }}</p>
+                                    <p class="author" data-toggle="tooptip" title="{{ list.author }}"><span
+                                            class="names">Author: </span>{{ list.author }}</p>
                                 {% else %}
-                                    <p class="author" data-toggle="tooptip" title="{{ list.author }}"><span class="names">Author: </span>{{ list.author[:20] }}...</p>
+                                    <p class="author" data-toggle="tooptip" title="{{ list.author }}"><span
+                                            class="names">Author: </span>{{ list.author[:20] }}...</p>
                                 {% endif %}
                                 {% if list.title|length <= 20 %}
-                                    <p class="title" data-toggle="tooptip" title="{{ list.title }}"><span class="names">Title: </span>{{ list.title }}</p>
+                                    <p class="title" data-toggle="tooptip" title="{{ list.title }}"><span class="names">Title: </span>{{ list.title }}
+                                    </p>
                                 {% else %}
-                                    <p class="title" data-toggle="tooptip" title="{{ list.title }}"><span class="names">Title: </span>{{ list.title[:20] }}...</p>
+                                    <p class="title" data-toggle="tooptip" title="{{ list.title }}"><span class="names">Title: </span>{{ list.title[:20] }}...
+                                    </p>
                                 {% endif %}
                                 {% if not list.rating %}
                                     <p class="rating_index"><span class="names">Rating: - </span></p>
@@ -161,7 +167,7 @@
                                                 Remove from "Reading now"
                                             </a>
                                         {% endif %}
-                                        <a onclick="location.href = '/book/{{ list.book_id }}';">
+                                        <a onclick="localStorage.clear(); location.href = '/book/{{ list.book_id }}';">
                                             Book profile
                                         </a>
                                         <a data-toggle="modal"
@@ -179,7 +185,7 @@
         </div>
     </div>
 
-<!-- MODALS -->
+    <!-- MODALS -->
     <div class="modal fade" id="readingNowModal" tabindex="-1" role="dialog"
          aria-labelledby="readingNowModalLabel"
          aria-hidden="true">

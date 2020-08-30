@@ -273,7 +273,7 @@ header {
   font-weight: 500;
 }
 
-@media (min-width: 1470px) and (max-width: 1800px) {
+@media (min-width: 1470px) and (max-width: 1600px) {
   #logo_profile {
     display: none;
   }

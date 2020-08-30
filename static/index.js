@@ -111,8 +111,10 @@ function redirectToBook(bookId) {
             shouldRedirect = false;
     })
 
-    if (shouldRedirect)
+    if (shouldRedirect) {
+        localStorage.clear();
         document.location.href = '/book/' + bookId;
+    }
 }
 
 // ---------------------- GLOBAL OPTIONS START --------------------------------
@@ -396,20 +398,39 @@ $('#deleteBookLendingConfirmationModal').on('show.bs.modal', function (event) {
 // ---------------------- LENDING OPTIONS END --------------------------------
 
 // ------------------------CHECKBOX-----------------------------------------
-
 // change checkform value when it is clicked
+function checkValue() {
+    var inputList = document.getElementById('inputList');
+    localStorage.setItem('selectVal', inputList.value);
 
-function checkValue()
-{
-  var checkbox = document.getElementById('defaultCheck1');
-  if (checkbox.checked === true)
-  {
-    document.getElementById("defaultCheck1").setAttribute("value", "True")
-    document.getElementById("checkform").submit()
-  }
-  else if(checkbox.checked !== true)
-  {
-    document.getElementById("defaultCheck1").setAttribute("value", "False")
-    document.getElementById("checkform").submit()
-  }
+    var checkbox = document.getElementById('defaultCheck1');
+
+    if (localStorage.selectVal === 'lent') {
+        document.getElementById("defaultCheck1").setAttribute("disabled", true)
+    } else {
+        document.getElementById("defaultCheck1").removeAttribute("disabled");
+    }
+
+    localStorage.setItem('checkboxValue', checkbox.checked);
+    if (checkbox.checked === true) {
+        document.getElementById("defaultCheck1").setAttribute("value", "True")
+    } else if (checkbox.checked !== true) {
+        document.getElementById("defaultCheck1").setAttribute("value", "False")
+    }
+    $('#listform').submit();
 }
+
+$(document).ready(function () {
+    if (localStorage.selectVal) {
+        $('#inputList').val(localStorage.selectVal);
+    }
+    $(this).find('#defaultCheck1').prop('checked', localStorage.checkboxValue === 'true');
+
+    if (localStorage.selectVal === 'lent') {
+        document.getElementById("defaultCheck1").setAttribute("disabled", true)
+    } else {
+        document.getElementById("defaultCheck1").removeAttribute("disabled");
+    }
+});
+
+$('#inputList').on('change', checkValue);
