@@ -642,6 +642,11 @@ textarea {
     margin-top: 5px;
 }
 
+// .list_option:hover {
+//     background-image: none !important;
+//     background-color: black !important;
+// }
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BOOK OPTIONS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -781,7 +786,7 @@ textarea {
 /* Change color of dropdown links on hover */
 .options_content a:hover, .book_options_content a:hover, .note_options_content a:hover, .book_quote_options_content a:hover {
     color: #f1f1f1;
-    background-color: #97aaa8
+    background-color: #97aaa8;
 }
 
 .show {

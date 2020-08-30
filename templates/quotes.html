@@ -13,15 +13,21 @@
             <img id="quote_sign" src="../static/quote_mark.gif" alt="quotes">
             <p class="quote_text">{{ quote.quote }}</p>
             <br>
-            <span class="quote_titles"><b>Author: </b> <i>{{ quote.author }}</i></span>
+            {% if quote.author|length <= 100 %}
+                <span class="quote_titles"><b>Author: </b> <i>{{ quote.author }}</i></span>
+            {% else %}
+                <span class="quote_titles" title="{{ quote.author }}"><b>Author: </b> <i>{{ quote.author[:100] }}...</i></span>
+            {% endif %}
             <br>
-            <span class="quote_titles"><b>Book: </b><i>{{ quote.title }}</i></span>
+            {% if quote.author|length <= 100 %}
+                <span class="quote_titles"><b>Book: </b><i>{{ quote.title }}</i></span>
+            {% else %}
+                <span class="quote_titles" title="{{ quote.title }}"><b>Book: </b><i>{{ quote.title[:100] }}...</i></span>
+            {% endif %}
             <br>
             </div>
         {% endfor %}
     {% endif %}
-
-    
     
     <div class="container_new_quote"> 
         <h2 id="add_quote">ADD A NEW QUOTE</h2>   
@@ -29,8 +35,12 @@
             <div class="form-group" id="quote_author" >
                 <select name="author" class="form-control">
                     <option disabled selected value = "invalid">Authors</option>
-                {% for book in books %}
+                {% for book in books_author %}
+                    {% if book.author|length <= 100 %}
                         <option value="{{ book.author }}">{{ book.author }}</option>
+                    {% else %}
+                        <option value="{{ book.author }}">{{ book.author[:100] }}...</option>
+                    {% endif %}
                 {% endfor %}
             </select>
             </div>
@@ -38,8 +48,12 @@
             <div class="form-group" id="quote_title">
             <select name="book_title" class="form-control">
                 <option disabled selected value = "invalid">Books</option>
-            {% for book in books %}
+            {% for book in books_title %}
+                {% if book.title|length <= 100 %}
                     <option value="{{ book.title }}">{{ book.title }}</option>
+                {% else %}
+                    <option value="{{ book.author }}">{{ book.title[:100] }}...</option>
+                {% endif %}
             {% endfor %}
             </select>
             </div>
