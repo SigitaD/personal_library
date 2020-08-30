@@ -319,14 +319,22 @@ def quotes():
                                    user_id=session["user_id"])
 
         # query database for data about books
-        books_result = db.execute("SELECT * FROM books WHERE user_id = :id",
+        books_result_author = db.execute("SELECT author FROM books WHERE user_id = :id ORDER BY author COLLATE NOCASE ASC",
                                   id=session["user_id"])
+        print('QUOTES | books_result_author: ' + str(books_result_author), flush=True)
+
+        books_result_title = db.execute("SELECT title FROM books WHERE user_id = :id ORDER BY title COLLATE NOCASE ASC",
+                                  id=session["user_id"])
+        print('QUOTES | books_result_title: ' + str(books_result_title), flush=True)
 
         # if there are no books in database
-        if books_result == 0:
+        if books_result_author == 0:
             return apology("You need to add a book first!")
 
-        return render_template("quotes.html", quotes=quotes_result, books=books_result)
+        if books_result_title == 0:
+            return apology("You need to add a book first!")
+
+        return render_template("quotes.html", quotes=quotes_result, books_author=books_result_author, books_title=books_result_title)
 
     else:
         quote = request.form.get("quote")

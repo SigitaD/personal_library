@@ -478,6 +478,10 @@ textarea {
   margin-right: 20px;
 }
 
+.quote_titles_hover:hover {
+  cursor: pointer;
+}
+
 #my_rating {
   display: inline-block;
   width: 116px;

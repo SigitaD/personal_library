@@ -25,12 +25,12 @@
                             </div>
                             <div class="col-sm-8">
                                 {% if book.author|length <= 30 %}
-                                    <p class="author" data-toggle="tooptip" title="{{ book.author }}"><span class="names">Author: </span>{{ book.author }}</p>
+                                    <p class="author" data-toggle="tooptip"><span class="names">Author: </span>{{ book.author }}</p>
                                 {% else %}
                                     <p class="author" data-toggle="tooptip" title="{{ book.author }}"><span class="names">Author: </span>{{ book.author[:30] }}...</p>
                                 {% endif %}
                                 {% if book.title|length <= 30 %}
-                                    <p class="title" data-toggle="tooptip" title="{{ book.title }}"><span class="names">Title: </span>{{ book.title }}</p>
+                                    <p class="title" data-toggle="tooptip"><span class="names">Title: </span>{{ book.title }}</p>
                                 {% else %}
                                     <p class="title" data-toggle="tooptip" title="{{ book.title }}"><span class="names">Title: </span>{{ book.title[:30] }}...</p>
                                 {% endif %}
