@@ -73,7 +73,7 @@
         <div class="upper_row">
             <div class="form-group col-md-2">
                 <form action="/" id="listform" method="post">
-                    <select name="listname" id="inputList" class="form-control" onchange="$('#listform').submit()">
+                    <select name="listname" id="inputList" class="form-control index_form" onchange="$('#listform').submit()">
                         <option class="list_option" value="invalid">Select</option>
                         <option class="list_option" value="all">All Books</option>
                         <option class="list_option" value="read">Read books</option>
@@ -84,10 +84,10 @@
                     </select>
                 </form>
             </div>
-            <div class="form-check">
+            <div class="form-check index_form">
                 <form action="/" id="checkform" method="post">
-                    <input name="listname" class="form-check-input" type="checkbox" value="lent" id="defaultCheck1"
-                           onchange="$('#checkform').submit()">
+                    <input name="check_value" class="form-check-input" type="checkbox" value="" id="defaultCheck1"
+                           onchange="$('.checkform').submit()" onclick="checkValue()">
                     <label class="form-check-label" for="defaultCheck1">
                         Only lent out books
                     </label>
