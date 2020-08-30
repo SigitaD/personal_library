@@ -107,7 +107,7 @@ def index():
                                         id=session["user_id"],
                                         owner="personal")
 
-        return render_template("index.html", books=books, lists=lists, check_type=check_type)
+        return render_template("index.html", books=books, lists=lists)
 
     # else:
     if request.method == "GET":

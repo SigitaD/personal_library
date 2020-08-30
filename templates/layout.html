@@ -20,18 +20,18 @@
                 aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand abs" href="/">PERSONAL LIBRARY</a>
+            <a class="navbar-brand abs" onclick="localStorage.clear();" href="/">PERSONAL LIBRARY</a>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                <a class="navbar-brand" href="/"><img src="../static/logo.png" width="50" height="50" alt="logo"></a>
+                <a class="navbar-brand" onclick="localStorage.clear();" href="/"><img src="../static/logo.png" width="50" height="50" alt="logo"></a>
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="/new-book">Add a new book</a>
+                        <a class="nav-link" onclick="localStorage.clear();" href="/new-book">Add a new book</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/quotes">Quotes</a>
+                        <a class="nav-link" onclick="localStorage.clear();" href="/quotes">Quotes</a>
                     </li>
                     <li>
-                        <a class="nav-link" href="/logout">Logout</a>
+                        <a class="nav-link" onclick="localStorage.clear();" href="/logout">Logout</a>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
@@ -48,10 +48,10 @@
                     <div class="navbar-brand abs">PERSONAL LIBRARY</div>
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/register">Register</a>
+                            <a class="nav-link" onclick="localStorage.clear();" href="/register">Register</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/login">Login</a>
+                            <a class="nav-link" onclick="localStorage.clear();" href="/login">Login</a>
                         </li>
                     </ul>
                     {% endif %}
