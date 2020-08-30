@@ -59,28 +59,28 @@ def index():
                 # show all the books
                 lists = db.execute("""SELECT * FROM books JOIN lending ON lending.book_id = books.book_id 
                                         WHERE user_id = :id AND lending.lent IS NOT NULL ORDER BY author""",
-                                        id=session["user_id"])
+                                   id=session["user_id"])
 
             elif str(list_type) == "lent":
                 # show lent books
                 lists = db.execute("""SELECT * FROM books JOIN lending ON books.book_id = lending.book_id
                                         WHERE books.user_id = :id AND lending.lent_date IS NOT NULL ORDER BY author""",
-                                id=session["user_id"])
+                                   id=session["user_id"])
 
             elif str(list_type) == "notmine":
                 # show borrowed books
                 lists = db.execute("""SELECT * FROM books JOIN lending ON lending.book_id = books.book_id
                                         WHERE owner != :owner OR owner IS NULL AND user_id = :id AND
                                         lending.lent IS NOT NULL ORDER BY author""",
-                                        id=session["user_id"],
-                                        owner="personal")  # ar teisingai?
+                                   id=session["user_id"],
+                                   owner="personal")  # ar teisingai?
 
             elif str(list_type) == "read":
                 # show read books
                 lists = db.execute("""SELECT * FROM books JOIN lending ON lending.book_is = books.book_id
                                         WHERE user_id = :id AND finished IS NOT NULL
                                         AND lending.lent IS NOT NULL ORDER BY author""",
-                                        id=session["user_id"])
+                                   id=session["user_id"])
 
             elif str(list_type) == "personal":
                 # show personal books
@@ -88,20 +88,20 @@ def index():
                                         WHERE owner = :owner AND user_id = :id
                                         AND lending.lent IS NOT NULL
                                         ORDER BY author""",
-                                        id=session["user_id"],
-                                        owner="personal")
-            
+                                   id=session["user_id"],
+                                   owner="personal")
+
         else:
             if str(list_type) == "all":
                 # show all the books
                 lists = db.execute("""SELECT * FROM books WHERE user_id = :id ORDER BY author""",
-                                id=session["user_id"])
+                                   id=session["user_id"])
 
             elif str(list_type) == "lent":
                 # show lent books
                 lists = db.execute("""SELECT * FROM books JOIN lending ON books.book_id = lending.book_id
                                         WHERE books.user_id = :id AND lending.lent_date IS NOT NULL ORDER BY author""",
-                                id=session["user_id"])
+                                   id=session["user_id"])
 
             elif str(list_type) == "notmine":
                 # show borrowed books
@@ -112,14 +112,15 @@ def index():
 
             elif str(list_type) == "read":
                 # show read books
-                lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND finished IS NOT NULL ORDER BY author""",
-                                id=session["user_id"])
+                lists = db.execute(
+                    """SELECT * FROM books WHERE user_id = :id AND finished IS NOT NULL ORDER BY author""",
+                    id=session["user_id"])
 
             elif str(list_type) == "personal":
                 # show personal books
                 lists = db.execute("""SELECT * FROM books WHERE owner = :owner AND user_id = :id ORDER BY author""",
-                                id=session["user_id"],
-                                owner="personal") 
+                                   id=session["user_id"],
+                                   owner="personal")
 
         return render_template("index.html", books=books, lists=lists)
 
@@ -392,7 +393,51 @@ def book(book_id):
 
         return render_template("book.html", data=data, quotes=quotes_result, lendings=lendings_result)
     elif request.method == "POST":
-        return redirect("/book")
+        author = request.form.get("edit_author").title()  # capitalize first leter of every word
+        print('EDIT BOOK | author: ' + str(author), flush=True)
+        title = request.form.get("edit_title").capitalize()  # capitalize first letter
+        print('EDIT BOOK | title: ' + str(title), flush=True)
+        isbn = request.form.get("isbn")
+        print('EDIT BOOK | isbn: ' + str(isbn), flush=True)
+        page_count = request.form.get("edit_page_count")
+        print('EDIT BOOK | page_count: ' + str(page_count), flush=True)
+        genre = request.form.get("edit_genre")
+        print('EDIT BOOK | genre: ' + str(genre), flush=True)
+        belonging_check = request.form.get("edit_belonging_check")
+        print('EDIT BOOK | belongingCheck: ' + str(belonging_check), flush=True)
+        start_date = request.form.get("edit_start_date")
+        start_date = None if not start_date else start_date
+        print('EDIT BOOK | start_date: ' + str(start_date), flush=True)
+        finish_date = request.form.get("edit_finish_date")
+        finish_date = None if not finish_date else finish_date
+        print('EDIT BOOK | finish_date: ' + str(finish_date), flush=True)
+        ratings = request.form.get("edit_rating")
+        print('EDIT BOOK | ratings: ' + str(ratings), flush=True)
+
+        db.execute(
+            """UPDATE books 
+            SET title = :title, 
+                author = :author, 
+                pages = :pages, 
+                isbn = :isbn, 
+                genre = :genre, 
+                rating = :rating, 
+                started = :started, 
+                finished = :finished, 
+                owner = :owner
+            WHERE book_id = :book_id""",
+            title=title,
+            author=author,
+            pages=page_count,
+            isbn=isbn,
+            genre=genre,
+            rating=ratings,
+            started=start_date,
+            finished=finish_date,
+            owner=belonging_check,
+            book_id=book_id)
+
+        return redirect("/book/" + book_id)
     elif request.method == "DELETE":
         db.execute(""" DELETE FROM books WHERE book_id = :book_id""",
                    book_id=book_id)

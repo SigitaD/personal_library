@@ -27,23 +27,51 @@ function ClearFieldsTwo() {
 //Get the value of a star rating to be able to insert it into database
 $('#5stars').click(function () {
     $('#ratings').val('5');
+    removeMarkedStars();
+    $('#5stars').addClass('marked');
+    $('#4stars').addClass('marked');
+    $('#3stars').addClass('marked');
+    $('#2stars').addClass('marked');
+    $('#1stars').addClass('marked');
 });
 
 $('#4stars').click(function () {
     $('#ratings').val('4');
+    removeMarkedStars();
+    $('#4stars').addClass('marked');
+    $('#3stars').addClass('marked');
+    $('#2stars').addClass('marked');
+    $('#1stars').addClass('marked');
 });
 
 $('#3stars').click(function () {
     $('#ratings').val('3');
+    removeMarkedStars();
+    $('#3stars').addClass('marked');
+    $('#2stars').addClass('marked');
+    $('#1stars').addClass('marked');
 });
 
 $('#2stars').click(function () {
     $('#ratings').val('2');
+    removeMarkedStars();
+    $('#2stars').addClass('marked');
+    $('#1stars').addClass('marked');
 });
 
 $('#1stars').click(function () {
     $('#ratings').val('1');
+    removeMarkedStars();
+    $('#1stars').addClass('marked');
 });
+
+function removeMarkedStars() {
+    $('#5stars').removeClass('marked');
+    $('#4stars').removeClass('marked');
+    $('#3stars').removeClass('marked');
+    $('#2stars').removeClass('marked');
+    $('#1stars').removeClass('marked');
+}
 
 
 // ISBN validation
@@ -70,7 +98,7 @@ $(document).ready(function () {
     }
 
     //add event listener for form submission
-    document.getElementById('form').addEventListener('submit', validate);
+    document.getElementById('edit-book-form').addEventListener('submit', validate);
 });
 
 
@@ -223,6 +251,31 @@ function notReading(bookId) {
     xhr.send(JSON.stringify(book));
 }
 
+// Update #editBookModal contents before it is shown.
+// 'show.bs.modal' is a default bootstrap event which triggers when modal is about to be shown.
+$('#editBookModal').on('show.bs.modal', function (event) {
+    openedOptions = null;
+
+    let actionOrigin = $(event.relatedTarget);
+    let bookId = actionOrigin.data('bookid');
+    let bookData = actionOrigin.data('bookdata');
+    let correctedBookData = bookData.replace(/'/g, '"').replace(/None/g, 'null');
+    let book = JSON.parse(correctedBookData);
+
+    let modal = $(this);
+    modal.find('.modal-content #edit_author').val(book.author);
+    modal.find('.modal-content #edit_title').val(book.title);
+    modal.find('.modal-content #isbn').val(book.isbn);
+    modal.find('.modal-content #edit_page_count').val(book.pages);
+    modal.find('.modal-content #edit_genre').val(book.genre);
+    modal.find('.modal-content #edit_belonging_check').prop('checked', book.owner !== null);
+    modal.find('.modal-content #edit_rating').val(book.rating);
+    modal.find('.modal-content #edit_start_date').val(book.started);
+    modal.find('.modal-content #update_finish_date').val(book.finished);
+
+    document.getElementById('edit-book-form').action = "/book/" + bookId;
+})
+
 // ---------------------- BOOK OPTIONS END --------------------------------
 // ---------------------- NOTE OPTIONS START --------------------------------
 
@@ -282,6 +335,7 @@ $('#deleteBookQuoteConfirmationModal').on('show.bs.modal', function (event) {
 })
 
 // ---------------------- QUOTE OPTIONS END --------------------------------
+
 
 
 // ------------------------CHECKBOX-----------------------------------------

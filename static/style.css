@@ -102,21 +102,17 @@ header {
   max-width: 81%;
 }
 
-#page-count, #isbn, #start_date, #finish_date, #dateReadingNow {
-  max-width: 42%;
-}
-
 #notes, .form-check-label-book {
   margin-bottom: 10px;
 }
 
-.labelNewBook {
+.labelEditBook {
   display: inline-block;
   width: 130px;
   margin-bottom: 20px;
 }
 
-.labelNewBookDate {
+.labelEditBookDate {
   display: inline-block;
   width: 116px;
   margin-bottom: 20px;
@@ -125,6 +121,10 @@ header {
 .form-control {
   display: inline-block;
   max-width: 100%;
+}
+
+#page-count, .isbn, #start_date, #finish_date, #dateReadingNow {
+  max-width: 42%;
 }
 
 #error_message {
@@ -369,6 +369,22 @@ header {
     grid-template-areas: "options_column" "author" "title" "col_a" "col_b" "col_c";
   }
 }
+#editBookModal .form-group {
+  display: flex;
+}
+
+#editBookModal .rating {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+#edit_belonging_check {
+  align-self: center;
+  margin-bottom: 10px;
+  left: 10px;
+  position: relative;
+}
+
 .book_quotes_container {
   display: grid;
   column-gap: 5px;
@@ -500,15 +516,27 @@ textarea {
   transition: color 0.4s;
 }
 
+.rating a:not([href]):not([tabindex]):focus, .rating a:not([href]):not([tabindex]):hover {
+  color: #7e372e;
+}
+
+.rating a:not([href]):not([tabindex]) {
+  color: #aaa;
+}
+
 .rating label:hover ~ label,
 .rating input:focus ~ label,
 .rating label:hover,
-.rating a:hover,
-.rating a:hover ~ a,
-.rating a:focus,
-.rating a:focus ~ a {
+.rating a.star:hover,
+.rating a.star:hover ~ a.star,
+.rating a.star:focus,
+.rating a.star:focus ~ a.star {
   color: #7e372e;
   cursor: pointer;
+}
+
+.rating a.star.marked {
+  color: #7e372e;
 }
 
 .rating2 {
