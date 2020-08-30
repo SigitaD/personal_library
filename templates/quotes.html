@@ -20,9 +20,9 @@
             {% endif %}
             <br>
             {% if quote.author|length <= 100 %}
-                <span class="quote_titles"><b>Book: </b><i>{{ quote.title }}</i></span>
+                <span class="quote_titles quote_titles_hover" onclick="redirectToBook('{{ quote.book_id }}')"><b>Book: </b><i>{{ quote.title }}</i></span>
             {% else %}
-                <span class="quote_titles" title="{{ quote.title }}"><b>Book: </b><i>{{ quote.title[:100] }}...</i></span>
+                <span class="quote_titles quote_titles_hover" title="{{ quote.title }}" onclick="redirectToBook('{{ quote.book_id }}')"><b>Book: </b><i>{{ quote.title[:100] }}...</i></span>
             {% endif %}
             <br>
             </div>
