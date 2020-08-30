@@ -41,6 +41,10 @@ def index():
         print('INDEX | list: ' + str(list_type), flush=True)
         print(list_type)
 
+        check_type = request.form.get("check_value")
+        print(check_type)
+        print('INDEX | check: ' + str(check_type), flush=True)
+
         books = db.execute("""SELECT * FROM books WHERE user_id = :id
                             AND started IS NOT NULL AND finished IS NULL ORDER BY author""",
                            id=session["user_id"])
@@ -49,34 +53,73 @@ def index():
         lists = db.execute("""SELECT * FROM books WHERE user_id = :id ORDER BY author""",
                            id=session["user_id"])
 
-        if str(list_type) == "all":
-            # show all the books
-            lists = db.execute("""SELECT * FROM books WHERE user_id = :id ORDER BY author""",
-                               id=session["user_id"])
+        # only lent out books
+        if str(check_type) == "True":
+            if str(list_type) == "all":
+                # show all the books
+                lists = db.execute("""SELECT * FROM books JOIN lending ON lending.book_id = books.book_id 
+                                        WHERE user_id = :id AND lending.lent IS NOT NULL ORDER BY author""",
+                                        id=session["user_id"])
 
-        elif str(list_type) == "lent":
-            # show lent books
-            lists = db.execute("""SELECT * FROM books JOIN lending ON books.book_id = lending.book_id
-                                    WHERE books.user_id = :id AND lending.lent_date IS NOT NULL ORDER BY author""",
-                               id=session["user_id"])
+            elif str(list_type) == "lent":
+                # show lent books
+                lists = db.execute("""SELECT * FROM books JOIN lending ON books.book_id = lending.book_id
+                                        WHERE books.user_id = :id AND lending.lent_date IS NOT NULL ORDER BY author""",
+                                id=session["user_id"])
 
-        elif str(list_type) == "notmine":
-            # show borrowed books
-            lists = db.execute(
-                """SELECT * FROM books WHERE owner != :owner OR owner IS NULL AND user_id = :id ORDER BY author""",
-                id=session["user_id"],
-                owner="personal")  # ar teisingai?
+            elif str(list_type) == "notmine":
+                # show borrowed books
+                lists = db.execute("""SELECT * FROM books JOIN lending ON lending.book_id = books.book_id
+                                        WHERE owner != :owner OR owner IS NULL AND user_id = :id AND
+                                        lending.lent IS NOT NULL ORDER BY author""",
+                                        id=session["user_id"],
+                                        owner="personal")  # ar teisingai?
 
-        elif str(list_type) == "read":
-            # show read books
-            lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND finished IS NOT NULL ORDER BY author""",
-                               id=session["user_id"])
+            elif str(list_type) == "read":
+                # show read books
+                lists = db.execute("""SELECT * FROM books JOIN lending ON lending.book_is = books.book_id
+                                        WHERE user_id = :id AND finished IS NOT NULL
+                                        AND lending.lent IS NOT NULL ORDER BY author""",
+                                        id=session["user_id"])
 
-        elif str(list_type) == "personal":
-            # show personal books
-            lists = db.execute("""SELECT * FROM books WHERE owner = :owner AND user_id = :id ORDER BY author""",
-                               id=session["user_id"],
-                               owner="personal")
+            elif str(list_type) == "personal":
+                # show personal books
+                lists = db.execute("""SELECT * FROM books0JOIN lending ON lending.book_id = books.book_id
+                                        WHERE owner = :owner AND user_id = :id
+                                        AND lending.lent IS NOT NULL
+                                        ORDER BY author""",
+                                        id=session["user_id"],
+                                        owner="personal")
+            
+        else:
+            if str(list_type) == "all":
+                # show all the books
+                lists = db.execute("""SELECT * FROM books WHERE user_id = :id ORDER BY author""",
+                                id=session["user_id"])
+
+            elif str(list_type) == "lent":
+                # show lent books
+                lists = db.execute("""SELECT * FROM books JOIN lending ON books.book_id = lending.book_id
+                                        WHERE books.user_id = :id AND lending.lent_date IS NOT NULL ORDER BY author""",
+                                id=session["user_id"])
+
+            elif str(list_type) == "notmine":
+                # show borrowed books
+                lists = db.execute(
+                    """SELECT * FROM books WHERE owner != :owner OR owner IS NULL AND user_id = :id ORDER BY author""",
+                    id=session["user_id"],
+                    owner="personal")  # ar teisingai?
+
+            elif str(list_type) == "read":
+                # show read books
+                lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND finished IS NOT NULL ORDER BY author""",
+                                id=session["user_id"])
+
+            elif str(list_type) == "personal":
+                # show personal books
+                lists = db.execute("""SELECT * FROM books WHERE owner = :owner AND user_id = :id ORDER BY author""",
+                                id=session["user_id"],
+                                owner="personal") 
 
         return render_template("index.html", books=books, lists=lists)
 
