@@ -46,19 +46,26 @@
 
             <div class="item-f">
                 <p class="book_profile_titles">Lending history</p>
+                <button id="add_book" title="Lend a book" class="inner"
+                        data-toggle="modal"
+                        data-target="#bookLendingModal"
+                        data-bookid="{{ book.book_id }}">
+                    <img class="img_btn" src="../static/add_book.gif" alt="Lend a book">
+                </button>
                 {% if not lendings %}
                     <p><i>There is no lending history for this book.</i></p>
                 {% else %}
                     <table class="table table-striped fixed_header">
                         <thead>
-                            <tr>
+                        <tr>
                             <th>Lent</th>
                             <th>Returned</th>
                             <th>Lent to</th>
-                            </tr>
+                            <th></th>
+                        </tr>
                         </thead>
                         <tbody>
-                           {% for record in lendings %}
+                        {% for record in lendings %}
                             <tr>
                                 <td>{{ record.lent_date }}</td>
                                 {% if not record.returned %}
@@ -68,10 +75,33 @@
                                     <td>{{ record.returned }}</td>
                                     <td>{{ record.borrower }}</td>
                                 {% endif %}
+                                <td>
+                                    <div class="book_lend_options">
+                                        <img class="book_lend_options_image"
+                                             onclick="showOptionsFor('lendOpt{{ record.lend_id }}')"
+                                             src="../static/options.svg"
+                                             alt="options"/>
+                                        <div id="lendOpt{{ record.lend_id }}" class="book_lend_options_content">
+                                            <a data-toggle="modal"
+                                               data-target="#bookLendingModal"
+                                               data-bookid="{{ book.book_id }}"
+                                               data-lendid="{{ record.lend_id }}"
+                                               data-lenddata="{{ record }}">
+                                                Edit lending
+                                            </a>
+                                            <a data-toggle="modal"
+                                               data-target="#deleteBookLendingConfirmationModal"
+                                               data-bookid="{{ book.book_id }}"
+                                               data-lendid="{{ record.lend_id }}">
+                                                Delete lending
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
-                            {% endfor %} 
+                        {% endfor %}
                         </tbody>
-                        
+
                     </table>
                 {% endif %}
             </div>
@@ -84,6 +114,12 @@
                          alt="options"/>
 
                     <div id="opt{{ book.book_id }}" class="book_options_content">
+                        <a data-toggle="modal"
+                           data-target="#editBookModal"
+                           data-bookdata="{{ book }}"
+                           data-bookid="{{ book.book_id }}">
+                            Edit book
+                        </a>
                         <a data-toggle="modal"
                            data-target="#deleteBookConfirmationModal"
                            data-bookid="{{ book.book_id }}">
@@ -306,6 +342,166 @@
                     </button>
                 </div>
                 <form id="delete-quote-form" action="" method="POST">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-light">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {# ------------ #}
+    {# ------ Edit book modal ------ #}
+    <div class="modal fade" id="editBookModal" tabindex="-1" role="dialog"
+         aria-labelledby="editBookModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editBookModalLabel">Edit book</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="edit-book-form" action="" method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="labelEditBook" for="edit_author">Author: *</label>
+                            <input id="edit_author" name="edit_author" class="form-control" type="text"
+                                   placeholder="..." required="required">
+                        </div>
+                        <div class="form-group">
+                            <label class="labelEditBook" for="edit_title">Title: *</label>
+                            <input id="edit_title" name="edit_title" class="form-control" type="text"
+                                   placeholder="..." required="required">
+                        </div>
+                        <p class="error_form" id="error_message"></p>
+                        <div class="form-group">
+                            <label class="labelEditBook" for="isbn">ISBN: </label>
+                            <input id="isbn" name="isbn" class="form-control" type="text"
+                                   placeholder="...">
+                        </div>
+                        <div class="form-group">
+                            <label class="labelEditBook" for="edit_page_count">Page count: *</label>
+                            <input id="edit_page_count" name="edit_page_count" class="form-control" type="number"
+                                   min="1" max="11000" placeholder="..." required="required">
+                        </div>
+                        <div class="form-group" required="required">
+                            <label class="labelEditBook" for="edit_genre">Genre: </label>
+                            <select id="edit_genre" name="edit_genre" class="form-control">
+                                <option selected disabled value="invalid">Select</option>
+                                <option>Adventure</option>
+                                <option>Children's</option>
+                                <option>Cooking</option>
+                                <option>Contemporary</option>
+                                <option>Fantasy</option>
+                                <option>History</option>
+                                <option>Historical fiction</option>
+                                <option>Horror</option>
+                                <option>Humor</option>
+                                <option>Memoir</option>
+                                <option>Mystery</option>
+                                <option>Motivational/Development/Self-help</option>
+                                <option>Romance</option>
+                                <option>Science fiction</option>
+                                <option>Thriller</option>
+                                <option>Travel</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-check-label-book" for="edit_belonging_check">I own this book</label>
+                            <input id="edit_belonging_check" name="edit_belonging_check" class="form-check-input-book"
+                                   type="checkbox" value="personal">
+                        </div>
+                        <div class="form-group">
+                            <label class="labelEditBook" for="edit_rating">Rating: </label>
+                            <input id="edit_rating" name="edit_rating" class="form-control" type="number"
+                                   min="1" max="5" placeholder="...">
+                        </div>
+                        {#                        <div class="form-group">#}
+                        {#                            <label class="labelEditBook">Rating: </label>#}
+                        {#                            <div class="rating rating2">#}
+                        {#                                <a href="#5" id="5stars" title="Give 5 stars">★</a>#}
+                        {#                                <a href="#4" id="4stars" title="Give 4 stars">★</a>#}
+                        {#                                <a href="#3" id="3stars" title="Give 3 stars">★</a>#}
+                        {#                                <a href="#2" id="2stars" title="Give 2 stars">★</a>#}
+                        {#                                <a href="#1" id="1stars" title="Give 1 star">★</a>#}
+                        {#                            </div>#}
+                        {#                            <input id="ratings" type="hidden" name="ratings" value=""/>#}
+                        {#                        </div>#}
+                        <div class="form-group">
+                            <label class="labelEditBook" for="edit_start_date">Started: </label>
+                            <input id="edit_start_date" name="edit_start_date" class="form-control" type="date"
+                                   placeholder="Started">
+                        </div>
+                        <div class="form-group">
+                            <label class="labelEditBook" for="edit_finish_date">Finished: </label>
+                            <input id="edit_finish_date" name="edit_finish_date" class="form-control" type="date"
+                                   placeholder="Finished">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-light">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {# ------------
+    {# ------ Book lending modals ------ #}
+    <div class="modal fade" id="bookLendingModal" tabindex="-1" role="dialog"
+         aria-labelledby="bookLendingModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookLendingModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="lending-form" action="" method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="labelEditBook" for="lent_to">Borrower: *</label>
+                            <input id="lent_to" name="lent_to" class="form-control" type="text"
+                                   placeholder="..." required="required">
+                        </div>
+                        <div class="form-group">
+                            <label class="labelEditBook" for="lent_date">Lent: *</label>
+                            <input id="lent_date" name="lent_date" class="form-control" type="date"
+                                   placeholder="..." required="required">
+                        </div>
+                        <div class="form-group">
+                            <label class="labelEditBook" for="returned_date">Returned: </label>
+                            <input id="returned_date" name="returned_date" class="form-control" type="date"
+                                   placeholder="...">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-light">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteBookLendingConfirmationModal" tabindex="-1" role="dialog"
+         aria-labelledby="deleteBookLendingConfirmationModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteBookLendingConfirmationModalLabel">
+                        Are you sure you want to delete this lending entry?
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="delete-lending-form" action="" method="POST">
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-light">Submit</button>

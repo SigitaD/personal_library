@@ -38,11 +38,9 @@ def index():
     if request.method == "POST":
         # rodyti pasirinkto list'o knygas
         list_type = request.form.get("listname")
-        print('INDEX | list: ' + str(list_type), flush=True)
-        print(list_type)
+        print('INDEX | list type: ' + str(list_type), flush=True)
 
         check_type = request.form.get("check_value")
-        print(check_type)
         print('INDEX | check: ' + str(check_type), flush=True)
 
         books = db.execute("""SELECT * FROM books WHERE user_id = :id
@@ -57,37 +55,28 @@ def index():
         if str(check_type) == "True":
             if str(list_type) == "all":
                 # show all the books
-                lists = db.execute("""SELECT * FROM books JOIN lending ON lending.book_id = books.book_id 
-                                        WHERE user_id = :id AND lending.lent IS NOT NULL ORDER BY author""",
+                lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND lent = "True" ORDER BY author""",
                                         id=session["user_id"])
 
             elif str(list_type) == "lent":
                 # show lent books
-                lists = db.execute("""SELECT * FROM books JOIN lending ON books.book_id = lending.book_id
-                                        WHERE books.user_id = :id AND lending.lent_date IS NOT NULL ORDER BY author""",
-                                id=session["user_id"])
+                lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND lent = "True" ORDER BY author""",
+                                        id=session["user_id"])
 
             elif str(list_type) == "notmine":
                 # show borrowed books
-                lists = db.execute("""SELECT * FROM books JOIN lending ON lending.book_id = books.book_id
-                                        WHERE owner != :owner OR owner IS NULL AND user_id = :id AND
-                                        lending.lent IS NOT NULL ORDER BY author""",
+                lists = db.execute("""SELECT * FROM books WHERE owner != :owner OR owner IS NULL AND user_id = :id AND lent = "True" ORDER BY author""",
                                         id=session["user_id"],
-                                        owner="personal")  # ar teisingai?
+                                        owner="personal")
 
             elif str(list_type) == "read":
                 # show read books
-                lists = db.execute("""SELECT * FROM books JOIN lending ON lending.book_is = books.book_id
-                                        WHERE user_id = :id AND finished IS NOT NULL
-                                        AND lending.lent IS NOT NULL ORDER BY author""",
+                lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND finished IS NOT NULL AND lent = "True" ORDER BY author""",
                                         id=session["user_id"])
 
             elif str(list_type) == "personal":
                 # show personal books
-                lists = db.execute("""SELECT * FROM books0JOIN lending ON lending.book_id = books.book_id
-                                        WHERE owner = :owner AND user_id = :id
-                                        AND lending.lent IS NOT NULL
-                                        ORDER BY author""",
+                lists = db.execute("""SELECT * FROM books WHERE owner = :owner AND user_id = :id AND lent = "True" ORDER BY author""",
                                         id=session["user_id"],
                                         owner="personal")
             
@@ -95,33 +84,30 @@ def index():
             if str(list_type) == "all":
                 # show all the books
                 lists = db.execute("""SELECT * FROM books WHERE user_id = :id ORDER BY author""",
-                                id=session["user_id"])
+                                        id=session["user_id"])
 
             elif str(list_type) == "lent":
-                # show lent books
-                lists = db.execute("""SELECT * FROM books JOIN lending ON books.book_id = lending.book_id
-                                        WHERE books.user_id = :id AND lending.lent_date IS NOT NULL ORDER BY author""",
-                                id=session["user_id"])
+                lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND lent = "True" ORDER BY author""",
+                                        id=session["user_id"])
 
             elif str(list_type) == "notmine":
                 # show borrowed books
-                lists = db.execute(
-                    """SELECT * FROM books WHERE owner != :owner OR owner IS NULL AND user_id = :id ORDER BY author""",
-                    id=session["user_id"],
-                    owner="personal")  # ar teisingai?
+                lists = db.execute("""SELECT * FROM books WHERE owner != :owner OR owner IS NULL AND user_id = :id ORDER BY author""",
+                                        id=session["user_id"],
+                                        owner="personal")
 
             elif str(list_type) == "read":
                 # show read books
                 lists = db.execute("""SELECT * FROM books WHERE user_id = :id AND finished IS NOT NULL ORDER BY author""",
-                                id=session["user_id"])
+                                        id=session["user_id"])
 
             elif str(list_type) == "personal":
                 # show personal books
                 lists = db.execute("""SELECT * FROM books WHERE owner = :owner AND user_id = :id ORDER BY author""",
-                                id=session["user_id"],
-                                owner="personal") 
+                                        id=session["user_id"],
+                                        owner="personal")
 
-        return render_template("index.html", books=books, lists=lists)
+        return render_template("index.html", books=books, lists=lists, check_type=check_type)
 
     # else:
     if request.method == "GET":
@@ -318,14 +304,24 @@ def quotes():
                                    user_id=session["user_id"])
 
         # query database for data about books
-        books_result = db.execute("SELECT * FROM books WHERE user_id = :id",
-                                  id=session["user_id"])
+        books_result_author = db.execute(
+            "SELECT author FROM books WHERE user_id = :id ORDER BY author COLLATE NOCASE ASC",
+            id=session["user_id"])
+        print('QUOTES | books_result_author: ' + str(books_result_author), flush=True)
+
+        books_result_title = db.execute("SELECT title FROM books WHERE user_id = :id ORDER BY title COLLATE NOCASE ASC",
+                                        id=session["user_id"])
+        print('QUOTES | books_result_title: ' + str(books_result_title), flush=True)
 
         # if there are no books in database
-        if books_result == 0:
+        if books_result_author == 0:
             return apology("You need to add a book first!")
 
-        return render_template("quotes.html", quotes=quotes_result, books=books_result)
+        if books_result_title == 0:
+            return apology("You need to add a book first!")
+
+        return render_template("quotes.html", quotes=quotes_result, books_author=books_result_author,
+                               books_title=books_result_title)
 
     else:
         quote = request.form.get("quote")
@@ -384,37 +380,55 @@ def book(book_id):
 
         return render_template("book.html", data=data, quotes=quotes_result, lendings=lendings_result)
     elif request.method == "POST":
-        return redirect("/book")
+        author = request.form.get("edit_author").title()  # capitalize first leter of every word
+        print('EDIT BOOK | author: ' + str(author), flush=True)
+        title = request.form.get("edit_title").capitalize()  # capitalize first letter
+        print('EDIT BOOK | title: ' + str(title), flush=True)
+        isbn = request.form.get("isbn")
+        print('EDIT BOOK | isbn: ' + str(isbn), flush=True)
+        page_count = request.form.get("edit_page_count")
+        print('EDIT BOOK | page_count: ' + str(page_count), flush=True)
+        genre = request.form.get("edit_genre")
+        print('EDIT BOOK | genre: ' + str(genre), flush=True)
+        belonging_check = request.form.get("edit_belonging_check")
+        print('EDIT BOOK | belongingCheck: ' + str(belonging_check), flush=True)
+        start_date = request.form.get("edit_start_date")
+        start_date = None if not start_date else start_date
+        print('EDIT BOOK | start_date: ' + str(start_date), flush=True)
+        finish_date = request.form.get("edit_finish_date")
+        finish_date = None if not finish_date else finish_date
+        print('EDIT BOOK | finish_date: ' + str(finish_date), flush=True)
+        ratings = request.form.get("edit_rating")
+        print('EDIT BOOK | ratings: ' + str(ratings), flush=True)
+
+        db.execute(
+            """UPDATE books 
+            SET title = :title, 
+                author = :author, 
+                pages = :pages, 
+                isbn = :isbn, 
+                genre = :genre, 
+                rating = :rating, 
+                started = :started, 
+                finished = :finished, 
+                owner = :owner
+            WHERE book_id = :book_id""",
+            title=title,
+            author=author,
+            pages=page_count,
+            isbn=isbn,
+            genre=genre,
+            rating=ratings,
+            started=start_date,
+            finished=finish_date,
+            owner=belonging_check,
+            book_id=book_id)
+
+        return redirect("/book/" + book_id)
     elif request.method == "DELETE":
         db.execute(""" DELETE FROM books WHERE book_id = :book_id""",
                    book_id=book_id)
         return 0
-
-
-# @app.route("/book/<book_id>/edit-quote", methods = ["POST"])
-# @login_required
-# def book_new_quote(book_id):
-#     # quote = request.form.get("quote")
-
-#     # db.execute("INSERT INTO quotes (user_id, book_id, quote) VALUES (:user_id, :book_id, :quote)",
-#     #     user_id = session["user_id"],
-#     #     book_id = book_id,
-#     #     quote = quote)
-
-#     return redirect("/book/" + book_id)
-
-
-@app.route("/book/<book_id>/new-quote", methods=["POST"])
-@login_required
-def book_new_quote(book_id):
-    quote = request.form.get("quote")
-
-    db.execute("INSERT INTO quotes (user_id, book_id, quote) VALUES (:user_id, :book_id, :quote)",
-               user_id=session["user_id"],
-               book_id=book_id,
-               quote=quote)
-
-    return redirect("/book/" + book_id)
 
 
 @app.route("/started-reading-book", methods=["POST"])
@@ -498,6 +512,19 @@ def update_notes(book_id):
     return redirect("/book/" + book_id)
 
 
+@app.route("/book/<book_id>/new-quote", methods=["POST"])
+@login_required
+def book_new_quote(book_id):
+    quote = request.form.get("quote")
+
+    db.execute("INSERT INTO quotes (user_id, book_id, quote) VALUES (:user_id, :book_id, :quote)",
+               user_id=session["user_id"],
+               book_id=book_id,
+               quote=quote)
+
+    return redirect("/book/" + book_id)
+
+
 @app.route("/book/<book_id>/update-quote/<quote_id>", methods=["POST"])
 @login_required
 def update_quote(book_id, quote_id):
@@ -517,6 +544,76 @@ def update_quote(book_id, quote_id):
 def delete_quote(book_id, quote_id):
     db.execute("""DELETE FROM quotes WHERE quote_id = :quote_id""",
                quote_id=quote_id)
+
+    return redirect("/book/" + book_id)
+
+
+@app.route("/book/<book_id>/lending", methods=["POST"])
+@login_required
+def add_book_lending(book_id):
+    lent_to = request.form.get("lent_to")
+    lent_date = request.form.get("lent_date")
+    lent_date = None if not lent_date else lent_date
+    returned_date = request.form.get("returned_date")
+    returned_date = None if not returned_date else returned_date
+
+    db.execute("""INSERT INTO lending 
+                  (user_id, book_id, borrower, lent_date, returned) 
+                  VALUES 
+                  (:user_id, :book_id, :borrower, :lent_date, :returned)""",
+               user_id=session["user_id"],
+               book_id=book_id,
+               borrower=lent_to,
+               lent_date=lent_date,
+               returned=returned_date)
+
+    update_book_if_lent(book_id)
+
+    return redirect("/book/" + book_id)
+
+
+@app.route("/book/<book_id>/lending/<lend_id>", methods=["POST"])
+@login_required
+def edit_book_lending(book_id, lend_id):
+    lent_to = request.form.get("lent_to")
+    lent_date = request.form.get("lent_date")
+    lent_date = None if not lent_date else lent_date
+    returned_date = request.form.get("returned_date")
+    returned_date = None if not returned_date else returned_date
+
+    db.execute("""UPDATE lending 
+                  SET borrower = :borrower,
+                      lent_date = :lent_date,
+                      returned = :returned
+                  WHERE lend_id = :lend_id""",
+               borrower=lent_to,
+               lent_date=lent_date,
+               returned=returned_date,
+               lend_id=lend_id)
+
+    update_book_if_lent(book_id)
+
+    return redirect("/book/" + book_id)
+
+
+def update_book_if_lent(book_id):
+    lent_data = db.execute("""SELECT * FROM lending
+                                WHERE book_id = :book_id 
+                                AND returned IS NULL""",
+                           book_id=book_id)
+
+    db.execute("""UPDATE books
+                   SET lent = :lent
+                   WHERE book_id = :book_id""",
+               lent=len(lent_data) != 0,
+               book_id=book_id)
+
+
+@app.route("/book/<book_id>/delete-lending/<lend_id>", methods=["POST"])
+@login_required
+def delete_book_lending(book_id, lend_id):
+    db.execute("""DELETE FROM lending WHERE lend_id = :lend_id""",
+               lend_id=lend_id)
 
     return redirect("/book/" + book_id)
 

@@ -74,6 +74,7 @@ header {
     text-align: center !important;
     color: white !important;
 }
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // ~~~~~~~~~~~~~~~~~~~~~~~~ LOGIN, REGISTER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -115,21 +116,17 @@ header {
     max-width: 81%;
 }
 
-#page-count, #isbn, #start_date, #finish_date, #dateReadingNow {
-    max-width: 42%;
-}
-
 #notes, .form-check-label-book {
     margin-bottom: 10px;
 }
 
-.labelNewBook {
+.labelEditBook {
     display: inline-block;
     width: 130px;
     margin-bottom: 20px;
 }
 
-.labelNewBookDate {
+.labelEditBookDate {
     display: inline-block;
     width: 116px;
     margin-bottom: 20px;
@@ -140,6 +137,10 @@ header {
     max-width: 100%;
 }
 
+#page-count, .isbn, #start_date, #finish_date, #dateReadingNow {
+    max-width: 42%;
+}
+
 #error_message {
     color: #7e372e;
     font-size: small;
@@ -147,11 +148,12 @@ header {
     margin-bottom: 10px;
 }
 
-@media (max-width:685px){
+@media (max-width: 685px) {
     #accordion {
         display: none;
     }
 }
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~ BOOK PROFILE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -293,7 +295,7 @@ header {
     font-weight: 500;
 }
 
-@media (min-width:1470px) and (max-width:1800px) {
+@media (min-width: 1470px) and (max-width: 1800px) {
     #logo_profile {
         display: none;
     }
@@ -326,10 +328,10 @@ header {
             "title title"
             "col_a col_b"
             "col_c col_c";
-    }    
+    }
 }
 
-@media (min-width:831px) and (max-width:1469px) {
+@media (min-width: 831px) and (max-width: 1469px) {
     #logo_profile {
         display: none;
     }
@@ -363,10 +365,10 @@ header {
             "col_a"
             "col_b"
             "col_c";
-    }    
+    }
 }
 
-@media (max-width:830px){
+@media (max-width: 830px) {
     .item-f, #logo_profile {
         display: none;
     }
@@ -402,6 +404,23 @@ header {
             "col_c";
     }
 }
+
+#editBookModal .form-group, #bookLendingModal .form-group {
+    display: flex;
+}
+
+#editBookModal .rating {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#edit_belonging_check {
+    align-self: center;
+    margin-bottom: 10px;
+    left: 10px;
+    position: relative;
+}
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ QUOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -499,6 +518,9 @@ textarea {
     margin-right: 20px;
 }
 
+.quote_titles_hover:hover {
+    cursor: pointer;
+}
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ RATING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -516,7 +538,7 @@ textarea {
     font-size: 35px;
     overflow: hidden;
     display: inline-block;
-    direction: rtl
+    direction: rtl;
 }
 
 .rating input {
@@ -536,15 +558,27 @@ textarea {
     transition: color 0.4s;
 }
 
+.rating a:not([href]):not([tabindex]):focus, .rating a:not([href]):not([tabindex]):hover {
+    color: #7e372e;
+}
+
+.rating a:not([href]):not([tabindex]) {
+    color: #aaa;
+}
+
 .rating label:hover ~ label,
 .rating input:focus ~ label,
 .rating label:hover,
-.rating a:hover,
-.rating a:hover ~ a,
-.rating a:focus,
-.rating a:focus ~ a {
+.rating a.star:hover,
+.rating a.star:hover ~ a.star,
+.rating a.star:focus,
+.rating a.star:focus ~ a.star {
     color: #7e372e;
     cursor: pointer;
+}
+
+.rating a.star.marked {
+    color: #7e372e;
 }
 
 .rating2 {
@@ -554,6 +588,7 @@ textarea {
 .rating2 a {
     float: none;
 }
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~INDEX~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -640,6 +675,11 @@ textarea {
     margin-bottom: 8px;
     margin-top: 5px;
 }
+
+// .list_option:hover {
+//     background-image: none !important;
+//     background-color: black !important;
+// }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BOOK OPTIONS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -765,9 +805,37 @@ textarea {
 }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BOOK LENDING OPTIONS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.book_lend_options {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: flex-end;
+    max-height: 10px;
+    max-width: 10px;
+}
+
+.book_lend_options_image {
+    background-color: transparent;
+    padding: 0 5px;
+    border: transparent;
+    height: 20px;
+    align-self: flex-end;
+}
+
+.book_lend_options_content {
+    display: none;
+    border: 0;
+    text-align: right;
+    background-color: #f1f1f1;
+    align-self: flex-end;
+    z-index: 1;
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~GLOBAL OPTIONS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.options_content a, .book_options_content a, .note_options_content a, .book_quote_options_content a {
+.options_content a, .book_options_content a, .note_options_content a,
+.book_quote_options_content a, .book_lend_options_content a {
     color: black;
     font-size: small;
     padding: 7px 10px;
@@ -778,9 +846,10 @@ textarea {
 }
 
 /* Change color of dropdown links on hover */
-.options_content a:hover, .book_options_content a:hover, .note_options_content a:hover, .book_quote_options_content a:hover {
+.options_content a:hover, .book_options_content a:hover, .note_options_content a:hover,
+.book_quote_options_content a:hover, .book_lend_options_content a:hover {
     color: #f1f1f1;
-    background-color: #97aaa8
+    background-color: #97aaa8;
 }
 
 .show {
